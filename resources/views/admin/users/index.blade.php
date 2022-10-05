@@ -26,10 +26,7 @@
                             {{ trans('cruds.user.fields.id') }}
                         </th>
                         <th>
-                            First Name
-                        </th>
-                        <th>
-                            Last Name
+                            Name
                         </th>
                         <th>
                             {{ trans('cruds.user.fields.email') }}
@@ -55,10 +52,7 @@
                                 {{ $user->id ?? '' }}
                             </td>
                             <td>
-                                {{ $user->first_name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $user->last_name ?? '' }}
+                                {{ $user->name ?? '' }}
                             </td>
                             <td>
                                 {{ $user->email ?? '' }}

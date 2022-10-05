@@ -1,138 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+<!-- index.html  21 Nov 2019 03:44:50 GMT -->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/dash-assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/dash-assets/vendors/iconly/bold.css">
-    <link rel="stylesheet" href="/dash-assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-    <link rel="stylesheet" href="/dash-assets/vendors/bootstrap-icons/bootstrap-icons.css">
-    <link rel="stylesheet" href="/dash-assets/css/app.css">
-    <link rel="shortcut icon" href="/dash-assets/images/favicon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
-    @yield('style')
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Biding</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{{asset('admin/assets/css/app.min.css')}}">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{{asset('admin/assets/css/style.css')}}">
+  <link rel="stylesheet" href="{{asset('admin/assets/css/components.css')}}">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="{{asset('admin/assets/css/custom.css')}}">
+  <link rel='shortcut icon' type='image/x-icon' href='{{asset('admin/assets/img/favicon.ico')}}' />
+  @yield('style')
 </head>
 
 <body>
-    <div id="app">
-        <header class="mb-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <img class="brand" src="assets/images/Logo subastek sin fondo.png" style="height: 45px;">
-                    <a href="#" class="burger-btn d-block d-xl-none"> <i class="bi bi-justify fs-3"></i> </a>
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar sticky">
+        <div class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg
+									collapse-btn"> <i data-feather="align-justify"></i></a></li>
+            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                <i data-feather="maximize"></i>
+              </a></li>
+            <li>
+              <form class="form-inline mr-auto">
+                <div class="search-element">
+                  <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="200">
+                  <button class="btn" type="submit">
+                    <i class="fas fa-search"></i>
+                  </button>
                 </div>
-                <div class=" d-flex align-items-center">
-                    <div class="dropdown">
-                        <button class="btn  dropdown-toggle p-1" type="button" id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <img class="pl-1" src="/dash-assets/images/Frame.png">
-                        </button>
-                        <ul class="dropdown-menu notifiaction" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">lorem plsuam dolor waht you can do it</a></li>
-                            <li><a class="dropdown-item" href="#">lorem plsuam dolor waht you can do it</a></li>
-                            <li><a class="dropdown-item" href="#">lorem plsuam dolor waht you can do it</a></li>
-                        </ul>
-                    </div>
-                    <div class="d-flex">
-                        <div class="d-none d-md-block">
-                            <h6 class="user-name">{{ Auth()->user()->first_name }} {{ Auth()->user()->last_name }}</h6>
-                            <div class="online mb-0"><span class="online-ciral"></span>online</div>
-                        </div>
-                        <div class="mx-3">
-                            <img class="user-img"
-                                src="{{ asset(Auth()->user()->image ?? 'Images1645471326banner_two_img.PNG') }}">
-                        </div>
-                    </div>
-                    <a class="btn bg-transparent" href="javascript:void(0);"
-                        onclick="event.preventDefault();document.getElementById('logout-form').submit();"><img
-                            src="/dash-assets/images/Frame (1).png"></a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
+              </form>
+            </li>
+          </ul>
+        </div>
+        <ul class="navbar-nav navbar-right">
+          <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+              class="nav-link nav-link-lg message-toggle"><i data-feather="mail"></i>
+              <span class="badge headerBadge1">
+                6 </span> </a>
+            <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+              <div class="dropdown-header">
+                Messages
+                <div class="float-right">
+                  <a href="#">Mark All As Read</a>
                 </div>
-
+              </div>
+              <div class="dropdown-list-content dropdown-list-message">
+                <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar
+											text-white"> <img alt="image" src="{{asset('admin/assets/img/users/user-1.png')}}" class="rounded-circle">
+                  </span> <span class="dropdown-item-desc"> <span class="message-user">John
+                      Deo</span>
+                    <span class="time messege-text">Please check your mail !!</span>
+                    <span class="time">2 Min Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar text-white">
+                    <img alt="image" src="{{asset('admin/assets/img/users/user-2.png')}}" class="rounded-circle">
+                  </span> <span class="dropdown-item-desc"> <span class="message-user">Sarah
+                      Smith</span> <span class="time messege-text">Request for leave
+                      application</span>
+                    <span class="time">5 Min Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar text-white">
+                    <img alt="image" src="{{asset('admin/assets/img/users/user-5.png')}}" class="rounded-circle">
+                  </span> <span class="dropdown-item-desc"> <span class="message-user">Jacob
+                      Ryan</span> <span class="time messege-text">Your payment invoice is
+                      generated.</span> <span class="time">12 Min Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar text-white">
+                    <img alt="image" src="{{asset('admin/assets/img/users/user-4.png')}}" class="rounded-circle">
+                  </span> <span class="dropdown-item-desc"> <span class="message-user">Lina
+                      Smith</span> <span class="time messege-text">hii John, I have upload
+                      doc
+                      related to task.</span> <span class="time">30
+                      Min Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar text-white">
+                    <img alt="image" src="{{asset('admin/assets/img/users/user-3.png')}}" class="rounded-circle">
+                  </span> <span class="dropdown-item-desc"> <span class="message-user">Jalpa
+                      Joshi</span> <span class="time messege-text">Please do as specify.
+                      Let me
+                      know if you have any query.</span> <span class="time">1
+                      Days Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar text-white">
+                    <img alt="image" src="{{asset('admin/assets/img/users/user-2.png')}}" class="rounded-circle">
+                  </span> <span class="dropdown-item-desc"> <span class="message-user">Sarah
+                      Smith</span> <span class="time messege-text">Client Requirements</span>
+                    <span class="time">2 Days Ago</span>
+                  </span>
+                </a>
+              </div>
+              <div class="dropdown-footer text-center">
+                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+              </div>
             </div>
-
-        </header>
-        <!-- Sidebar Start -->
-        <!-- Container Start -->
-        <div class="page-wrapper">
-            <div class="main-content">
-                <!-- Page Title Start -->
-                <div class="row">
-                    <div class="colxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="page-title-wrapper">
-                            <div class="page-title-box">
-                                <h4 class="page-title bold">Dashboard</h4>
-                            </div>
-                            <div class="breadcrumb-list">
-                                <ul>
-                                    <li class="breadcrumb-link">
-                                        <a
-                                            href="@if (Auth()->user()->is_admin) {{ url('/admin') }} @else {{ url('/dashbaord') }} @endif"><i
-                                                class="fas fa-home mr-2"></i>Dashboard</a>
-                                    </li>
-                                    <li class="breadcrumb-link active">Admin</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div id="sidebar" class="active">
-                            <div class="sidebar-wrapper active">
-                                <div class="sidebar-header">
-                                    <div class="d-flex justify-content-between">
-                                        <!--  <div class="logo">
-                <a href="index.html"><img src="dash-assets/images/logo/logo.png" alt="Logo" srcset=""></a>
-            </div> -->
-                                        <div class="toggler"> <a href="#"
-                                                class="sidebar-hide d-xl-none d-block"><i
-                                                    class="bi bi-x bi-middle"></i></a> </div>
-                                    </div>
-                                </div>
-                                <div class="sidebar-menu">
-                                    <ul class="menu">
-                                        <li class="sidebar-item active ">
-                                            <a href="@if (Auth()->user()->is_admin) {{ url('/admin/admin') }} @else {{ url('/dashboard') }} @endif"
-                                                class='sidebar-link'> <i class="bi bi-grid-fill"></i>
-                                                <span>Dashboard</span> </a>
-                                        </li>
-                                        @can('user_management_access')
-                                            <li class="sidebar-item  has-sub">
-                                                <a href="#" class='sidebar-link'> <i class="bi bi-stack"></i>
-                                                    <span>Users Management</span> </a>
-                                                <ul class="submenu ">
-                                                    <li class="submenu-item "> <a
-                                                            href="/admin/permissions">Permissions</a> </li>
-                                                    <li class="submenu-item "> <a href="/admin/roles">Roles</a> </li>
-                                                    <li class="submenu-item "> <a href="/admin/users">Users</a> </li>
-
-                                                </ul>
-                                            </li>
-                                            @endcan
-                                            {{-- <li class="sidebar-item  ">
-                                                <a href="/admin/paid-users" class='sidebar-link'> <i
-                                                        class="bi bi-life-preserver"></i> <span>Paid User</span> </a>
-                                            </li> --}}
-                                            
-                                    </ul>
-                                </div>
-                                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
-                            </div>
-                        </div>
-                        <div id="main">
-                            @yield('content')
-                        </div>
-                    </div>
-                    <script src="/dash-assets/js/jquery.min.js"></script>
-                    <script src="/dash-assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-                    <script src="/dash-assets/js/bootstrap.bundle.min.js"></script>
-                    <script src="/dash-assets/vendors/apexcharts/apexcharts.js"></script>
-                    <script src="/dash-assets/js/pages/dashboard.js"></script>
-                    <script src="/dash-assets/js/mazer.js"></script>
-                    @yield('script')
+          </li>
+          <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+              class="nav-link notification-toggle nav-link-lg"><i data-feather="bell" class="bell"></i>
+            </a>
+            <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+              <div class="dropdown-header">
+                Notifications
+                <div class="float-right">
+                  <a href="#">Mark All As Read</a>
+                </div>
+              </div>
+              <div class="dropdown-list-content dropdown-list-icons">
+                <a href="#" class="dropdown-item dropdown-item-unread"> <span
+                    class="dropdown-item-icon bg-primary text-white"> <i class="fas
+												fa-code"></i>
+                  </span> <span class="dropdown-item-desc"> Template update is
+                    available now! <span class="time">2 Min
+                      Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-info text-white"> <i class="far
+												fa-user"></i>
+                  </span> <span class="dropdown-item-desc"> <b>You</b> and <b>Dedik
+                      Sugiharto</b> are now friends <span class="time">10 Hours
+                      Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-success text-white"> <i
+                      class="fas
+												fa-check"></i>
+                  </span> <span class="dropdown-item-desc"> <b>Kusnaedi</b> has
+                    moved task <b>Fix bug header</b> to <b>Done</b> <span class="time">12
+                      Hours
+                      Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-danger text-white"> <i
+                      class="fas fa-exclamation-triangle"></i>
+                  </span> <span class="dropdown-item-desc"> Low disk space. Let's
+                    clean it! <span class="time">17 Hours Ago</span>
+                  </span>
+                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-info text-white"> <i class="fas
+												fa-bell"></i>
+                  </span> <span class="dropdown-item-desc"> Welcome to Otika
+                    template! <span class="time">Yesterday</span>
+                  </span>
+                </a>
+              </div>
+              <div class="dropdown-footer text-center">
+                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+              </div>
+            </div>
+          </li>
+          <li class="dropdown"><a href="#" data-toggle="dropdown"
+              class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="{{asset('admin/assets/img/user.png')}}"
+                class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
+            <div class="dropdown-menu dropdown-menu-right pullDown">
+              <div class="dropdown-title">Hello Sarah Smith</div>
+              <a href="#" class="dropdown-item has-icon"> <i class="far
+										fa-user"></i> Profile
+              </a> <a href="#" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
+                Activities
+              </a> <a href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item has-icon text-danger" href="javascript:void(0);"
+                            onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span
+                                class="ms-2"><i class="fas fa-sign-out-alt"></i>
+                                Logout </span></a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                            style="display: none;">
+                            @csrf
+                        </form>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+	  
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+            <a href="{{url('/')}}"> <img alt="image" style="height: 70px;" src="{{asset('assets/images/Logo subastek sin fondo.png')}}" class="header-logo" />
+                 {{--<span class="logo-name">Otika</span> --}}
+            </a>
+          </div>
+          <ul class="sidebar-menu">
+            <li class="menu-header">Main</li>
+            <li class="dropdown active">
+              <a @if(Auth()->user()->is_admin) href="{{route('admin.home')}}" @else href="{{route('client.home')}}" @endif class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
+            </li>
+            @can('user_management_access')
+            <li class="dropdown">
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i
+                  data-feather="users"></i><span>User Management</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="{{url('admin/users')}}">Users</a></li>
+                <li><a class="nav-link" href="{{url('admin/roles')}}">Roles</a></li>
+                <li><a class="nav-link" href="{{url('admin/permissions')}}">Permissions</a></li>
+              </ul>
+            </li>
+            @endcan
+            @can('products_access')
+            <li class="menu-header">Products</li>
+            @can('category_access')
+            <li class="dropdown">
+              <a href="{{url('admin/category')}}" class="nav-link"><i data-feather="monitor"></i><span>Categories</span></a>
+            </li>
+            @endcan
+            @endcan
+          </ul>
+        </aside>
+      </div>
+      
+    <div class="main-content">
+      @yield('content')
+    </div>
+      <footer class="main-footer">
+        <div class="footer-left">
+          <a href="templateshub.net">Templateshub</a></a>
+        </div>
+        <div class="footer-right">
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!-- General JS Scripts -->
+  <script src="{{asset('admin/assets/js/app.min.js')}}"></script>
+  <!-- JS Libraies -->
+  <script src="{{asset('admin/assets/bundles/apexcharts/apexcharts.min.js')}}"></script>
+  <!-- Page Specific JS File -->
+  <script src="{{asset('admin/assets/js/page/index.js')}}"></script>
+  <!-- Template JS File -->
+  <script src="{{asset('admin/assets/js/scripts.js')}}"></script>
+  <!-- Custom JS File -->
+  <script src="{{asset('admin/assets/js/custom.js')}}"></script>
+  @yield('script')
 </body>
 
+
+<!-- index.html  21 Nov 2019 03:47:04 GMT -->
 </html>

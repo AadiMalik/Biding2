@@ -25,18 +25,10 @@
                     </tr>
                     <tr>
                         <th>
-                            First Name
+                            Name
                         </th>
                         <td>
-                            {{ $user->first_name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            Last Name
-                        </th>
-                        <td>
-                            {{ $user->last_name }}
+                            {{ $user->name }}
                         </td>
                     </tr>
                     <tr>
@@ -78,7 +70,7 @@
                             
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <th>
                             Profession
                         </th>
@@ -133,7 +125,7 @@
                         <td>
                             {{ $user->bio ?? 'No Bio' }}
                         </td>
-                    </tr>
+                    </tr> --}}
                 </tbody>
             </table>
             <div class="form-group">

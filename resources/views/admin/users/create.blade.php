@@ -10,23 +10,13 @@
         <form method="POST" action="{{ route("admin.users.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label class="required" for="first_name">First Name</label>
-                <input class="form-control {{ $errors->has('first_name') ? 'is-invalid' : '' }}" type="text" name="first_name" id="first_name" value="{{ old('first_name', '') }}" required>
-                @if($errors->has('first_name'))
+                <label class="required" for="name">Full Name</label>
+                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
+                @if($errors->has('name'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('first_name') }}
+                        {{ $errors->first('name') }}
                     </div>
                 @endif
-            </div>
-            <div class="form-group">
-                <label class="required" for="last_name">Last Name</label>
-                <input class="form-control {{ $errors->has('last_name') ? 'is-invalid' : '' }}" type="text" name="last_name" id="last_name" value="{{ old('last_name', '') }}" required>
-                @if($errors->has('last_name'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('last_name') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.user.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="email">{{ trans('cruds.user.fields.email') }}</label>
