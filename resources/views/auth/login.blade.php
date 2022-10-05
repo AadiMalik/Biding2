@@ -7,27 +7,35 @@
             <div class=" col-md-7 col-12 col-lg-5 mx-auto">
                 <div class="form-container">
                     <div class="form_logo">
-                        <img src="assets/images/Logo subastek sin fondo.png" alt="">
+                        <img src="{{asset('assets/images/Logo subastek sin fondo.png')}}" alt="">
                     </div>
                     <h3 class="title">Acceso </h3>
-
-                    <form class="form-horizontal">
-
+                    <form class="form-horizontal" action="{{ route('login') }}" method="POST">
+                        @csrf
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Email">
+                            <input type="email" name="email" class="form-control" placeholder="Email">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Password">
+                            <input type="password" name="password" class="form-control" placeholder="Password">
                         </div>
                         <div class="form-group">
                             <input type="checkbox" class="checkbox">
                             <span class="check-label">Acepto los Términos  <a href="">Términos</a> y la  <a href="">Política de privacidad</a></span>
                         </div>
-                        <button class="btn signup">Acceso</button>
+                        <button class="btn signup" type="submit">Acceso</button>
                     </form>
                     <div class="form_content mt-4 d-flex justify-content-between align-items-center">
-                        <a href="" class="recover">Recuperar contraseña</a>
-                        <a href="" class="create">Crea una cuenta </a>
+                        <a href="{{ route('password.request') }}" class="recover">Recuperar contraseña</a>
+                        <a href="{{ route('register') }}" class="create">Crea una cuenta </a>
                     </div>
                 </div>
             </div>

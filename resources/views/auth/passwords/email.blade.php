@@ -2,7 +2,7 @@
 @section('content')
 
             <div class="card-body p-4">
-                <h1>TRAMEC</h1>
+                <h1>Surbartek</h1>
 
                 <p class="text-muted">{{ trans('global.reset_password') }}</p>
 

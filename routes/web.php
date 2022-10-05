@@ -26,6 +26,8 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
     Route::get('home', 'HomeController@redirect');
 
+    Route::get('dashboard', 'HomeController@index')->name('home');
+
     
 });
 

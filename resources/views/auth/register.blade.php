@@ -11,29 +11,39 @@
 					</div>
 					<h3 class="title">Crear una cuenta</h3>
 					<span class="description">o use su correo electrónico para registrarse:</span>
-					<form class="form-horizontal">
+                        <form class="form-horizontal" action="{{ route('register') }}" method="POST">
+                            @csrf
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Name">
+							<input type="text" name="name" class="form-control" placeholder="Name">
 						</div>
 						<div class="form-group">
-							<input type="email" class="form-control" placeholder="Email">
+							<input type="email" name="email" class="form-control" placeholder="Email">
 						</div>
 						<div class="form-group">
-							<input type="password" class="form-control" placeholder="Password">
+							<input type="password" name="password" class="form-control" placeholder="Password">
 						</div>
 						<div class="form-group">
 							<input type="checkbox" class="checkbox">
 							<span class="check-label">
-								Estoy de acuerdo con la <a href="">Terminos</a> and <a href="">Privacidad
+								Estoy de acuerdo con la <a href="{{url('terminos-y-condiciones')}}">Terminos</a> and <a href="">Privacidad
 							Política.</a></span>
 						</div>
-						<button class="btn signup">Inscribirse</button>
-						<button class="btn signin">Iniciar sesión</button>
+						<button class="btn signup" type="submit">Inscribirse</button>
+						<a href="{{route('login')}}" class="btn signin">Iniciar sesión</a>
 					</form>
 					<div class="form_content">
 						<p>Al hacer clic en "Registrarse gratis", declara que ha leído y aceptado los Términos y condiciones
 						</p>
-						<p> Ya tienes una cuenta?  <a href="">Iniciar sesión</a> </p>
+						<p> Ya tienes una cuenta?  <a href="{{route('login')}}">Iniciar sesión</a> </p>
 					</div>
 				</div>
 			</div>
