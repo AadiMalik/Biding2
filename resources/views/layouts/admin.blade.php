@@ -99,7 +99,7 @@
                                                 class='sidebar-link'> <i class="bi bi-grid-fill"></i>
                                                 <span>Dashboard</span> </a>
                                         </li>
-                                        @can('user_management')
+                                        @can('user_management_access')
                                             <li class="sidebar-item  has-sub">
                                                 <a href="#" class='sidebar-link'> <i class="bi bi-stack"></i>
                                                     <span>Users Management</span> </a>
