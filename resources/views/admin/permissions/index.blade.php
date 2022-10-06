@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 @can('permission_create')
+<div class="page-wrapper">
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route("admin.permissions.create") }}">
@@ -75,11 +76,11 @@
         </div>
     </div>
 </div>
-
+</div>
 
 
 @endsection
-@section('scripts')
+@section('script')
 @parent
 <!-- <script>
     $(function () {

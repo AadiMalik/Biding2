@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-
+<div class="page-wrapper">
 <div class="card">
     <div class="card-header">
         {{ trans('global.create') }} {{ trans('cruds.permission.title_singular') }}
@@ -28,6 +28,6 @@
     </div>
 </div>
 
-
+</div>
 
 @endsection

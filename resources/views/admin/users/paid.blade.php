@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-
+<div class="page-wrapper">
 <div class="card p-3 bg-light">
   <div class="row">
     <div class="col-12 col-md-3 text-center">
@@ -103,10 +103,10 @@
     </div><!-- end chart-box -->
   </div>
 </div>
-
+</div>
 @endsection
 
-@section('scripts')
+@section('script')
 <script src="/dash-assets/js/chart.js"></script>
 <script>
 
