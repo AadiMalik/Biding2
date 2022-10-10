@@ -7,6 +7,8 @@ use App\FaqCategory;
 use App\Models\Service;
 use App\News;
 use App\Brand;
+use App\Category;
+use App\Product;
 use App\Review;
 use App\Sector;
 use App\Support;
@@ -25,10 +27,11 @@ class HomeController extends Controller
        
         return view('home');
     }
-    public function home()
+    public function home(Request $request)
     {
-        
-        return view('welcome');
+        $product = Product::all();
+        $category = Category::all();
+        return view('welcome',compact('product','category'));
        
     }
     // public function Cv_Builder(){

@@ -62,6 +62,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Categories
     Route::resource('category', 'CategoryController');
+    // Product
+    Route::resource('product', 'ProductController');
     
 });
 

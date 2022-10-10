@@ -84,6 +84,15 @@
 					</a>
 				</li>
                 @endcan
+				@can('product_access')
+				<li>
+					<a href="{{url('admin/product')}}">
+						<div class="parent-icon"><i class='bx bx-cookie'></i>
+						</div>
+						<div class="menu-title">Products</div>
+					</a>
+				</li>
+                @endcan
                 @endcan
 				
 			</ul>
