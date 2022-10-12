@@ -15,6 +15,9 @@
 	<link href="/admin/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
 	<link href="/admin/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
 	<link href="/admin/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+	<link href="/admin/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+	<link href="/admin/plugins/Drag-And-Drop/dist/imageuploadify.min.css" rel="stylesheet" />
+	
 	<!-- loader-->
 	<link href="/admin/css/pace.min.css" rel="stylesheet" />
 	<script src="/admin/js/pace.min.js"></script>
@@ -585,6 +588,29 @@
 	<script src="/admin/plugins/notifications/js/lobibox.min.js"></script>
 	<script src="/admin/plugins/notifications/js/notifications.min.js"></script>
 	<script src="/admin/js/index.js"></script>
+	<!--app JS-->
+	<script src="/admin/js/app.js"></script>
+	<script src="/admin/plugins/datatable/js/jquery.dataTables.min.js"></script>
+	<script src="/admin/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			var table = $('#example2').DataTable( {
+				lengthChange: false,
+				buttons: [ 'copy', 'excel', 'pdf', 'print']
+			} );
+		 
+			table.buttons().container()
+				.appendTo( '#example2_wrapper .col-md-6:eq(0)' );
+		} );
+	</script>
+	
+	
+	<script src="/admin/plugins/Drag-And-Drop/dist/imageuploadify.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('#image-uploadify').imageuploadify();
+		})
+	</script>
 	<!--app JS-->
 	<script src="/admin/js/app.js"></script>
     @yield('script')

@@ -9,7 +9,7 @@
 	<link href="{{asset('assets/css/bootstrap.css')}}" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 	<link rel="shortcut icon"
-		href="https://c55eb557d63a774402c1-6c5abf0376c5bc9ea81a0b21240a34f4.ssl.cf2.rackcdn.com/general/favicon.ico?v=1663076034"
+		href="{{asset('assets/images/Logo subastek sin fondo.png')}}"
 		type="image/x-icon">
 	<title>Subastas Online</title>
 	<link rel="stylesheet" href="{{asset('assets/css/owl.carousel.min.css')}}">

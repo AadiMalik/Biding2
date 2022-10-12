@@ -38,10 +38,10 @@
             </div>
         </div>
         <div class="about_content text-center">
-            <p>Bidoo Ltd</p>
+            <p>subastek Ltd</p>
             <p>
                 Email:
-                contacto@bidoo.com</p>
+                contacto@subastek.com</p>
             <p>
                 Número de empresa: 07473613</p>
               <p>

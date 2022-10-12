@@ -13,7 +13,7 @@
                                 alt="">
                         </div>
                         <div class="col-lg-4 col-md-3 col-12 my-auto mt-1">
-                            <p class=" Bidoo_con">$10  Shop</p>
+                            <p class=" subastek_con">$10  Shop</p>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12 my-auto mt-1">
                             <div class="row  ">
@@ -40,7 +40,7 @@
                                 alt="">
                         </div>
                         <div class="col-lg-4 col-md-3 col-12 my-auto mt-1">
-                            <p class=" Bidoo_con">$10  Shop</p>
+                            <p class=" subastek_con">$10  Shop</p>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12 my-auto mt-1">
                             <div class="row  ">
@@ -68,7 +68,7 @@
                                 alt="">
                         </div>
                         <div class="col-lg-4 col-md-3 col-12 my-auto mt-1">
-                            <p class=" Bidoo_con">$10 Shop</p>
+                            <p class=" subastek_con">$10 Shop</p>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12 my-auto mt-1">
                             <div class="row  ">
@@ -95,7 +95,7 @@
                                 alt="">
                         </div>
                         <div class="col-lg-4 col-md-3 col-12 my-auto mt-1">
-                            <p class=" Bidoo_con">$10 Shop</p>
+                            <p class=" subastek_con">$10 Shop</p>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12 my-auto mt-1">
                             <div class="row  ">
@@ -122,7 +122,7 @@
                                 alt="">
                         </div>
                         <div class="col-lg-4 col-md-3 col-12 my-auto mt-1">
-                            <p class=" Bidoo_con">$10 Shop</p>
+                            <p class=" subastek_con">$10 Shop</p>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12 my-auto mt-1">
                             <div class="row  ">
@@ -149,7 +149,7 @@
                                 alt="">
                         </div>
                         <div class="col-lg-4 col-md-3 col-12 my-auto mt-1">
-                            <p class=" Bidoo_con">$10 Shop</p>
+                            <p class=" subastek_con">$10 Shop</p>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12 my-auto mt-1">
                             <div class="row  ">
@@ -176,7 +176,7 @@
                                 alt="">
                         </div>
                         <div class="col-lg-4 col-md-3 col-12 my-auto mt-1">
-                            <p class=" Bidoo_con">$10 Shop</p>
+                            <p class=" subastek_con">$10 Shop</p>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12 my-auto mt-1">
                             <div class="row  ">

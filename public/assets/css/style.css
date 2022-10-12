@@ -707,7 +707,7 @@ p.trophy_con {
 }
 
 
-p.Bidoo_con {
+p.subastek_con {
     font-size: 16px;
     font-weight: bold;
 }
@@ -2203,3 +2203,11 @@ p.Bidoo_con {
       }
  
 }
+/* .category-slider .active{
+    background-color: blue;
+    color: white !important;
+    border-radius: 20px;
+    padding: 5px 10px;
+    width:fit-content;
+
+} */

@@ -29,9 +29,15 @@ class HomeController extends Controller
     }
     public function home(Request $request)
     {
-        $product = Product::all();
+        $search=$request->search;
+        $query = Product::query();
+        if($search!=''){
+            $query->where('category_id',$search);   
+        }
+        $product=$query->get();
+        
         $category = Category::all();
-        return view('welcome',compact('product','category'));
+        return view('welcome',compact('product','category','search'));
        
     }
     // public function Cv_Builder(){
