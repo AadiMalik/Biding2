@@ -43,6 +43,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validation = $request->validate(
             [
                 'name' => 'required|max:255',
@@ -53,6 +54,7 @@ class ProductController extends Controller
                 'limit' => 'required',
                 'description' => 'required',
                 'image1' => 'required',
+                'image' => 'required',
             ]
         );
         $product = new Product;
@@ -70,34 +72,26 @@ class ProductController extends Controller
             $path    = move_uploaded_file($file->getPathName(), $upload.$filename);
             $product->image1=$upload.$filename;
         }
-        if($request->hasfile('image2')){
-            $file = $request->file('image2');
-            $upload = 'img/';
-            $filename = time().$file->getClientOriginalName();
-            $path    = move_uploaded_file($file->getPathName(), $upload.$filename);
-            $product->image2=$upload.$filename;
-        }
-        if($request->hasfile('image3')){
-            $file = $request->file('image3');
-            $upload = 'img/';
-            $filename = time().$file->getClientOriginalName();
-            $path    = move_uploaded_file($file->getPathName(), $upload.$filename);
-            $product->image3=$upload.$filename;
-        }
-        if($request->hasfile('image4')){
-            $file = $request->file('image4');
-            $upload = 'img/';
-            $filename = time().$file->getClientOriginalName();
-            $path    = move_uploaded_file($file->getPathName(), $upload.$filename);
-            $product->image4=$upload.$filename;
-        }
-        if($request->hasfile('image5')){
-            $file = $request->file('image5');
-            $upload = 'img/';
-            $filename = time().$file->getClientOriginalName();
-            $path    = move_uploaded_file($file->getPathName(), $upload.$filename);
-            $product->image5=$upload.$filename;
-        }
+        // if($request->hasfile('image2')){
+        //     $file = $request->file('image2');
+        //     $upload = 'img/';
+        //     $filename = time().$file->getClientOriginalName();
+        //     $path    = move_uploaded_file($file->getPathName(), $upload.$filename);
+        //     $product->image2=$upload.$filename;
+        // }
+        if($request->hasfile('image'))
+         {
+
+            foreach($request->file('image') as $image)
+            {
+                $name=$image->getClientOriginalName();
+                $image->move(public_path().'/img/', $name);  
+                $data[] = $name;  
+            }
+         }
+
+         
+        $product->image=json_encode($data);
         $product->save();
         return redirect('admin/product')->with('success','New Product has created!');
     }

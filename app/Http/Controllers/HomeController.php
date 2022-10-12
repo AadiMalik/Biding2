@@ -34,7 +34,7 @@ class HomeController extends Controller
         if($search!=''){
             $query->where('category_id',$search);   
         }
-        $product=$query->get();
+        $product=$query->orderBy('id','desc')->get();
         
         $category = Category::all();
         return view('welcome',compact('product','category','search'));
