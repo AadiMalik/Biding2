@@ -19,13 +19,14 @@ class ProductsTableSeeder extends Seeder
         foreach (range(1, 200) as $index)  {
             DB::table('products')->insert([
                 'name' => $faker->name(),
+                'slug' => str_slug($faker->name().rand(), '-'),
                 'category_id' => $faker->numberBetween($min = 1, $max = 10),
                 'price' => $faker->numberBetween($min = 500, $max = 8000),
                 'from' => $faker->date("H:i:s"),
                 'to' => $faker->date("H:i:s"),
                 'limit'=>$faker->numberBetween($min = 10, $max = 40),
                 
-                'image1' => $faker->image('public/img',300, 300),
+                'image1' => $faker->image('public/img/',300, 300),
                 
                 'description'=> $faker->paragraph($nb =8),
             ]);

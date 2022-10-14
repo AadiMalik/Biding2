@@ -12,7 +12,6 @@ Route::view('como-funciona','how_work');
 Route::view('mi-subastek','my_actions');
 Route::view('opiniones','opinions');
 Route::view('política-de-privacidad','privacy');
-Route::view('subasta','product_detail');
 Route::view('terminos-y-condiciones','term_condition');
 
 
@@ -32,6 +31,8 @@ Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
 });
 
 Route::get('/', 'HomeController@home')->name('/');
+Route::get('product', 'HomeController@product')->name('product.index');
+Route::get('subasta/{slug}','HomeController@product_detail');
 
 
 Auth::routes();

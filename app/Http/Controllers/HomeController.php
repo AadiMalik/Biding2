@@ -27,6 +27,40 @@ class HomeController extends Controller
        
         return view('home');
     }
+    public function product(Request $request)
+    {
+        $products = Product::paginate(10);
+        $data = '';
+        if ($request->ajax()) {
+            foreach ($products as $key => $product) {
+                $data .= '<div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
+                <div class="card">
+                    <a href="subasta/'.$product->slug.'">
+                        <img class="p-1 img2" src="'.asset("$product->image1").'" alt="">
+                        <a class="title">$ '.$product->limit.' Tienda</a>
+
+                        <span class="card_prize">$'. $product->price.'</span>
+                        <span class="nickname">'.$product->name .'</span>
+                        <h4 class="card_time">Hoy a las '.$product->from .'</h4>
+                        <div class="card_rebre">
+                            <h4>REABRE PRONTO</h4>
+                        </div>
+                        <div class="d-flex p-1">
+                            <button class="btn btn_theme1 mx-1">
+                                <i class="fas fa-shopping-cart"></i>'.$product->price.'
+                                €'.$product->price .'</button>
+                            <button class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>UNO
+                                MISMO</button>
+                        </div>
+                    </a>
+                </div>
+            </div>';
+                // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
+            }
+            return $data;
+        }
+        return view('welcome');
+    }
     public function home(Request $request)
     {
         $search=$request->search;
@@ -39,6 +73,11 @@ class HomeController extends Controller
         $category = Category::all();
         return view('welcome',compact('product','category','search'));
        
+    }
+    public function product_detail($slug)
+    {
+        $product=Product::where('slug',$slug)->first();
+        return view('product_detail',compact('product'));
     }
     // public function Cv_Builder(){
     //     return view('cv_builder');
