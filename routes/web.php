@@ -10,7 +10,7 @@ Route::view('subasta-cerrada','action_close');
 Route::view('comprar-bids','bid_buy');
 Route::view('como-funciona','how_work');
 Route::view('mi-subastek','my_actions');
-Route::view('opiniones','opinions');
+// Route::view('opiniones','opinions');
 Route::view('política-de-privacidad','privacy');
 Route::view('terminos-y-condiciones','term_condition');
 
@@ -33,6 +33,9 @@ Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
 Route::get('/', 'HomeController@home')->name('/');
 Route::get('product', 'HomeController@product')->name('product.index');
 Route::get('subasta/{slug}','HomeController@product_detail');
+Route::get('opiniones', 'HomeController@opinion')->name('/');
+Route::get('opinion', 'HomeController@opinion_auto')->name('opinion.index');
+Route::get('most-opinion', 'HomeController@most_opinion_auto')->name('most_opinion.index');
 
 
 Auth::routes();
@@ -65,6 +68,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('category', 'CategoryController');
     // Product
     Route::resource('product', 'ProductController');
+    // Opinion
+    Route::resource('opinion', 'OpinionController');
     
 });
 

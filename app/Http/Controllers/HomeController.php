@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\News;
 use App\Brand;
 use App\Category;
+use App\Opinion;
 use App\Product;
 use App\Review;
 use App\Sector;
@@ -24,7 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-       
         return view('home');
     }
     public function product(Request $request)
@@ -60,6 +60,91 @@ class HomeController extends Controller
             return $data;
         }
         return view('welcome');
+    }
+    public function opinion()
+    {
+        $opinion = Opinion::where('status',0)->get();
+        return view('opinions',compact('opinion'));
+    }
+    public function opinion_auto(Request $request)
+    {
+        $opinion = Opinion::paginate(5);
+        $data = '';
+        if ($request->ajax()) {
+            foreach ($opinion as $key => $item) {
+                $data .= '<div class="auction_box">
+                <div class="row py-3" id="results">
+                <div class="col-md-9 col-12 mt-2">
+                <a href="#">
+                    <div class="Daanniele">
+                    <h2>'.$item->user_name->name.' <span>ha compartido su logro</span></h2>
+                        <div class="row">
+                            <div class="col-5 col-md-3">
+                                <img src="'.asset($item->product_name->image1).'" alt="">
+                            </div>
+                            <div class="col-5 col-md-6">
+                                <h3>'.$item->product_name->name.' </h3>
+                                <h4>'.$item->product_name->price.'  $ </h4>
+                                <p>'.$item->product_name->price.'  $ </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-12 mt-2">
+                                <img src="'.asset("$item->image").'"
+                                alt="">
+                            </div>
+                            </div>
+                            <div class="gusta_btn">
+                            <button class="btn">Me Gusta</button>
+                            <span>(2)</span>
+                        </div>';
+                // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
+            }
+            return $data;
+        }
+        return view('opinions');
+    }
+    public function most_opinion_auto(Request $request)
+    {
+        $opinion = Opinion::orderBy('id','ASC')->paginate(5);
+        $data = '';
+        if ($request->ajax()) {
+            foreach ($opinion as $key => $item) {
+                $data .= '<div class="auction_box">
+                <div class="row py-3" id="results">
+                <div class="col-md-9 col-12 mt-2">
+                <a href="#">
+                    <div class="Daanniele">
+                    <h2>'.$item->user_name->name.' <span>ha compartido su logro</span></h2>
+                        <div class="row">
+                            <div class="col-5 col-md-3">
+                                <img src="'.asset($item->product_name->image1).'" alt="">
+                            </div>
+                            <div class="col-5 col-md-6">
+                                <h3>'.$item->product_name->name.' </h3>
+                                <h4>'.$item->product_name->price.'  $ </h4>
+                                <p>'.$item->product_name->price.'  $ </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-12 mt-2">
+                                <img src="'.asset("$item->image").'"
+                                alt="">
+                            </div>
+                            </div>
+                            <div class="gusta_btn">
+                            <button class="btn">Me Gusta</button>
+                            <span>(2)</span>
+                        </div>';
+                // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
+            }
+            return $data;
+        }
+        return view('opinions');
     }
     public function home(Request $request)
     {
