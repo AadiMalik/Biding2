@@ -68,7 +68,7 @@ class HomeController extends Controller
     }
     public function opinion_auto(Request $request)
     {
-        $opinion = Opinion::paginate(5);
+        $opinion = Opinion::where('status',0)->paginate(5);
         $data = '';
         if ($request->ajax()) {
             foreach ($opinion as $key => $item) {
@@ -108,7 +108,7 @@ class HomeController extends Controller
     }
     public function most_opinion_auto(Request $request)
     {
-        $opinion = Opinion::orderBy('id','ASC')->paginate(5);
+        $opinion = Opinion::where('status',0)->orderBy('id','ASC')->paginate(5);
         $data = '';
         if ($request->ajax()) {
             foreach ($opinion as $key => $item) {
