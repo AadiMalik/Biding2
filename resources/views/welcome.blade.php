@@ -49,6 +49,7 @@
                 </div>
             </div>
         </div>
+
     </section>
     <section class="product_card">
         <div class="container">
@@ -60,6 +61,7 @@
                         <div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
                             <div class="card">
                                 <a href="#">
+
 
                                     <img class="p-1 img2" src="{{ asset($item->image1) }}" alt="">
                                     <a class="title">${{ $item->limit ?? '' }} Tienda</a>
