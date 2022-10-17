@@ -9,12 +9,14 @@ use App\News;
 use App\Brand;
 use App\Category;
 use App\Opinion;
+use App\OpinionLike;
 use App\Product;
 use App\Review;
 use App\Sector;
 use App\Support;
 use App\WritingPoint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -68,10 +70,12 @@ class HomeController extends Controller
     }
     public function opinion_auto(Request $request)
     {
-        $opinion = Opinion::where('status',0)->paginate(5);
+        $opinion = Opinion::where('status',0)->orderBy('created_at','DESC')->paginate(5);
+        $like = OpinionLike::all();
         $data = '';
         if ($request->ajax()) {
             foreach ($opinion as $key => $item) {
+                $active = $like->where('opinion_id',$item->id)->where('user_id',Auth()->user()->id)->count();
                 $data .= '<div class="auction_box">
                 <div class="row py-3" id="results">
                 <div class="col-md-9 col-12 mt-2">
@@ -97,8 +101,8 @@ class HomeController extends Controller
                             </div>
                             </div>
                             <div class="gusta_btn">
-                            <button class="btn">Me Gusta</button>
-                            <span>(2)</span>
+                            <button class="btn"'. ((int)$active>0 ? ' style="background: #0080FF; color: #fff;" ':'').' onclick="Like('.$item->id.')">Me Gusta</button>
+                            <span>('.$like->where('opinion_id',$item->id)->count().')</span>
                         </div>';
                 // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
             }
@@ -109,9 +113,20 @@ class HomeController extends Controller
     public function most_opinion_auto(Request $request)
     {
         $opinion = Opinion::where('status',0)->orderBy('id','ASC')->paginate(5);
+        $like = OpinionLike::all();
+        // $query ='SELECT opinions.id, opinions.user_id, opinions.image, opinions.product_id,
+        // products.image1, products.name as product_name, products.price, users.name as u_name,opinion_likes.opinion_id,
+        // SUM(opinion_likes.id) as Likes FROM opinions
+        // JOIN products on products.id = opinions.product_id
+        // JOIN users on users.id = opinions.user_id
+        // JOIN opinion_likes on opinion_likes.opinion_id = opinions.id
+        // GROUP BY opinions.id
+        // ORDER BY SUM(opinion_likes.id) DESC LIMIT 5'; 
+        // $opinions = DB::select(DB::raw($query));
         $data = '';
         if ($request->ajax()) {
             foreach ($opinion as $key => $item) {
+                $active = $like->where('opinion_id',$item->id)->where('user_id',Auth()->user()->id)->count();
                 $data .= '<div class="auction_box">
                 <div class="row py-3" id="results">
                 <div class="col-md-9 col-12 mt-2">
@@ -137,14 +152,27 @@ class HomeController extends Controller
                             </div>
                             </div>
                             <div class="gusta_btn">
-                            <button class="btn">Me Gusta</button>
-                            <span>(2)</span>
+                            <button class="btn"'. ((int)$active>0 ? ' style="background: #0080FF; color: #fff;" ':'').' onclick="Like('.$item->id.')">Me Gusta</button>
+                            <span>('.$like->where('opinion_id',$item->id)->count().')</span>
                         </div>';
                 // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
             }
             return $data;
         }
         return view('opinions');
+    }
+    public function likes(Request $request){
+        $check = OpinionLike::where('user_id',Auth()->user()->id)->where('opinion_id',$request->opinion_id)->first();
+        if($check!=null){
+            $check->delete();
+            return back();
+        }else{
+            $opinion = new OpinionLike;
+            $opinion->user_id = Auth()->user()->id;
+            $opinion->opinion_id = $request->opinion_id;
+            $opinion->save();
+            return back();
+        }
     }
     public function home(Request $request)
     {

@@ -36,6 +36,7 @@ Route::get('subasta/{slug}','HomeController@product_detail');
 Route::get('opiniones', 'HomeController@opinion')->name('/');
 Route::get('opinion', 'HomeController@opinion_auto')->name('opinion.index');
 Route::get('most-opinion', 'HomeController@most_opinion_auto')->name('most_opinion.index');
+Route::post('opinion_like', 'HomeController@likes')->name('opinion.like')->middleware('auth');
 
 
 Auth::routes();
