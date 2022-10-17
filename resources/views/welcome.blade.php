@@ -60,8 +60,8 @@
         <div class="row">
             @if($product->count()>0)
             @foreach ($product as $item)
-            <div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
-                <div class="card">
+            <div class="col-lg-2 col-md-4 col-6 mt-3 p-1 col-container">
+                <div class="card h-100">
                     <a href="#">
                         
                         <img class="p-1 img2"
