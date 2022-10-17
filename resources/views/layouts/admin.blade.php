@@ -96,6 +96,15 @@
 					</a>
 				</li>
                 @endcan
+				@can('opinion_access')
+				<li>
+					<a href="{{url('admin/opinion')}}">
+						<div class="parent-icon"><i class='bx bx-cookie'></i>
+						</div>
+						<div class="menu-title">Opinions</div>
+					</a>
+				</li>
+                @endcan
                 @endcan
 				
 			</ul>

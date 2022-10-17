@@ -59,6 +59,7 @@ class ProductController extends Controller
         );
         $product = new Product;
         $product->name = $request->name;
+        $product->slug = str_slug($request->name.rand(1,9999), '-');
         $product->category_id = $request->category;
         $product->price = $request->price;
         $product->to = $request->to;
@@ -142,6 +143,7 @@ class ProductController extends Controller
             ]
         );
         $product->name = $request->name;
+        $product->slug = str_slug($request->name.rand(1,9999), '-');
         $product->category_id = $request->category;
         $product->price = $request->price;
         $product->to = $request->to;

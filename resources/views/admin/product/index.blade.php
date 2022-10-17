@@ -47,6 +47,9 @@
                                         Name
                                     </th>
                                     <th>
+                                        Slug
+                                    </th>
+                                    <th>
                                         Price
                                     </th>
                                     <th>
@@ -81,6 +84,9 @@
                                         </td>
                                         <td>
                                             {{ $item->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $item->slug ?? '' }}
                                         </td>
                                         <td>
                                             {{ $item->price ?? '' }}
