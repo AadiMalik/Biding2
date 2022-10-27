@@ -43,19 +43,22 @@
 <section class="bid_buy2  ">
     <div class="container   ">
         <div class="row bid_row mx-0 ">
+            @foreach($package as $item)
             <div class="col-lg-3 col-md-4 col-10 mx-auto mt-3">
                 <div class="bid_card">
+                    @if($item->tag!=null)
                     <div class="bid_badge11">                            
-                        <span>El + Vendido</span>
+                        <span>{{$item->tag??''}}</span>
                     </div>
+                    @endif
                     <div class="bid_card_img bid_card_img1 ">
-                        <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/soldier.png"
+                        <img src="{{asset($item->image??'')}}"
                             alt="">
 
 
 
                         <div class="bid_header_text">
-                            <h2>150</h2>
+                            <h2>{{$item->bids??''}}</h2>
                             <h3>ofertas</h3>
                         </div>
                     </div>
@@ -63,27 +66,28 @@
                         <div class="d-flex">
                             <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/ic-single-money.svg"
                                 alt="">
-                            <p><b>150 ofertas</b></p>
+                            <p><b>{{$item->feature1??''}}</b></p>
                         </div>
                         <div class="d-flex">
                             <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/icon_padlock.svg"
                                 alt="">
-                            <p> + 1 ESPACIO PARA GANAR</p>
+                            <p> {{$item->feature2??''}}</p>
                         </div>
                         <div class="d-flex ju">
                             <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/icon_ship.svg"
                                 alt="">
-                            <p> 1 día de envío gratis</p>
+                            <p> {{$item->feature3??''}}</p>
                         </div>
 
                         <div class="text-center bid_btn mt-3">
-                            <button class="btn "><i class="fas fa-shopping-cart"></i> € 29.9</button>
+                            <button class="btn "><i class="fas fa-shopping-cart"></i> $ {{$item->price??''}}</button>
                         </div>
-                        <p class="card_footer">0.21 0 per bid</p>
+                        <p class="card_footer">{{$item->time??''}} {{$item->limit??''}} per bid</p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3  col-md-4 col-10 mt-3 mx-auto ">
+            @endforeach
+            {{-- <div class="col-lg-3  col-md-4 col-10 mt-3 mx-auto ">
                 <div class="bid_card">
                     <div class="bid_card_img bid_card_img2">
                         <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/soldier.png"
@@ -218,7 +222,7 @@
                         <p class="card_footer">0.21 0 per bid</p>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="row">
             <div class="col-12 col-md-8 col-lg-6 mx-auto">

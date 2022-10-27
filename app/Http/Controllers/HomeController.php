@@ -10,6 +10,7 @@ use App\Brand;
 use App\Category;
 use App\Opinion;
 use App\OpinionLike;
+use App\Package;
 use App\Product;
 use App\Review;
 use App\Sector;
@@ -174,8 +175,14 @@ class HomeController extends Controller
             return back();
         }
     }
+    public function bid_buy()
+    {
+        $package = Package::get();
+        return view('bid_buy',compact('package'));
+    }
     public function home(Request $request)
     {
+        
         $search=$request->search;
         $query = Product::query();
         if($search!=''){

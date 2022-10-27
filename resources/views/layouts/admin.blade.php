@@ -105,6 +105,15 @@
 					</a>
 				</li>
                 @endcan
+				@can('package_access')
+				<li>
+					<a href="{{url('admin/package')}}">
+						<div class="parent-icon"><i class='bx bx-cookie'></i>
+						</div>
+						<div class="menu-title">Packages</div>
+					</a>
+				</li>
+                @endcan
                 @endcan
 				
 			</ul>

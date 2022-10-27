@@ -7,7 +7,7 @@
             <div class="col-lg-3 d-none d-lg-block">
                 <div class="my_auctions_box">
                     <div class="my_auction_head">
-                        <h4>My plusm</h4>
+                        <h4>Mi Subastek</h4>
                     </div>
                     <div class="my_auction_body">
                         <a href="#">
@@ -26,18 +26,18 @@
                             <img src="assets/images/tickets.svg" alt="">
                             <p>Atención al cliente - Tickets </p>
                         </a>
-                        <a href="#">
+                        {{-- <a href="#">
                             <span><p> 101</p></span>
                             <p>Subastas de Pujas</p>
-                        </a>
-                        <a href="#">
+                        </a> --}}
+                        {{-- <a href="#">
                             <img src="assets/images/limitidivincita2.svg" alt="">
                             <p>Límites para ganar</p>
-                        </a>
-                        <a href="#">
+                        </a> --}}
+                        {{-- <a href="#">
                             <img src="assets/images/shopping-bag.svg" alt="">
                             <p>IR A LA SHOP</p>
-                        </a>
+                        </a> --}}
                         <a href="#">
                             <img src="assets/images/sync.svg" alt="">
                             <p> Mi AutoPuja</p>
@@ -50,10 +50,10 @@
                             <img src="assets/images/my-auctions.svg" alt="">
                             <p> Historial Mis Subastas</p>
                         </a>
-                        <a href="#">
+                        {{-- <a href="#">
                             <img src="assets/images/compraloora.svg" alt="">
                             <p> Cómpralo Ya</p>
-                        </a>
+                        </a> --}}
                         <a href="#">
                             <img src="assets/images/icon-credit-card.svg" alt="">
                             <p> Gestionar Tarjetas</p>

@@ -47,7 +47,7 @@
                                 <div>
                                     <a class="nav-link active" aria-current="page" href="{{ url('/') }}"><i
                                             class="fas fa-th"></i>
-                                        Home</a>
+                                            SUBASTAS EN VIVO</a>
                                     <a class="nav-link" href="#"> <i class="fas fa-trophy "></i>SUBASTAS
                                         CERRADAS</a>
                                     <a class="nav-link" href="#"><i class="fas fa-shopping-bag"></i> OPINIONES</a>
@@ -63,21 +63,35 @@
                             src="{{ asset('assets/images/Logo subastek sin fondo.png') }}" alt=""></a>
                 </div>
                 <div class="nav_bar d-none d-lg-flex ">
-                    <a class="nav-link " aria-current="page" href="{{ url('sobre-nosotros') }}">Sobre Nosotros</a>
-                    <a class="nav-link" href="{{ url('subasta-cerrada') }}">Subasta Cerrada</a>
-                    <a class="nav-link" href="{{ url('opiniones') }}"> Opiniones</a>
-                    <a class="nav-link" href="{{ url('como-funciona') }}">Como Funciona</a>
-                    <a class="nav-link" href="{{ url('mi-subastek') }}">Mi Subastek</a>
-                    <a class="nav-link" href="{{ url('comprar-bids') }}">Comprar Bids</a>
+                    <a class="nav-link " aria-current="page" href="{{ url('/') }}">SUBASTAS EN VIVO</a>
+                    <a class="nav-link" href="{{ url('subasta-cerrada') }}">SUBASTA CERRADA</a>
+                    <a class="nav-link" href="{{ url('opiniones') }}"> OPINIONES</a>
+                    <a class="nav-link" href="{{ url('como-funciona') }}">COMO FUNCIONA</a>
+                    <a class="nav-link" href="{{ url('mi-subastek') }}">MI SUBASTEK</a>
+                    <a class="nav-link" href="{{ url('comprar-bids') }}">COMPRAR BIDS</a>
                 </div>
                 <div class="d-flex justify-content-end align-items-center flex-row">
-                    <a href="{{ url('login') }}" class="btn login_btn">acceso</a>
+                    @auth
+                    <a href="{{ url('comprar-bids') }}" class="w-50">
+                        <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/ic-single-money.svg"
+                            alt="" style="height: 20px;">
+                            <i style="font-size: 14px; font-weight: bold;">10 Pujas</i>
+                    </a>
+                    <a href="{{ url('comprar-bids') }}" class="btn Sign_up" style="width: 225px;height: 35px;
+                    line-height: 30px;">Comprar Pujas <small style="background: #fff;
+                        color: #000;
+                        font-weight: bold;
+                        border-radius: 10px;
+                        padding: 2px;">PROMO</small></a>
+                    @else
+                    <a href="{{ url('login') }}" class="btn login_btn">ACCESO</a>
                     <a href="{{ url('register') }}" class="btn Sign_up w-50">
                         Regístrese y
                         recibir 10
                         <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/ic-single-money.svg"
                             alt="">
                     </a>
+                    @endauth
                 </div>
             </div>
         </div>
