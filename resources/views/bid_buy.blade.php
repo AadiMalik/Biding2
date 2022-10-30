@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('style')
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+@endsection
 @section('content')
 <section class="bid_buy">
     <div class="conatiner">
@@ -80,7 +82,8 @@
                         </div>
 
                         <div class="text-center bid_btn mt-3">
-                            <button class="btn "><i class="fas fa-shopping-cart"></i> $ {{$item->price??''}}</button>
+                            <button type="button" class="btn " data-toggle="modal"
+                            data-target="#paymentModal{{ $item->id }}"><i class="fas fa-shopping-cart"></i> $ {{$item->price??''}}</button>
                         </div>
                         <p class="card_footer">{{$item->time??''}} {{$item->limit??''}} per bid</p>
                     </div>
@@ -237,5 +240,14 @@
             </div>
         </div>
     </div>
+    
+@extends('modals/payment');
+@extends('modals/payment_method');
 </section>
+@endsection
+@section('script')
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
 @endsection

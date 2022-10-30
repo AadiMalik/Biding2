@@ -11,6 +11,7 @@ use App\Category;
 use App\Opinion;
 use App\OpinionLike;
 use App\Package;
+use App\PaymentMethod;
 use App\Product;
 use App\Review;
 use App\Sector;
@@ -178,7 +179,8 @@ class HomeController extends Controller
     public function bid_buy()
     {
         $package = Package::get();
-        return view('bid_buy',compact('package'));
+        $payment_method = PaymentMethod::all();
+        return view('bid_buy',compact('package','payment_method'));
     }
     public function home(Request $request)
     {

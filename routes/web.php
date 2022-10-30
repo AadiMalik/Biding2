@@ -38,6 +38,8 @@ Route::get('comprar-bids', 'HomeController@bid_buy');
 Route::get('opinion', 'HomeController@opinion_auto')->name('opinion.index');
 Route::get('most-opinion', 'HomeController@most_opinion_auto')->name('most_opinion.index');
 Route::post('opinion_like', 'HomeController@likes')->name('opinion.like')->middleware('auth');
+Route::post('payment_method', 'PaymentMethodController@store')->name('payment_method.store')->middleware('auth');
+Route::post('payment', 'PackageBuyController@store')->name('payment.store')->middleware('auth');
 
 
 Auth::routes();
@@ -74,6 +76,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('opinion', 'OpinionController');
     // Package
     Route::resource('package', 'PackageController');
+    // Package Buy
+    Route::resource('package-buy', 'PackageBuyController');
     
 });
 
