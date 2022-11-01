@@ -80,6 +80,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('package-buy', 'PackageBuyController');
     // Slider
     Route::resource('slider', 'SliderController');
+    // FAQ Category
+    Route::resource('faq-category', 'FaqCategoryController');
+    // FAQ
+    Route::resource('faq', 'FaqController');
     
 });
 

@@ -132,6 +132,24 @@
 					</a>
 				</li>
                 @endcan
+				@can('faq_category_access')
+				<li>
+					<a href="{{url('admin/faq-category')}}">
+						<div class="parent-icon"><i class='bx bx-cookie'></i>
+						</div>
+						<div class="menu-title">FAQ Categories</div>
+					</a>
+				</li>
+                @endcan
+				@can('faq_access')
+				<li>
+					<a href="{{url('admin/faq')}}">
+						<div class="parent-icon"><i class='bx bx-cookie'></i>
+						</div>
+						<div class="menu-title">FAQ</div>
+					</a>
+				</li>
+                @endcan
                 @endcan
 				
 			</ul>

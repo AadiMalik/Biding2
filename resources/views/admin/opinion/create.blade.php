@@ -24,7 +24,7 @@
                 <span class="help-block">{{ trans('cruds.permission.fields.title_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="product">product</label>
+                <label class="required" for="product">Product</label>
                 <select name="product" class="form-control" id="" required>
                     @foreach ($product as $item)
                     <option value="{{$item->id}}">{{$item->name??''}}</option>
