@@ -63,12 +63,14 @@
                             src="{{ asset('assets/images/Logo subastek sin fondo.png') }}" alt=""></a>
                 </div>
                 <div class="nav_bar d-none d-lg-flex ">
-                    <a class="nav-link " aria-current="page" href="{{ url('/') }}">SUBASTAS EN VIVO</a>
-                    <a class="nav-link" href="{{ url('subasta-cerrada') }}">SUBASTA CERRADA</a>
-                    <a class="nav-link" href="{{ url('opiniones') }}"> OPINIONES</a>
-                    <a class="nav-link" href="{{ url('como-funciona') }}">COMO FUNCIONA</a>
-                    <a class="nav-link" href="{{ url('mi-subastek') }}">MI SUBASTEK</a>
-                    <a class="nav-link" href="{{ url('comprar-bids') }}">COMPRAR BIDS</a>
+                    <a  @if(Request::is('/')) class="nav-link active" @else class="nav-link" @endif aria-current="page" href="{{ url('/') }}">SUBASTAS EN VIVO</a>
+                    <a @if(Request::is('subasta-cerrada')) class="nav-link active" @else class="nav-link" @endif href="{{ url('subasta-cerrada') }}">SUBASTA CERRADA</a>
+                    <a @if(Request::is('opiniones')) class="nav-link active" @else class="nav-link" @endif href="{{ url('opiniones') }}"> OPINIONES</a>
+                    <a @if(Request::is('como-funciona')) class="nav-link active" @else class="nav-link" @endif href="{{ url('como-funciona') }}">COMO FUNCIONA</a>
+                    @auth
+                    <a @if(Request::is('mi-subastek')) class="nav-link active" @else class="nav-link" @endif href="{{ url('mi-subastek') }}">MI SUBASTEK</a>
+                    @endauth
+                    <a @if(Request::is('comprar-bids')) class="nav-link active" @else class="nav-link" @endif href="{{ url('comprar-bids') }}">COMPRAR BIDS</a>
                 </div>
                 <div class="d-flex justify-content-end align-items-center flex-row">
                     @auth

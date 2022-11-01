@@ -15,9 +15,11 @@ use App\PaymentMethod;
 use App\Product;
 use App\Review;
 use App\Sector;
+use App\Slider;
 use App\Support;
 use App\WritingPoint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -52,7 +54,7 @@ class HomeController extends Controller
                         <div class="d-flex p-1">
                             <button class="btn btn_theme1 mx-1">
                                 <i class="fas fa-shopping-cart"></i>'.$product->price.'
-                                €'.$product->price .'</button>
+                                $'.$product->price .'</button>
                             <button class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>UNO
                                 MISMO</button>
                         </div>
@@ -77,7 +79,11 @@ class HomeController extends Controller
         $data = '';
         if ($request->ajax()) {
             foreach ($opinion as $key => $item) {
+                if(Auth::user()){
                 $active = $like->where('opinion_id',$item->id)->where('user_id',Auth()->user()->id)->count();
+                }else{
+                    $active = $like->where('opinion_id',$item->id)->count();
+                }
                 $data .= '<div class="auction_box">
                 <div class="row py-3" id="results">
                 <div class="col-md-9 col-12 mt-2">
@@ -128,7 +134,12 @@ class HomeController extends Controller
         $data = '';
         if ($request->ajax()) {
             foreach ($opinion as $key => $item) {
-                $active = $like->where('opinion_id',$item->id)->where('user_id',Auth()->user()->id)->count();
+                if(Auth::user()){
+                    $active = $like->where('opinion_id',$item->id)->where('user_id',Auth()->user()->id)->count();
+                    }else{
+                        $active = $like->where('opinion_id',$item->id)->count();
+                    }
+                
                 $data .= '<div class="auction_box">
                 <div class="row py-3" id="results">
                 <div class="col-md-9 col-12 mt-2">
@@ -193,7 +204,8 @@ class HomeController extends Controller
         $product=$query->orderBy('id','desc')->get();
         
         $category = Category::all();
-        return view('welcome',compact('product','category','search'));
+        $slider = Slider::all();
+        return view('welcome',compact('product','category','search','slider'));
        
     }
     public function product_detail($slug)

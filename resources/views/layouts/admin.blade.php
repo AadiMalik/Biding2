@@ -123,6 +123,15 @@
 					</a>
 				</li>
                 @endcan
+				@can('slider_access')
+				<li>
+					<a href="{{url('admin/slider')}}">
+						<div class="parent-icon"><i class='bx bx-cookie'></i>
+						</div>
+						<div class="menu-title">Slider Image</div>
+					</a>
+				</li>
+                @endcan
                 @endcan
 				
 			</ul>

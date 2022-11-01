@@ -179,9 +179,12 @@ button {
     color: #3c3c3b!important;
     transition: all .3s ease;
 }
-.nav_slider .owl-carousel .active a{
+.active1{
+    
     background-color: #0080FF;
-    color: white!important;
+    color: white !important;
+}
+.nav_slider .owl-carousel .active a{
     padding: 3px 7px;
     border-radius: 5px;
 }

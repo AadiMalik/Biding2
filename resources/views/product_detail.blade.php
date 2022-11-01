@@ -45,7 +45,7 @@
                                 <div class="col-12 mt-4 order-3">
                                     <div class="card_body_content">
                                         <h5> Info Subasta:</h5>
-                                        <p>Gastos de envío:<span>4,99 €</span></p>
+                                        <p>Gastos de envío:<span>4,99 $</span></p>
                                         <p>Horario de apertura de la Subasta: <span>{{$product->from??''}} - {{$product->to??''}}</span></p>
                                         <p>Límites para ganar: <span>1 cada 30 días</span></p>
                                         <p>ID Subasta: <span>{{$item->id??''}}</span></p>
@@ -66,7 +66,7 @@
                         </div>
                         <h4>Ahora o nunca: <span>5:08:11:57</span></h4>
                         <button class="btn">
-                            <img src="" alt="" /> CÓMPRALO YA A {{$product->price??'0.00'}} €
+                            <img src="" alt="" /> CÓMPRALO YA A {{$product->price??'0.00'}} $
                         </button>
                     </div>
                 </div>
