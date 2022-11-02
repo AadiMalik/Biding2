@@ -150,6 +150,24 @@
 					</a>
 				</li>
                 @endcan
+				@can('media_access')
+				<li>
+					<a href="{{url('admin/media')}}">
+						<div class="parent-icon"><i class='bx bx-cookie'></i>
+						</div>
+						<div class="menu-title">Social Media</div>
+					</a>
+				</li>
+                @endcan
+				@can('content_access')
+				<li>
+					<a href="{{url('admin/content')}}">
+						<div class="parent-icon"><i class='bx bx-cookie'></i>
+						</div>
+						<div class="menu-title">Content</div>
+					</a>
+				</li>
+                @endcan
                 @endcan
 				
 			</ul>

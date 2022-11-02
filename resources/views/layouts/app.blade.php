@@ -1,3 +1,6 @@
+@php
+    $media = media();
+@endphp
 <!doctype html>
 <html lang="en">
 
@@ -14,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-	
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style>
         .ajax-loading {
@@ -47,7 +50,7 @@
                                 <div>
                                     <a class="nav-link active" aria-current="page" href="{{ url('/') }}"><i
                                             class="fas fa-th"></i>
-                                            SUBASTAS EN VIVO</a>
+                                        SUBASTAS EN VIVO</a>
                                     <a class="nav-link" href="#"> <i class="fas fa-trophy "></i>SUBASTAS
                                         CERRADAS</a>
                                     <a class="nav-link" href="#"><i class="fas fa-shopping-bag"></i> OPINIONES</a>
@@ -63,36 +66,44 @@
                             src="{{ asset('assets/images/Logo subastek sin fondo.png') }}" alt=""></a>
                 </div>
                 <div class="nav_bar d-none d-lg-flex ">
-                    <a  @if(Request::is('/')) class="nav-link active" @else class="nav-link" @endif aria-current="page" href="{{ url('/') }}">SUBASTAS EN VIVO</a>
-                    <a @if(Request::is('subasta-cerrada')) class="nav-link active" @else class="nav-link" @endif href="{{ url('subasta-cerrada') }}">SUBASTA CERRADA</a>
-                    <a @if(Request::is('opiniones')) class="nav-link active" @else class="nav-link" @endif href="{{ url('opiniones') }}"> OPINIONES</a>
-                    <a @if(Request::is('como-funciona')) class="nav-link active" @else class="nav-link" @endif href="{{ url('como-funciona') }}">COMO FUNCIONA</a>
+                    <a @if (Request::is('/')) class="nav-link active" @else class="nav-link" @endif
+                        aria-current="page" href="{{ url('/') }}">SUBASTAS EN VIVO</a>
+                    <a @if (Request::is('subasta-cerrada')) class="nav-link active" @else class="nav-link" @endif
+                        href="{{ url('subasta-cerrada') }}">SUBASTA CERRADA</a>
+                    <a @if (Request::is('opiniones')) class="nav-link active" @else class="nav-link" @endif
+                        href="{{ url('opiniones') }}"> OPINIONES</a>
+                    <a @if (Request::is('como-funciona')) class="nav-link active" @else class="nav-link" @endif
+                        href="{{ url('como-funciona') }}">COMO FUNCIONA</a>
                     @auth
-                    <a @if(Request::is('mi-subastek')) class="nav-link active" @else class="nav-link" @endif href="{{ url('mi-subastek') }}">MI SUBASTEK</a>
+                        <a @if (Request::is('mi-subastek')) class="nav-link active" @else class="nav-link" @endif
+                            href="{{ url('mi-subastek') }}">MI SUBASTEK</a>
                     @endauth
-                    <a @if(Request::is('comprar-bids')) class="nav-link active" @else class="nav-link" @endif href="{{ url('comprar-bids') }}">COMPRAR BIDS</a>
+                    <a @if (Request::is('comprar-bids')) class="nav-link active" @else class="nav-link" @endif
+                        href="{{ url('comprar-bids') }}">COMPRAR BIDS</a>
                 </div>
                 <div class="d-flex justify-content-end align-items-center flex-row">
                     @auth
-                    <a href="{{ url('comprar-bids') }}" class="w-50">
-                        <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/ic-single-money.svg"
-                            alt="" style="height: 20px;">
+                        <a href="{{ url('comprar-bids') }}" class="w-50">
+                            <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/ic-single-money.svg"
+                                alt="" style="height: 20px;">
                             <i style="font-size: 14px; font-weight: bold;">10 Pujas</i>
-                    </a>
-                    <a href="{{ url('comprar-bids') }}" class="btn Sign_up" style="width: 225px;height: 35px;
-                    line-height: 30px;">Comprar Pujas <small style="background: #fff;
+                        </a>
+                        <a href="{{ url('comprar-bids') }}" class="btn Sign_up"
+                            style="width: 225px;height: 35px;
+                    line-height: 30px;">Comprar Pujas <small
+                                style="background: #fff;
                         color: #000;
                         font-weight: bold;
                         border-radius: 10px;
                         padding: 2px;">PROMO</small></a>
                     @else
-                    <a href="{{ url('login') }}" class="btn login_btn">ACCESO</a>
-                    <a href="{{ url('register') }}" class="btn Sign_up w-50">
-                        Regístrese y
-                        recibir 10
-                        <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/ic-single-money.svg"
-                            alt="">
-                    </a>
+                        <a href="{{ url('login') }}" class="btn login_btn">ACCESO</a>
+                        <a href="{{ url('register') }}" class="btn Sign_up w-50">
+                            Regístrese y
+                            recibir 10
+                            <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/ic-single-money.svg"
+                                alt="">
+                        </a>
                     @endauth
                 </div>
             </div>
@@ -107,8 +118,9 @@
                         <div class="col-6 col-lg-4 ">
                             <div class="footer_content">
                                 <h3>DESCUBRE</h3>
-                                <a href="#">Subastas en Vivo</a>
+                                <a href="{{url('/')}}">Subastas en Vivo</a>
                                 <a href="{{ url('subasta-cerrada') }}">Subastas Cerradas</a>
+                                <a href="{{ url('comprar-bids') }}">Comprar Bids</a>
                             </div>
                         </div>
                         <div class="col-6 col-lg-4 ">
@@ -125,7 +137,7 @@
                                 <h3>AYUDA</h3>
                                 <a href="{{ url('como-funciona') }}">¿Cómo funciona?</a>
                                 <a href="{{ url('comprar-bids') }}">¿Cómo se obtienen las Pujas?</a>
-                                <a href="#">FAQ</a>
+                                <a href="{{url('como-funciona')}}">FAQ</a>
                             </div>
                         </div>
                     </div>
@@ -153,9 +165,10 @@
                         FOLLOW US ON SOCIAL NETWORKS
                     </h4>
                     <div class="footer_icon">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-telegram-plane"></i></a>
+                        @foreach ($media as $item)
+                        <a href="{{$item->link??''}}" title="{{$item->name??''}}"><i class="{{$item->icon??''}}"></i></a>
+                            
+                        @endforeach
                     </div>
                     <p>
                         ®2022 Ltd.</p>

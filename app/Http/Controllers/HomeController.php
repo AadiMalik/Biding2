@@ -193,6 +193,12 @@ class HomeController extends Controller
         $payment_method = PaymentMethod::all();
         return view('bid_buy',compact('package','payment_method'));
     }
+    public function faq()
+    {
+        $faqCategory = FaqCategory::all();
+        $faq = Faq::all();
+        return view('how_work',compact('faqCategory','faq'));
+    }
     public function home(Request $request)
     {
         
