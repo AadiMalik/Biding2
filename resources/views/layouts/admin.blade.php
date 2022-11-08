@@ -1,3 +1,6 @@
+@php
+    $data = content();
+@endphp
 <!doctype html>
 <html lang="en">
 
@@ -40,7 +43,7 @@
 		<div class="sidebar-wrapper" data-simplebar="true">
 			<div class="sidebar-header">
 				<div>
-					<img src="{{asset('assets/images/Logo subastek sin fondo.png')}}" style="height: 50px;width:200px" class="logo-icon" alt="logo icon">
+					<img src="{{asset($data['#logo']['image']??'assets/images/Logo subastek sin fondo.png')}}" style="height: 50px;width:200px" class="logo-icon" alt="logo icon">
 				</div>
 				<!-- <div>
 					<h4 class="logo-text">subastek</h4>
@@ -132,7 +135,7 @@
 					</a>
 				</li>
                 @endcan
-				@can('faq_category_access')
+				{{-- @can('faq_category_access')
 				<li>
 					<a href="{{url('admin/faq-category')}}">
 						<div class="parent-icon"><i class='bx bx-cookie'></i>
@@ -140,7 +143,7 @@
 						<div class="menu-title">FAQ Categories</div>
 					</a>
 				</li>
-                @endcan
+                @endcan --}}
 				@can('faq_access')
 				<li>
 					<a href="{{url('admin/faq')}}">

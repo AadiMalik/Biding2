@@ -44,7 +44,10 @@
                                         Title
                                     </th>
                                     <th>
-                                        Category
+                                        Image
+                                    </th>
+                                    <th>
+                                        Video
                                     </th>
                                     <th>
                                         Description
@@ -67,7 +70,12 @@
                                             {{ $item->title ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $item->category_name->name ?? '' }}
+                                            @if($item->image!=null)
+                                            <img src="{{asset($item->image??'')}}" style="height: 100px; width:100px;" alt="">
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $item->video ?? '' }}
                                         </td>
                                         <td>
                                             {{ str_limit($item->description ?? '', 60, '(....)') }}

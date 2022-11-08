@@ -1,11 +1,13 @@
+@php
+    $data = content();
+@endphp
 @extends('layouts.app')
-
 @section('content')
-    <section class="banner_OPINIONES">
+    <section class="banner_OPINIONES" style="background: url({{asset($data['#opinion_header']['image']??'')}});">
         <div class="container">
             <div class="OPINIONES_content">
-                <h2>60361</h2>
-                <h3> OPINIONES Y TESTIMONIOS
+                <h2>{{$data['#opinion_header']['heading']??''}}</h2>
+                <h3> {!!$data['#opinion_header']['description']??''!!}
                 </h3>
             </div>
         </div>

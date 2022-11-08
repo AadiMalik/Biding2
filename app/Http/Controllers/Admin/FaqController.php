@@ -27,8 +27,7 @@ class FaqController extends Controller
      */
     public function create()
     {
-        $faqCategory = FaqCategory::orderBy('name','ASC')->get();
-        return view('admin/faq.create',compact('faqCategory'));
+        return view('admin/faq.create');
     }
 
     /**
@@ -42,14 +41,20 @@ class FaqController extends Controller
         $validation = $request->validate(
             [
                 'title' => 'required',
-                'category' => 'required',
                 'description' => 'required',
             ]
         );
         $faq = new Faq;
         $faq->title = $request->title;
         $faq->description = $request->description;
-        $faq->category_id = $request->category;
+        $faq->video = $request->video;
+        if ($request->hasfile('image')) {
+            $image = $request->file('image');
+            $upload = 'img/';
+            $filename = time() . $image->getClientOriginalName();
+            $path    = move_uploaded_file($image->getPathName(), $upload . $filename);
+            $faq->image = $upload . $filename;
+        }
         $faq->save();
         return redirect('admin/faq');
     }
@@ -74,8 +79,7 @@ class FaqController extends Controller
     public function edit($id)
     {
         $faq = Faq::find($id);
-        $faqCategory = FaqCategory::orderBy('name','ASC')->get();
-        return view('admin/faq.edit',compact('faq','faqCategory'));
+        return view('admin/faq.edit',compact('faq'));
     }
 
     /**
@@ -90,14 +94,20 @@ class FaqController extends Controller
         $validation = $request->validate(
             [
                 'title' => 'required',
-                'category' => 'required',
                 'description' => 'required',
             ]
         );
         $faq = Faq::find($id);
         $faq->title = $request->title;
         $faq->description = $request->description;
-        $faq->category_id = $request->category;
+        $faq->video = $request->video;
+        if ($request->hasfile('image')) {
+            $image = $request->file('image');
+            $upload = 'img/';
+            $filename = time() . $image->getClientOriginalName();
+            $path    = move_uploaded_file($image->getPathName(), $upload . $filename);
+            $faq->image = $upload . $filename;
+        }
         $faq->update();
         return redirect('admin/faq');
     }

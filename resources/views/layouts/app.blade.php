@@ -1,5 +1,6 @@
 @php
     $media = media();
+    $data = content();
 @endphp
 <!doctype html>
 <html lang="en">
@@ -12,7 +13,7 @@
     <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="shortcut icon" href="{{ asset('assets/images/Logo subastek sin fondo.png') }}" type="image/x-icon">
-    <title>Subastas Online</title>
+    <title>{{$data['#tab_heading']['heading']??''}}</title>
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -41,7 +42,7 @@
                             aria-labelledby="offcanvasExampleLabel">
                             <div class="offcanvas-header">
                                 <img class="offcanvas-title mx-auto" class="offcanvas-title"
-                                    src="{{ asset('assets/images/Logo subastek sin fondo.png') }}" alt="">
+                                    src="{{ asset($data['#logo']['image']??'assets/images/Logo subastek sin fondo.png') }}" alt="">
                                 <h5 class="offcanvas-title"></h5>
                                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                                     aria-label="Close"></button>
@@ -137,7 +138,7 @@
                                 <h3>AYUDA</h3>
                                 <a href="{{ url('como-funciona') }}">¿Cómo funciona?</a>
                                 <a href="{{ url('comprar-bids') }}">¿Cómo se obtienen las Pujas?</a>
-                                <a href="{{url('como-funciona')}}">FAQ</a>
+                                <a href="{{url('faq')}}">FAQ</a>
                             </div>
                         </div>
                     </div>
@@ -157,12 +158,12 @@
                                 alt="">
                         </div>
                         <p><img src="https://f40606d012fc5041995f-84106119f45676330dd7c41909df20d6.ssl.cf2.rackcdn.com/images/security-payment.png')}}"
-                                alt=""> 100% easy and secure payment</p>
+                                alt=""> {{$data['#payment_card']['description']??''}}</p>
                     </div>
                 </div>
                 <div class="footer_head text-center">
                     <h4>
-                        FOLLOW US ON SOCIAL NETWORKS
+                        {{$data['#follow_us']['heading']??''}}
                     </h4>
                     <div class="footer_icon">
                         @foreach ($media as $item)
@@ -171,7 +172,7 @@
                         @endforeach
                     </div>
                     <p>
-                        ®2022 Ltd.</p>
+                        {{$data['#copyright']['heading']??''}}</p>
                 </div>
             </div>
         </div>

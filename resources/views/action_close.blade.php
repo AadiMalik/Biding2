@@ -1,3 +1,6 @@
+@php
+    $data = content();
+@endphp
 @extends('layouts.app')
 
 @section('content')

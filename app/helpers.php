@@ -2,23 +2,25 @@
 
 use Carbon\Carbon;
 
-// function content(){
-//         $contents  = App\Content::get();
-//         $data      = array();
-//         foreach($contents as $content){
-//             $data[$content->key] = [
-//                 'page'      => $content->page,
-//                 'heading'   => $content->heading,
-//                 'key'       => $content->key,
-//                 'description'      => $content->description,
-//                 'image'     => $content->image,
-//                 'created_at'        => $content->created_at,
-//                 'updated_at'        => $content->updated_at,
+function content(){
+        $contents  = App\Content::get();
+        $data      = array();
+        foreach($contents as $content){
+            $data[$content->key] = [
+                'page'      => $content->page,
+                'heading'   => $content->heading,
+                'icon'   => $content->icon,
+                'key'       => $content->key,
+                'link'   => $content->link,
+                'description'      => $content->description,
+                'image'     => $content->image,
+                'created_at'        => $content->created_at,
+                'updated_at'        => $content->updated_at,
 
-//             ];
-//         }
-//         return $data;
-//     }
+            ];
+        }
+        return $data;
+    }
     function media(){
         $media  = App\SocialMedia::orderBy('id','ASC')->get();
         return $media;

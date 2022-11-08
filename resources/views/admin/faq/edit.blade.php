@@ -19,18 +19,18 @@
                     </div>
                 @endif
             </div>
+            @if($faq->image!=null)
             <div class="form-group">
-                <label class="required" for="category">Category</label>
-                <select name="category" class="form-control" id="" required>
-                    @foreach ($faqCategory as $item)
-                    <option value="{{$item->id}}" {{($faq->category_id == $item->id)?'selected':''}}>{{$item->name??''}}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('category'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('category') }}
-                    </div>
-                @endif
+                <img src="{{asset($faq->image??'')}}" style="width: 100px; width:100px;" alt="">
+            </div>
+            @endif
+            <div class="form-group">
+                <label class="required" for="image">Image(optional)</label>
+                <input type="file" name="image" class="form-control" id="">
+            </div>
+            <div class="form-group">
+                <label class="required" for="video">Video(optional)</label>
+                <input type="text" name="video" value="{{$faq->video??''}}" class="form-control" id="">
             </div>
             <div class="form-group">
                 <label class="required" for="description">Description</label>

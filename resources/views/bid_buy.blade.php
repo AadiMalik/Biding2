@@ -1,3 +1,6 @@
+@php
+    $data = content();
+@endphp
 @extends('layouts.app')
 @section('style')
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -6,7 +9,7 @@
 <section class="bid_buy">
     <div class="conatiner">
         <div class="bid_image  ">
-            <img src="https://c55eb557d63a774402c1-6c5abf0376c5bc9ea81a0b21240a34f4.ssl.cf2.rackcdn.com/es/img_buybids_fuoritutto_settembre2022.png"
+            <img src="{{asset($data['#buy_header']['image']??'')}}"
                 alt="">
             <div class="bid_timer  ">
                 <p class="timer_con">Caduca en:</p>
@@ -230,11 +233,12 @@
         <div class="row">
             <div class="col-12 col-md-8 col-lg-6 mx-auto">
                 <div class="Guarantee_card">
-                    <img src="assets/images/cockade.svg" alt="">
+                    <img src="{{asset($data['#guarantee_card']['image']??'assets/images/cockade.svg')}}" alt="">
                     <div>
-                        <h3>"Zero Risk" ofertas Guarantee</h3>
+                        <h3>{{$data['#guarantee_card']['heading']}}</h3>
                         <p>
-                            Si no gana una subasta, puede comprar el artículo a precio de mercado y le reembolsaremos todas las ofertas que gastó durante la subasta.</p>
+                            {!!$data['#guarantee_card']['description']!!}
+                            </p>
                     </div>
                 </div>
             </div>
