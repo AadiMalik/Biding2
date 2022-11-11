@@ -31,6 +31,7 @@ Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
 });
 
 Route::get('/', 'HomeController@home')->name('/');
+Route::post('bid-product', 'HomeController@bidByUser')->middleware('auth');
 Route::get('product', 'HomeController@product')->name('product.index');
 Route::get('subasta/{slug}','HomeController@product_detail');
 Route::get('opiniones', 'HomeController@opinion');

@@ -10,7 +10,7 @@
                         <h4>Mi Subastek</h4>
                     </div>
                     <div class="my_auction_body">
-                        <a href="#">
+                        <a href="{{url('comprar-bids')}}">
                             <img src="assets/images/cart.svg" alt="">
                             <p>Comprar Pujas </p>
                         </a>

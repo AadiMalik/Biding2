@@ -1,4 +1,4 @@
-<?php $segment1 = Request::segment(1) ?>
+<?php $segment1 = Request::segment(1); ?>
 @extends('layouts.app')
 @section('content')
     <section class="Home_banner d-md-block d-none">
@@ -13,10 +13,9 @@
             </div>
             <div class="carousel-inner">
                 @foreach ($slider as $item)
-                <div class="carousel-item @if($loop->first) active @endif">
-                    <img src="{{$item->image??''}}"
-                        class="d-block w-100" alt="...">
-                </div>
+                    <div class="carousel-item @if ($loop->first) active @endif">
+                        <img src="{{ $item->image ?? '' }}" class="d-block w-100" alt="...">
+                    </div>
                 @endforeach
                 {{-- <div class="carousel-item">
                     <img src="https://c55eb557d63a774402c1-6c5abf0376c5bc9ea81a0b21240a34f4.ssl.cf2.rackcdn.com/es/miglior-sito-aste-online_large_b.png"
@@ -44,13 +43,14 @@
             <div class="row">
                 <div class="col-md-10 col-12 my-auto mx-auto ">
                     <div class="owl-carousel owl-theme category-slider">
-                        <div class="item"><a @if($search == '') class="active1" @endif id="v_id"
-                            href="/" >All Auction</a></div>
+                        <div class="item"><a @if ($search == '') class="active1" @endif id="v_id"
+                                href="/">All Auction</a></div>
                         @foreach ($category as $item)
-                        @if($item->id!=2)
-                            <div class="item"><a @if($search == $item->id) class="active1" @endif data-value="{{ $item->name }}" id="v_id"
-                                    href="/?search={{ $item->id ?? '' }}" >{{ ucwords($item->name) ?? '' }}</a></div>
-                                    @endif
+                            @if ($item->id != 2)
+                                <div class="item"><a @if ($search == $item->id) class="active1" @endif
+                                        data-value="{{ $item->name }}" id="v_id"
+                                        href="/?search={{ $item->id ?? '' }}">{{ ucwords($item->name) ?? '' }}</a></div>
+                            @endif
                         @endforeach
                     </div>
                 </div>
@@ -97,43 +97,76 @@
             </div> --}}
         </div>
     </section>
-
 @endsection
 @section('script')
-<script>
-    var SITEURL = "{{ route('product.index') }}";
-    var page = 1; //track user scroll as page number, right now page number is 1
-    load_more(page); //initial content load
-    $(window).scroll(function() { //detect page scroll
-       if($(window).scrollTop() + $(window).height() >= $(document).height()) { //if user scrolled from top to bottom of the page
-       page++; //page number increment
-       load_more(page); //load content   
-       }
-     });     
-     function load_more(page){
-         $.ajax({
-            url: SITEURL + "?page=" + page,
-            type: "get",
-            datatype: "html",
-            beforeSend: function()
-            {
-               $('.ajax-loading').show();
-             }
-         })
-         .done(function(data)
-         {
-             if(data.length == 0){
-             //notify user if nothing to load
-             $('.ajax-loading').html("No more records!");
-             return;
-           }
-           $('.ajax-loading').hide(); //hide loading animation once data is received
-           $("#results").append(data); //append data into #results element     
-        })
-        .fail(function(jqXHR, ajaxOptions, thrownError)
-        {
-           alert('No response from server');
+    <script>
+        var SITEURL = "{{ route('product.index') }}";
+        var page = 1; //track user scroll as page number, right now page number is 1
+        load_more(page); //initial content load
+        $(window).scroll(function() { //detect page scroll
+            if ($(window).scrollTop() + $(window).height() >= $(document)
+                .height()) { //if user scrolled from top to bottom of the page
+                page++; //page number increment
+                load_more(page); //load content   
+            }
         });
-     }
- </script>
+
+        function load_more(page) {
+            $.ajax({
+                    url: SITEURL + "?page=" + page,
+                    type: "get",
+                    datatype: "html",
+                    beforeSend: function() {
+                        $('.ajax-loading').show();
+                    }
+                })
+                .done(function(data) {
+                    if (data.length == 0) {
+                        //notify user if nothing to load
+                        $('.ajax-loading').html("No more records!");
+                        return;
+                    }
+                    $('.ajax-loading').hide(); //hide loading animation once data is received
+                    $("#results").append(data); //append data into #results element     
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    alert('No response from server');
+                });
+        }
+        //  Bid 
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        function Bid(id) {
+            var product_id = id;
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('bid-product') }}",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    product_id: product_id,
+                },
+
+                success: function(data) {
+                    timeLeft = 8;
+
+                    function countdown() {
+                        var check = 'seconds'+id;
+
+                        timeLeft--;
+                        document.getElementById(check).innerHTML = String(timeLeft);
+                        if (timeLeft > 0) {
+                            setTimeout(countdown, 1000);
+                        }
+                    };
+
+                    setTimeout(countdown, 1000);
+                }
+            });
+        };
+    </script>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BidUse;
 use App\Faq;
 use App\FaqCategory;
 use App\Models\Service;
@@ -39,78 +40,141 @@ class HomeController extends Controller
         $data = '';
         if ($request->ajax()) {
             foreach ($products as $key => $product) {
+                $user_book = "";
+                $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
+                $user_book = $bid_user->user_name->name ?? "";
                 $data .= '<div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
                 <div class="card">
-                    <a href="subasta/'.$product->slug.'">
-                        <img class="p-1 img2" src="'.asset("$product->image1").'" alt="">
-                        <a class="title">$ '.$product->limit.' Tienda</a>
+                    <a href="subasta/' . $product->slug . '">
+                        <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
+                        <a class="title">$ ' . $product->limit . ' Tienda <br>
+                        <span class="nickname">' . $product->name . '</span></a>
 
-                        <span class="card_prize">$'. $product->price.'</span>
-                        <span class="nickname">'.$product->name .'</span>
-                        <h4 class="card_time">Hoy a las '.$product->from .'</h4>
-                        <div class="card_rebre">
-                            <h4>REABRE PRONTO</h4>
+                        <span class="card_prize">$' . $product->price . '</span>
+                        <span class="nickname">' . $user_book . '</span></a>
+                        <span id="seconds'.$product->id.'" style="color:red;text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;">8</span>
+                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
+                        <div class="card_rebre" style="background: green; margin-bottom:0px;">
+                            <h4>PUJAR</h4>
                         </div>
+                        </a>
                         <div class="d-flex p-1">
                             <button class="btn btn_theme1 mx-1">
-                                <i class="fas fa-shopping-cart"></i>'.$product->price.'
-                                $'.$product->price .'</button>
+                                <i class="fas fa-shopping-cart"></i>' . $product->price . '
+                                $' . $product->price . '</button>
                             <button class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>UNO
                                 MISMO</button>
                         </div>
                     </a>
                 </div>
-            </div>';
+            </div>
+            ';
                 // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
             }
             return $data;
         }
+
+        // <h4>REABRE PRONTO</h4>
         return view('welcome');
+    }
+    public function bidByUser(Request $request)
+    {
+        $bid = new BidUse;
+        $bid->product_id = $request->product_id;
+        $bid->user_id = Auth()->user()->id;
+        $product_bid = Product::find($request->product_id);
+        $bid->bids = $product_bid->bid;
+        $bid->save();
+        $products = Product::paginate(10);
+        $data = '';
+        if ($request->ajax()) {
+            foreach ($products as $key => $product) {
+                $user_book = "";
+                $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
+                $user_book = $bid_user->user_name->name ?? "";
+                $data .= '<div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
+                <div class="card">
+                    <a href="subasta/' . $product->slug . '">
+                        <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
+                        <a class="title">$ ' . $product->limit . ' Tienda <br>
+                        <span class="nickname">' . $product->name . '</span></a>
+
+                        <span class="card_prize">$' . $product->price . '</span>
+                        <span class="nickname">' . $user_book . '</span></a>
+                        <span id="seconds'.$product->id.'" style="color:red;text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;">8</span>
+                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
+                        <div class="card_rebre" style="background: green; margin-bottom:0px;">
+                            <h4>PUJAR</h4>
+                        </div>
+                        </a>
+                        <div class="d-flex p-1">
+                            <button class="btn btn_theme1 mx-1">
+                                <i class="fas fa-shopping-cart"></i>' . $product->price . '
+                                $' . $product->price . '</button>
+                            <button class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>UNO
+                                MISMO</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            ';
+                // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
+            }
+            return $data;
+        }
     }
     public function opinion()
     {
-        $opinion = Opinion::where('status',0)->get();
-        return view('opinions',compact('opinion'));
+        $opinion = Opinion::where('status', 0)->get();
+        return view('opinions', compact('opinion'));
     }
     public function opinion_auto(Request $request)
     {
-        $opinion = Opinion::where('status',0)->orderBy('created_at','DESC')->paginate(5);
+        $opinion = Opinion::where('status', 0)->orderBy('created_at', 'DESC')->paginate(5);
         $like = OpinionLike::all();
         $data = '';
         if ($request->ajax()) {
             foreach ($opinion as $key => $item) {
-                if(Auth::user()){
-                $active = $like->where('opinion_id',$item->id)->where('user_id',Auth()->user()->id)->count();
-                }else{
-                    $active = $like->where('opinion_id',$item->id)->count();
+                if (Auth::user()) {
+                    $active = $like->where('opinion_id', $item->id)->where('user_id', Auth()->user()->id)->count();
+                } else {
+                    $active = $like->where('opinion_id', $item->id)->count();
                 }
                 $data .= '<div class="auction_box">
                 <div class="row py-3" id="results">
                 <div class="col-md-9 col-12 mt-2">
                 <a href="#">
                     <div class="Daanniele">
-                    <h2>'.$item->user_name->name.' <span>ha compartido su logro</span></h2>
+                    <h2>' . $item->user_name->name . ' <span>ha compartido su logro</span></h2>
                         <div class="row">
                             <div class="col-5 col-md-3">
-                                <img src="'.asset($item->product_name->image1).'" alt="">
+                                <img src="' . asset($item->product_name->image1) . '" alt="">
                             </div>
                             <div class="col-5 col-md-6">
-                                <h3>'.$item->product_name->name.' </h3>
-                                <h4>'.$item->product_name->price.'  $ </h4>
-                                <p>'.$item->product_name->price.'  $ </p>
+                                <h3>' . $item->product_name->name . ' </h3>
+                                <h4>' . $item->product_name->price . '  $ </h4>
+                                <p>' . $item->product_name->price . '  $ </p>
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
             <div class="col-md-3 col-12 mt-2">
-                                <img src="'.asset("$item->image").'"
+                                <img src="' . asset("$item->image") . '"
                                 alt="">
                             </div>
                             </div>
                             <div class="gusta_btn">
-                            <button class="btn"'. ((int)$active>0 ? ' style="background: #0080FF; color: #fff;" ':'').' onclick="Like('.$item->id.')">Me Gusta</button>
-                            <span>('.$like->where('opinion_id',$item->id)->count().')</span>
+                            <button class="btn"' . ((int)$active > 0 ? ' style="background: #0080FF; color: #fff;" ' : '') . ' onclick="Like(' . $item->id . ')">Me Gusta</button>
+                            <span>(' . $like->where('opinion_id', $item->id)->count() . ')</span>
                         </div>';
                 // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
             }
@@ -120,7 +184,7 @@ class HomeController extends Controller
     }
     public function most_opinion_auto(Request $request)
     {
-        $opinion = Opinion::where('status',0)->orderBy('id','ASC')->paginate(5);
+        $opinion = Opinion::where('status', 0)->orderBy('id', 'ASC')->paginate(5);
         $like = OpinionLike::all();
         // $query ='SELECT opinions.id, opinions.user_id, opinions.image, opinions.product_id,
         // products.image1, products.name as product_name, products.price, users.name as u_name,opinion_likes.opinion_id,
@@ -134,39 +198,39 @@ class HomeController extends Controller
         $data = '';
         if ($request->ajax()) {
             foreach ($opinion as $key => $item) {
-                if(Auth::user()){
-                    $active = $like->where('opinion_id',$item->id)->where('user_id',Auth()->user()->id)->count();
-                    }else{
-                        $active = $like->where('opinion_id',$item->id)->count();
-                    }
-                
+                if (Auth::user()) {
+                    $active = $like->where('opinion_id', $item->id)->where('user_id', Auth()->user()->id)->count();
+                } else {
+                    $active = $like->where('opinion_id', $item->id)->count();
+                }
+
                 $data .= '<div class="auction_box">
                 <div class="row py-3" id="results">
                 <div class="col-md-9 col-12 mt-2">
                 <a href="#">
                     <div class="Daanniele">
-                    <h2>'.$item->user_name->name.' <span>ha compartido su logro</span></h2>
+                    <h2>' . $item->user_name->name . ' <span>ha compartido su logro</span></h2>
                         <div class="row">
                             <div class="col-5 col-md-3">
-                                <img src="'.asset($item->product_name->image1).'" alt="">
+                                <img src="' . asset($item->product_name->image1) . '" alt="">
                             </div>
                             <div class="col-5 col-md-6">
-                                <h3>'.$item->product_name->name.' </h3>
-                                <h4>'.$item->product_name->price.'  $ </h4>
-                                <p>'.$item->product_name->price.'  $ </p>
+                                <h3>' . $item->product_name->name . ' </h3>
+                                <h4>' . $item->product_name->price . '  $ </h4>
+                                <p>' . $item->product_name->price . '  $ </p>
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
             <div class="col-md-3 col-12 mt-2">
-                                <img src="'.asset("$item->image").'"
+                                <img src="' . asset("$item->image") . '"
                                 alt="">
                             </div>
                             </div>
                             <div class="gusta_btn">
-                            <button class="btn"'. ((int)$active>0 ? ' style="background: #0080FF; color: #fff;" ':'').' onclick="Like('.$item->id.')">Me Gusta</button>
-                            <span>('.$like->where('opinion_id',$item->id)->count().')</span>
+                            <button class="btn"' . ((int)$active > 0 ? ' style="background: #0080FF; color: #fff;" ' : '') . ' onclick="Like(' . $item->id . ')">Me Gusta</button>
+                            <span>(' . $like->where('opinion_id', $item->id)->count() . ')</span>
                         </div>';
                 // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
             }
@@ -174,12 +238,13 @@ class HomeController extends Controller
         }
         return view('opinions');
     }
-    public function likes(Request $request){
-        $check = OpinionLike::where('user_id',Auth()->user()->id)->where('opinion_id',$request->opinion_id)->first();
-        if($check!=null){
+    public function likes(Request $request)
+    {
+        $check = OpinionLike::where('user_id', Auth()->user()->id)->where('opinion_id', $request->opinion_id)->first();
+        if ($check != null) {
             $check->delete();
             return back();
-        }else{
+        } else {
             $opinion = new OpinionLike;
             $opinion->user_id = Auth()->user()->id;
             $opinion->opinion_id = $request->opinion_id;
@@ -191,35 +256,35 @@ class HomeController extends Controller
     {
         $package = Package::get();
         $payment_method = PaymentMethod::all();
-        return view('bid_buy',compact('package','payment_method'));
+        return view('bid_buy', compact('package', 'payment_method'));
     }
     public function how_work()
     {
         return view('how_work');
     }
-    public function faq(){
+    public function faq()
+    {
         $faq = Faq::all();
-        return view('faq',compact('faq'));
+        return view('faq', compact('faq'));
     }
     public function home(Request $request)
     {
-        
-        $search=$request->search;
+
+        $search = $request->search;
         $query = Product::query();
-        if($search!=''){
-            $query->where('category_id',$search);   
+        if ($search != '') {
+            $query->where('category_id', $search);
         }
-        $product=$query->orderBy('id','desc')->get();
-        
+        $product = $query->orderBy('id', 'desc')->get();
+
         $category = Category::all();
         $slider = Slider::all();
-        return view('welcome',compact('product','category','search','slider'));
-       
+        return view('welcome', compact('product', 'category', 'search', 'slider'));
     }
     public function product_detail($slug)
     {
-        $product=Product::where('slug',$slug)->first();
-        return view('product_detail',compact('product'));
+        $product = Product::where('slug', $slug)->first();
+        return view('product_detail', compact('product'));
     }
     // public function Cv_Builder(){
     //     return view('cv_builder');
@@ -236,10 +301,10 @@ class HomeController extends Controller
     public function redirect()
     {
         if (auth()->user()->is_admin) {
-        
+
             return redirect()->route('admin.home')->with('status', session('status'));
         }
-      
+
         return redirect()->route('client.home')->with('status', session('status'));
     }
 }
