@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Package;
 use App\PackageBuy;
 use App\PaymentMethod;
+use App\User;
 use Illuminate\Http\Request;
 use Session;
 use Stripe;
@@ -72,6 +73,10 @@ class PackageBuyController extends Controller
         $payment->price = $package->price;
         $payment->bids = $package->bids;
         $payment->save();
+        $user = User::find(Auth()->user()->id);
+        $user->package_id =$request->package_id;
+        $user->bids = $user->bids + $package->bids;
+        $user->update();
         return redirect('/');
     }
 

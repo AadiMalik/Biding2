@@ -59,7 +59,7 @@
 
     </section>
     <section class="product_card">
-        <div class="container">
+        <div class="container" id="refresh">
             <div class="row" id="results"></div>
             <div class="ajax-loading"><img style="height: 100px; width:100px;" src="{{ asset('img/loading.gif') }}" /></div>
             {{-- <div class="row">
@@ -98,7 +98,17 @@
         </div>
     </section>
 @endsection
+
+
 @section('script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#results").load("{{ route('product.index') }}");
+            setInterval(function() {
+                $("#results").load("{{ route('product.index') }}");
+            }, 3000);
+        });
+    </script>
     <script>
         var SITEURL = "{{ route('product.index') }}";
         var page = 1; //track user scroll as page number, right now page number is 1
@@ -141,6 +151,36 @@
             }
         });
 
+        function Win(id){
+            var product_id = id;
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('win-product') }}",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    product_id: product_id,
+                },
+
+                success: function(data) {
+                    var element = document.getElementById("win");
+                    element.classList.add("count_green");
+                    timeLeft = 10;
+
+                    function countdown() {
+                        var check = 'seconds' + id;
+
+                        timeLeft--;
+                        document.getElementById(check).innerHTML = String(timeLeft);
+                        if (timeLeft > 0) {
+                            setTimeout(countdown, 1000);
+                        }
+                    };
+
+                    setTimeout(countdown, 1000);
+                }
+            });
+        }
+
         function Bid(id) {
             var product_id = id;
             $.ajax({
@@ -152,15 +192,18 @@
                 },
 
                 success: function(data) {
-                    timeLeft = 8;
+                    timeLeft = 10;
 
                     function countdown() {
-                        var check = 'seconds'+id;
+                        var check = 'seconds' + id;
 
                         timeLeft--;
                         document.getElementById(check).innerHTML = String(timeLeft);
                         if (timeLeft > 0) {
                             setTimeout(countdown, 1000);
+                        }
+                        if(timeLeft==0){
+                            Win(product_id);
                         }
                     };
 

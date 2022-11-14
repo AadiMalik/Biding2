@@ -24,6 +24,9 @@
         .ajax-loading {
             text-align: center;
         }
+        .count_green{
+            color:green;
+        }
     </style>
     @yield('style')
 </head>

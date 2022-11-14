@@ -26,12 +26,17 @@ Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
     Route::get('home', 'HomeController@redirect');
 
     Route::get('dashboard', 'HomeController@index')->name('home');
+    Route::get('bid-use', 'BidUseController@index')->name('bid-use');
+    Route::get('win-product', 'WinProductController@index')->name('win-product');
+    Route::get('buy-product/{id}', 'WinProductController@pay_product');
+    Route::post('product-payment', 'WinProductController@payment');
 
     
 });
 
 Route::get('/', 'HomeController@home')->name('/');
 Route::post('bid-product', 'HomeController@bidByUser')->middleware('auth');
+Route::post('win-product', 'HomeController@winByUser')->middleware('auth');
 Route::get('product', 'HomeController@product')->name('product.index');
 Route::get('subasta/{slug}','HomeController@product_detail');
 Route::get('opiniones', 'HomeController@opinion');

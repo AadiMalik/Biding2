@@ -18,6 +18,7 @@ use App\Review;
 use App\Sector;
 use App\Slider;
 use App\Support;
+use App\User;
 use App\WritingPoint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,9 +41,15 @@ class HomeController extends Controller
         $data = '';
         if ($request->ajax()) {
             foreach ($products as $key => $product) {
+                if (Auth::user()) {
+                    $check = Auth()->user()->id;
+                } else {
+                    $check = 0;
+                }
                 $user_book = "";
                 $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
                 $user_book = $bid_user->user_name->name ?? "";
+                $user_id = $bid_user->user_id ?? "";
                 $data .= '<div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
                 <div class="card">
                     <a href="subasta/' . $product->slug . '">
@@ -50,19 +57,45 @@ class HomeController extends Controller
                         <a class="title">$ ' . $product->limit . ' Tienda <br>
                         <span class="nickname">' . $product->name . '</span></a>
 
-                        <span class="card_prize">$' . $product->price . '</span>
-                        <span class="nickname">' . $user_book . '</span></a>
-                        <span id="seconds'.$product->id.'" style="color:red;text-align: center;
+                        <span class="card_prize">$' . $product->bid_price . '</span>
+                        <span class="nickname">' . $user_book . '</span></a>';
+                if ($product->win == null) {
+                    if ($check != $user_id) {
+                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
-                        font-weight: bold;">8</span>
+                        font-weight: bold;" id="win">10</span>
                         <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
                         <input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
                             <h4>PUJAR</h4>
                         </div>
-                        </a>
-                        <div class="d-flex p-1">
+                        </a>';
+                    } else {
+                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;" id="win">10</span>
+                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        <span style="width:100%; border:none;">
+                        <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
+                            <h4>PUJAR</h4>
+                        </div>
+                        </span>';
+                    }
+                } elseif ($product->win != null) {
+                    $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                    font-size: 18px;
+                    font-weight: bold;" id="win">10</span>
+                    <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                    <input type="hidden" value="' . $product->id . '" id="product_id">
+                    <span style="width:100%; border:none;">
+                    <div class="card_rebre" style="background: gray; margin-bottom:0px;">
+                        <h4>WINDIDO</h4>
+                    </div>
+                    </span>';
+                }
+                $data .= '<div class="d-flex p-1">
                             <button class="btn btn_theme1 mx-1">
                                 <i class="fas fa-shopping-cart"></i>' . $product->price . '
                                 $' . $product->price . '</button>
@@ -83,12 +116,101 @@ class HomeController extends Controller
     }
     public function bidByUser(Request $request)
     {
+        $check = BidUse::where('product_id', $request->product_id)->where('user_id', Auth()->user()->id)->orderBy('created_at', 'DESC')->first();
         $bid = new BidUse;
         $bid->product_id = $request->product_id;
         $bid->user_id = Auth()->user()->id;
         $product_bid = Product::find($request->product_id);
+        $product_bid->bid_price = $product_bid->bid_price + $product_bid->limit;
         $bid->bids = $product_bid->bid;
-        $bid->save();
+        if (Auth()->user()->bids >= $product_bid->bid) {
+            $bid->save();
+            $product_bid->update();
+            // User Update
+            $user = User::find(Auth()->user()->id);
+            $user->bids = $user->bids - 1;
+            $user->update();
+            // Fetch Products
+            $products = Product::paginate(10);
+            $data = '';
+            if ($request->ajax()) {
+                foreach ($products as $key => $product) {
+                    $user_book = "";
+                    $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
+                    $user_book = $bid_user->user_name->name ?? "";
+                    $data .= '<div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
+                <div class="card">
+                    <a href="subasta/' . $product->slug . '">
+                        <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
+                        <a class="title">$ ' . $product->limit . ' Tienda <br>
+                        <span class="nickname">' . $product->name . '</span></a>
+
+                        <span class="card_prize">$' . $product->bid_price . '</span>
+                        <span class="nickname">' . $user_book . '</span></a>';
+                if ($product->win == null) {
+                    if (!isset($check)) {
+                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;" id="win">10</span>
+                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
+                        <div class="card_rebre" style="background: green; margin-bottom:0px;">
+                            <h4>PUJAR</h4>
+                        </div>
+                        </a>';
+                    } else {
+                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;" id="win">10</span>
+                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        <span style="width:100%; border:none;">
+                        <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
+                            <h4>PUJAR</h4>
+                        </div>
+                        </span>';
+                    }
+                } elseif ($product->win != null) {
+                    $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                    font-size: 18px;
+                    font-weight: bold;" id="win">10</span>
+                    <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                    <input type="hidden" value="' . $product->id . '" id="product_id">
+                    <span style="width:100%; border:none;">
+                    <div class="card_rebre" style="background: gray; margin-bottom:0px;">
+                        <h4>WINDIDO</h4>
+                    </div>
+                    </span>';
+                }
+                $data .= '<div class="d-flex p-1">
+                            <button class="btn btn_theme1 mx-1">
+                                <i class="fas fa-shopping-cart"></i>' . $product->price . '
+                                $' . $product->price . '</button>
+                            <button class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>UNO
+                                MISMO</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            ';
+                    // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
+                }
+                return $data;
+            } else {
+                return redirect('comprar-bids');
+            }
+        }
+    }
+    public function winByUser(Request $request)
+    {
+        $check = BidUse::where('product_id', $request->product_id)->orderBy('created_at', 'DESC')->first();
+        if ($check->user_id == Auth()->user()->id) {
+            $product = Product::find($request->product_id);
+            $product->win = Auth()->user()->id;
+            $product->update();
+        }
+        // Fetch Products
         $products = Product::paginate(10);
         $data = '';
         if ($request->ajax()) {
@@ -103,19 +225,45 @@ class HomeController extends Controller
                         <a class="title">$ ' . $product->limit . ' Tienda <br>
                         <span class="nickname">' . $product->name . '</span></a>
 
-                        <span class="card_prize">$' . $product->price . '</span>
-                        <span class="nickname">' . $user_book . '</span></a>
-                        <span id="seconds'.$product->id.'" style="color:red;text-align: center;
+                        <span class="card_prize">$' . $product->bid_price . '</span>
+                        <span class="nickname">' . $user_book . '</span></a>';
+                if ($product->win == null) {
+                    if (!isset($check)) {
+                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
-                        font-weight: bold;">8</span>
+                        font-weight: bold;" id="win">10</span>
                         <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
                         <input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
                             <h4>PUJAR</h4>
                         </div>
-                        </a>
-                        <div class="d-flex p-1">
+                        </a>';
+                    } else {
+                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;" id="win">10</span>
+                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        <span style="width:100%; border:none;">
+                        <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
+                            <h4>PUJAR</h4>
+                        </div>
+                        </span>';
+                    }
+                } elseif ($product->win != null) {
+                    $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                    font-size: 18px;
+                    font-weight: bold;" id="win">10</span>
+                    <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                    <input type="hidden" value="' . $product->id . '" id="product_id">
+                    <span style="width:100%; border:none;">
+                    <div class="card_rebre" style="background: gray; margin-bottom:0px;">
+                        <h4>WINDIDO</h4>
+                    </div>
+                    </span>';
+                }
+                $data .= '<div class="d-flex p-1">
                             <button class="btn btn_theme1 mx-1">
                                 <i class="fas fa-shopping-cart"></i>' . $product->price . '
                                 $' . $product->price . '</button>

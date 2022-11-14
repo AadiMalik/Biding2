@@ -10,4 +10,8 @@ class BidUse extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+    public function product_name()
+    {
+        return $this->belongsTo(Product::class,'product_id');
+    }
 }
