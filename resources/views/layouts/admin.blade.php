@@ -13,6 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--favicon-->
     <link rel="icon" href="/admin/images/favicon-32x32.png" type="image/png" />
+	<title>Bid</title>
     <!--plugins-->
     <link href="/admin/plugins/notifications/css/lobibox.min.css" rel="stylesheet" />
     <link href="/admin/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
@@ -34,7 +35,7 @@
     <link rel="stylesheet" href="/admin/css/dark-theme.css" />
     <link rel="stylesheet" href="/admin/css/semi-dark.css" />
     <link rel="stylesheet" href="/admin/css/header-colors.css" />
-    <title>@yield('style')</title>
+    @yield('style')
 </head>
 
 <body onload="info_noti()">
@@ -754,6 +755,7 @@
     </script>
     <!--app JS-->
     <script src="/admin/js/app.js"></script>
+	
     @yield('script')
 </body>
 

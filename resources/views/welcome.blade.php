@@ -103,6 +103,7 @@
 @section('script')
     <script type="text/javascript">
         $(document).ready(function() {
+            
             $("#results").load("{{ route('product.index') }}");
             setInterval(function() {
                 $("#results").load("{{ route('product.index') }}");

@@ -20,6 +20,7 @@ use App\Slider;
 use App\Support;
 use App\User;
 use App\WritingPoint;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -41,6 +42,10 @@ class HomeController extends Controller
         $data = '';
         if ($request->ajax()) {
             foreach ($products as $key => $product) {
+                $date_from = date('Y-m-d H:i:s', strtotime($product->from));
+                $date_to = date('Y-m-d H:i:s', strtotime($product->to));
+                $current = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+                $date = date('d-m-Y H:i:s', strtotime($product->from));
                 if (Auth::user()) {
                     $check = Auth()->user()->id;
                 } else {
@@ -54,40 +59,53 @@ class HomeController extends Controller
                 <div class="card">
                     <a href="subasta/' . $product->slug . '">
                         <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
-                        <a class="title">$ ' . $product->limit . ' Tienda <br>
+                        <a class="title">$ ' . $product->min_price . ' Tienda <br>
                         <span class="nickname">' . $product->name . '</span></a>
 
                         <span class="card_prize">$' . $product->bid_price . '</span>
                         <span class="nickname">' . $user_book . '</span></a>';
                 if ($product->win == null) {
-                    if ($check != $user_id) {
-                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                    if (($current > $date_from) && ($current < $date_to)) {
+                        if ($check != $user_id) {
+                            $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
                         <input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
                             <h4>PUJAR</h4>
                         </div>
                         </a>';
-                    } else {
-                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                        } else {
+                            $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
                         <input type="hidden" value="' . $product->id . '" id="product_id">
                         <span style="width:100%; border:none;">
                         <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
                             <h4>PUJAR</h4>
                         </div>
                         </span>';
+                        }
+                    } else {
+                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                                font-size: 18px;
+                                font-weight: bold;" id="win">10</span>
+                                <h4 class="card_time">Hoy a las ' . $date . '</h4>
+                                <input type="hidden" value="' . $product->id . '" id="product_id">
+                                <span style="width:100%; border:none;">
+                                <div class="card_rebre">
+                                         <h4> REOPEN SOON</h4>
+                                </div>
+                                </span>';
                     }
                 } elseif ($product->win != null) {
                     $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                     font-size: 18px;
                     font-weight: bold;" id="win">10</span>
-                    <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                    <h4 class="card_time">Hoy a las ' . $date . '</h4>
                     <input type="hidden" value="' . $product->id . '" id="product_id">
                     <span style="width:100%; border:none;">
                     <div class="card_rebre" style="background: gray; margin-bottom:0px;">
@@ -95,9 +113,10 @@ class HomeController extends Controller
                     </div>
                     </span>';
                 }
+
                 $data .= '<div class="d-flex p-1">
                             <button class="btn btn_theme1 mx-1">
-                                <i class="fas fa-shopping-cart"></i>' . $product->price . '
+                                <i class="fas fa-shopping-cart"></i>
                                 $' . $product->price . '</button>
                             <button class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>UNO
                                 MISMO</button>
@@ -121,7 +140,7 @@ class HomeController extends Controller
         $bid->product_id = $request->product_id;
         $bid->user_id = Auth()->user()->id;
         $product_bid = Product::find($request->product_id);
-        $product_bid->bid_price = $product_bid->bid_price + $product_bid->limit;
+        $product_bid->bid_price = $product_bid->bid_price + $product_bid->min_price;
         $bid->bids = $product_bid->bid;
         if (Auth()->user()->bids >= $product_bid->bid) {
             $bid->save();
@@ -135,6 +154,7 @@ class HomeController extends Controller
             $data = '';
             if ($request->ajax()) {
                 foreach ($products as $key => $product) {
+                    $date = date('d-m-Y H:i:s', strtotime($product->from));
                     $user_book = "";
                     $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
                     $user_book = $bid_user->user_name->name ?? "";
@@ -142,50 +162,50 @@ class HomeController extends Controller
                 <div class="card">
                     <a href="subasta/' . $product->slug . '">
                         <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
-                        <a class="title">$ ' . $product->limit . ' Tienda <br>
+                        <a class="title">$ ' . $product->min_price . ' Tienda <br>
                         <span class="nickname">' . $product->name . '</span></a>
 
                         <span class="card_prize">$' . $product->bid_price . '</span>
                         <span class="nickname">' . $user_book . '</span></a>';
-                if ($product->win == null) {
-                    if (!isset($check)) {
-                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                    if ($product->win == null) {
+                        if (!isset($check)) {
+                            $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
                         <input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
                             <h4>PUJAR</h4>
                         </div>
                         </a>';
-                    } else {
-                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                        } else {
+                            $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
                         <input type="hidden" value="' . $product->id . '" id="product_id">
                         <span style="width:100%; border:none;">
                         <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
                             <h4>PUJAR</h4>
                         </div>
                         </span>';
-                    }
-                } elseif ($product->win != null) {
-                    $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                        }
+                    } elseif ($product->win != null) {
+                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                     font-size: 18px;
                     font-weight: bold;" id="win">10</span>
-                    <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                    <h4 class="card_time">Hoy a las ' . $date . '</h4>
                     <input type="hidden" value="' . $product->id . '" id="product_id">
                     <span style="width:100%; border:none;">
                     <div class="card_rebre" style="background: gray; margin-bottom:0px;">
                         <h4>WINDIDO</h4>
                     </div>
                     </span>';
-                }
-                $data .= '<div class="d-flex p-1">
+                    }
+                    $data .= '<div class="d-flex p-1">
                             <button class="btn btn_theme1 mx-1">
-                                <i class="fas fa-shopping-cart"></i>' . $product->price . '
+                                <i class="fas fa-shopping-cart"></i>
                                 $' . $product->price . '</button>
                             <button class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>UNO
                                 MISMO</button>
@@ -215,6 +235,7 @@ class HomeController extends Controller
         $data = '';
         if ($request->ajax()) {
             foreach ($products as $key => $product) {
+                $date = date('d-m-Y H:i:s', strtotime($product->from));
                 $user_book = "";
                 $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
                 $user_book = $bid_user->user_name->name ?? "";
@@ -222,7 +243,7 @@ class HomeController extends Controller
                 <div class="card">
                     <a href="subasta/' . $product->slug . '">
                         <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
-                        <a class="title">$ ' . $product->limit . ' Tienda <br>
+                        <a class="title">$ ' . $product->min_price . ' Tienda <br>
                         <span class="nickname">' . $product->name . '</span></a>
 
                         <span class="card_prize">$' . $product->bid_price . '</span>
@@ -232,7 +253,7 @@ class HomeController extends Controller
                         $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
                         <input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
@@ -243,7 +264,7 @@ class HomeController extends Controller
                         $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
                         <input type="hidden" value="' . $product->id . '" id="product_id">
                         <span style="width:100%; border:none;">
                         <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
@@ -255,7 +276,7 @@ class HomeController extends Controller
                     $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                     font-size: 18px;
                     font-weight: bold;" id="win">10</span>
-                    <h4 class="card_time">Hoy a las ' . $product->from . '</h4>
+                    <h4 class="card_time">Hoy a las ' . $date . '</h4>
                     <input type="hidden" value="' . $product->id . '" id="product_id">
                     <span style="width:100%; border:none;">
                     <div class="card_rebre" style="background: gray; margin-bottom:0px;">
@@ -265,7 +286,7 @@ class HomeController extends Controller
                 }
                 $data .= '<div class="d-flex p-1">
                             <button class="btn btn_theme1 mx-1">
-                                <i class="fas fa-shopping-cart"></i>' . $product->price . '
+                                <i class="fas fa-shopping-cart"></i>
                                 $' . $product->price . '</button>
                             <button class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>UNO
                                 MISMO</button>

@@ -1,116 +1,114 @@
 @extends('layouts.admin')
+@section('style')
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+@endsection
 @section('content')
-<div class="page-wrapper">
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.edit') }} Product
+    <div class="page-wrapper">
+
+        <div class="page-content">
+
+            <div class="card">
+                <div class="card-body p-4">
+                    <h5 class="card-title">Update Product</h5>
+                    <hr />
+                    <div class="form-body mt-4">
+                        <form method="POST" action="{{ route("admin.product.update", $product->id) }}" enctype="multipart/form-data">
+                            @method('PUT')
+                            @csrf
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="border border-3 p-4 rounded">
+                                        <div class="mb-3">
+                                            <label for="inputProductTitle" class="form-label">Product Title</label>
+                                            <input type="text" class="form-control" id="inputProductTitle" name="name"
+                                                id="name" value="{{ $product->name??'' }}"
+                                                placeholder="Enter product title" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="inputProductDescription" class="form-label">Description</label>
+                                            <textarea class="form-control" name="description" id="summernote" value="{!! $product->description??'' !!}" rows="3"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="inputProductDescription" class="form-label">New Banner Image</label>
+                                            <input class="form-control" type="file" name="image1" id="image1">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="inputProductDescription" class="form-label">New Product Images</label>
+                                            <input id="image-uploadify" name="image[]" type="file"
+                                                accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf"
+                                                multiple>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="border border-3 p-4 rounded">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="inputPrice" class="form-label">Price</label>
+                                                <input type="text" class="form-control" id="inputPrice"
+                                                    placeholder="00.00" name="price" value="{{ $product->price??'' }}"
+                                                    required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="inputCompareatprice" class="form-label">Shipping Price</label>
+                                                <input type="text" class="form-control" id="inputCompareatprice"
+                                                    placeholder="00.00" name="shipping_price"
+                                                    value="{{ $product->shipping_price??'' }}" required>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="inputCostPerPrice" class="form-label">Start Date</label>
+                                                <input type="datetime-local" class="form-control" id="inputCostPerPrice"
+                                                    name="from" value="{{ $product->from??'' }}" required>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="inputCostPerPrice" class="form-label">End Date</label>
+                                                <input type="datetime-local" class="form-control" id="inputCostPerPrice"
+                                                    name="to" value="{{ $product->to??'' }}" required>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="inputStarPoints" class="form-label">Minimum Price</label>
+                                                <input type="number" class="form-control" id="inputStarPoints"
+                                                    name="min_price" placeholder="00.00" value="{{$product->min_price??''}}" required>
+                                            </div>
+											<div class="col-md-12">
+                                                <label for="inputStarPoints" class="form-label">Minimum bid Price</label>
+                                                <input type="number" class="form-control" id="inputStarPoints"
+                                                    name="min_bid_price" placeholder="00.00" value="{{$product->min_bid_price??''}}" required>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="inputProductType" class="form-label">Category</label>
+                                                <select name="category" class="form-select" id="inputProductType" required style="font-size: 14px;">
+                                                    @foreach ($category as $item)
+                                                        <option value="{{ $item->id }}" {{($product->category_id==$item->id)?'selected':''}}>{{ $item->name ?? '' }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="d-grid">
+                                                    <button type="submit" class="btn btn-primary">Update Product</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end row-->
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    <div class="card-body">
-        <form method="POST" action="{{ route("admin.product.update", $product->id) }}" enctype="multipart/form-data">
-            @method('PUT')
-            @csrf
-            <div class="form-group">
-                <label class="required" for="name">name</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{$product->name}}" required>
-                @if($errors->has('name'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('name') }}
-                    </div>
-                @endif
-            </div>
-            <div class="form-group">
-                <label class="required" for="to">Category</label>
-                <select name="category" class="form-control" id="" required>
-                    @foreach ($category as $item)
-                    <option value="{{$item->id}}" {{($product->category_id==$item->id)?'selected':''}}>{{$item->name??''}}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('to'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('to') }}
-                    </div>
-                @endif
-            </div>
-            <div class="form-group">
-                <label class="required" for="price">Price</label>
-                <input class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" type="number" name="price" id="price" value="{{$product->price}}" required>
-                @if($errors->has('price'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('price') }}
-                    </div>
-                @endif
-            </div>
-            <div class="form-group">
-                <label class="required" for="from">From</label>
-                <input class="form-control {{ $errors->has('from') ? 'is-invalid' : '' }}" type="time" name="from" id="from" value="{{$product->from}}" required>
-                @if($errors->has('from'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('from') }}
-                    </div>
-                @endif
-            </div>
-            <div class="form-group">
-                <label class="required" for="to">To</label>
-                <input class="form-control {{ $errors->has('to') ? 'is-invalid' : '' }}" type="time" name="to" id="to" value="{{$product->to}}" required>
-                @if($errors->has('to'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('to') }}
-                    </div>
-                @endif
-            </div>
-            <div class="form-group">
-                <label class="required" for="limit">Bid Limit</label>
-                <input class="form-control {{ $errors->has('limit') ? 'is-invalid' : '' }}" type="number" name="limit" id="limit" value="{{$product->limit}}" required>
-                @if($errors->has('limit'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('limit') }}
-                    </div>
-                @endif
-            </div>
-            <div class="form-group">
-                <img src="{{asset($product->image1??'') }}" style="height: 100px;" alt=""><br>
-                <label class="required" for="image1">Image 1</label>
-                <input class="form-control {{ $errors->has('image1') ? 'is-invalid' : '' }}" type="file" name="image1">
-                @if($errors->has('image1'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('image1') }}
-                    </div>
-                @endif
-            </div>
-            <div class="form-group">
-                @if(isset($product->image2))<img src="{{asset($product->image2??'') }}" style="height: 100px;" alt=""><br>@endif
-                <label class="required" for="image2">Image 2</label>
-                <input class="form-control" type="file" name="image2" id="image2">
-            </div>
-            <div class="form-group">
-                @if(isset($product->image3))<img src="{{asset($product->image3??'') }}" style="height: 100px;" alt=""><br>@endif
-                <label class="required" for="image3">Image 3</label>
-                <input class="form-control" type="file" name="image3" id="image3">
-            </div>
-            <div class="form-group">
-                @if(isset($product->image4))<img src="{{asset($product->image4??'') }}" style="height: 100px;" alt=""><br>@endif
-                <label class="required" for="image4">Image 4</label>
-                <input class="form-control" type="file" name="image4" id="image4">
-            </div>
-            <div class="form-group">
-                @if(isset($product->image5))<img src="{{asset($product->image5??'') }}" style="height: 100px;" alt=""><br>@endif
-                <label class="required" for="image5">Image 5</label>
-                <input class="form-control" type="file" name="image5" id="image5">
-            </div>
-            <div class="form-group">
-                <label class="required" for="description">Description</label>
-                <textarea class="form-control" name="description">{{$product->description??''}}</textarea>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-danger" type="submit">
-                    {{ trans('global.save') }}
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-</div>
-
+@endsection
+@section('script')
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#summernote').summernote();
+        });
+    </script>
 @endsection

@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     <a class="navbar_brand" href="{{ url('/') }}"><img
-                            src="{{ asset('assets/images/Logo subastek sin fondo.png') }}" alt=""></a>
+                            src="{{ asset($data['#logo']['image']??'assets/images/Logo subastek sin fondo.png') }}" alt=""></a>
                 </div>
                 <div class="nav_bar d-none d-lg-flex ">
                     <a @if (Request::is('/')) class="nav-link active" @else class="nav-link" @endif

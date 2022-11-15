@@ -11,7 +11,7 @@
         <div class="bid_image  ">
             <img src="{{asset($data['#buy_header']['image']??'')}}"
                 alt="">
-            <div class="bid_timer  ">
+            {{-- <div class="bid_timer  ">
                 <p class="timer_con">Caduca en:</p>
                 <div class="watch">
                     <div class="d-flex justify-content-center align-items-center">
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </section>
@@ -53,11 +53,11 @@
                 <div class="bid_card">
                     @if($item->tag!=null)
                     <div class="bid_badge11">                            
-                        <span>{{$item->tag??''}}</span>
+                        <span style="top:0;">{{$item->tag??''}}</span>
                     </div>
                     @endif
                     <div class="bid_card_img bid_card_img1 ">
-                        <img src="{{asset($item->image??'')}}"
+                        <img src="{{asset($item->image??'')}}" style="width: 100%; height:140px; top:0; left:0;"
                             alt="">
 
 
@@ -88,7 +88,7 @@
                             <button type="button" class="btn " data-toggle="modal"
                             data-target="#paymentModal{{ $item->id }}"><i class="fas fa-shopping-cart"></i> $ {{$item->price??''}}</button>
                         </div>
-                        <p class="card_footer">{{$item->time??''}} {{$item->limit??''}} per bid</p>
+                        <p class="card_footer">{{$item->time??''}} $ {{$item->limit??''}} por puja</p>
                     </div>
                 </div>
             </div>
@@ -230,7 +230,7 @@
                 </div>
             </div> --}}
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-12 col-md-8 col-lg-6 mx-auto">
                 <div class="Guarantee_card">
                     <img src="{{asset($data['#guarantee_card']['image']??'assets/images/cockade.svg')}}" alt="">
@@ -242,7 +242,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     
 @extends('modals/payment');
