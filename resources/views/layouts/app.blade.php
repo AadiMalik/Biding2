@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/tiny-slider.css')}}" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -90,7 +91,7 @@
                         <a href="{{ url('comprar-bids') }}" class="w-50">
                             <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/ic-single-money.svg"
                                 alt="" style="height: 20px;">
-                            <i style="font-size: 14px; font-weight: bold;">10 Pujas</i>
+                            <i style="font-size: 14px; font-weight: bold;">{{Auth()->user()->bids??'0'}} Pujas</i>
                         </a>
                         <a href="{{ url('comprar-bids') }}" class="btn Sign_up"
                             style="width: 225px;height: 35px;
@@ -186,9 +187,22 @@
     <script src="{{ asset('assets/js/bootsrap.js') }}"></script>
 
 
-    {{-- <script src="{{ asset('assets/js/jquery.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/jquery.js') }}"></script>
     <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script type="text/javascript" src="{{asset('assets/js/tiny-slider.js')}}"></script>
+    <script type="text/javascript">
+      var slider = tns({
+        arrowKeys: true,
+        "items": 1,
+        container: ".js-sliderImageViewer",
+        controls: false,
+        loop: false,
+        mouseDrag: true,
+        navContainer: ".js-imageViewerNav",
+  
+      });
+    </script>
     @yield('script')
 </body>
 

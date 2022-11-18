@@ -27,7 +27,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputProductDescription" class="form-label">Description</label>
-                                            <textarea class="form-control" name="description" id="summernote" value="{!! $product->description??'' !!}" rows="3"></textarea>
+                                            <textarea class="form-control" name="description" id="summernote" rows="3">{!! $product->description??'' !!}</textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputProductDescription" class="form-label">New Banner Image</label>

@@ -68,6 +68,7 @@ class ProductController extends Controller
         $product->min_price = $request->min_price;
         $product->min_bid_price = $request->min_bid_price;
         $product->bid_price = $request->min_bid_price;
+        $product->shipping_price = $request->shipping_price;
         $product->description = $request->description;
         if($request->hasfile('image1')){
             $file = $request->file('image1');
@@ -148,6 +149,7 @@ class ProductController extends Controller
         $product->from = $request->from;
         $product->min_price = $request->min_price;
         $product->min_bid_price = $request->min_bid_price;
+        $product->shipping_price = $request->shipping_price;
         $product->bid_price = $request->min_bid_price;
         $product->description = $request->description;
         if($request->hasfile('image1')){

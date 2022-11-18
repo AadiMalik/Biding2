@@ -174,6 +174,7 @@
                     <li> <a href="{{ url('comprar-bids') }}"><i class="bx bx-right-arrow-alt"></i>Comprar Bids</a></li>
                     <li> <a href="{{ url('bid-use') }}"><i class="bx bx-right-arrow-alt"></i>Mis Subastas</a>
 						<li> <a href="{{ url('win-product') }}"><i class="bx bx-right-arrow-alt"></i>Subastas Ganadas</a>
+                            <li> <a href="{{ url('wish-list') }}"><i class="bx bx-right-arrow-alt"></i>Mi Lista De Deseos</a>
                     </li>
                 @endcan
                 <!--end navigation-->

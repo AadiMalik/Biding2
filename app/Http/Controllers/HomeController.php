@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AutoBid;
 use App\BidUse;
 use App\Faq;
 use App\FaqCategory;
@@ -19,6 +20,7 @@ use App\Sector;
 use App\Slider;
 use App\Support;
 use App\User;
+use App\Wish;
 use App\WritingPoint;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -40,16 +42,22 @@ class HomeController extends Controller
     {
         $products = Product::paginate(10);
         $data = '';
+
         if ($request->ajax()) {
             foreach ($products as $key => $product) {
                 $date_from = date('Y-m-d H:i:s', strtotime($product->from));
                 $date_to = date('Y-m-d H:i:s', strtotime($product->to));
                 $current = date('Y-m-d H:i:s', strtotime(Carbon::now()));
                 $date = date('d-m-Y H:i:s', strtotime($product->from));
+                
                 if (Auth::user()) {
                     $check = Auth()->user()->id;
+                    $wish = Wish::where('product_id', $product->id)->where('user_id', Auth()->user()->id)->first();
+                    $auto = AutoBid::where('product_id', $product->id)->where('user_id', Auth()->user()->id)->first();
                 } else {
                     $check = 0;
+                    $wish = null;
+                    $auto = null; 
                 }
                 $user_book = "";
                 $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
@@ -57,7 +65,276 @@ class HomeController extends Controller
                 $user_id = $bid_user->user_id ?? "";
                 $data .= '<div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
                 <div class="card">
-                    <a href="subasta/' . $product->slug . '">
+                <div class="favriot-acction">';
+                if(isset($auto)){
+                    $data .='<b class="bid-auto"><i class="fas fa-sync-alt" style="font-size:12px;"></i> '.$auto->bids.'</b>';
+                }
+                if (isset($wish)) {
+                    $data .= '<a href="javascript:void(0)" onclick="Wish(' . $product->id . ')" class="active" ><i class="fa fa-star"></i></a>';
+                } else {
+                    $data .= '<a href="javascript:void(0)" onclick="Wish(' . $product->id . ')" ><i class="fa fa-star"></i></a>';
+                }
+
+                $data .= '</div>
+                    <a href="subasta/' . $product->id . '">
+                        <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
+                        <a class="title">$ ' . $product->min_price . ' Tienda <br>
+                        <span class="nickname">' . $product->name . '</span></a>
+
+                        <span class="card_prize">$' . $product->bid_price . '</span>
+                        <span class="nickname">' . $user_book . '</span></a>';
+                if ($product->win == null) {
+                    if (($current > $date_from) && ($current < $date_to)) {
+                        if ($check != $user_id) {
+                            $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;" id="win">10</span>
+                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
+                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
+                        <div class="card_rebre" style="background: green; margin-bottom:0px;">
+                            <h4>PUJAR</h4>
+                        </div>
+                        </a>';
+                        } else {
+                            $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;" id="win">10</span>
+                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
+                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        <span style="width:100%; border:none;">
+                        <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
+                            <h4>PUJAR</h4>
+                        </div>
+                        </span>';
+                        }
+                    } else {
+                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                                font-size: 18px;
+                                font-weight: bold;" id="win">10</span>
+                                <h4 class="card_time">Hoy a las ' . $date . '</h4>
+                                <input type="hidden" value="' . $product->id . '" id="product_id">
+                                <span style="width:100%; border:none;">
+                                <div class="card_rebre">
+                                         <h4> REOPEN SOON</h4>
+                                </div>
+                                </span>';
+                    }
+                } elseif ($product->win != null) {
+                    $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                    font-size: 18px;
+                    font-weight: bold;" id="win">10</span>
+                    <h4 class="card_time">Hoy a las ' . $date . '</h4>
+                    <input type="hidden" value="' . $product->id . '" id="product_id">
+                    <span style="width:100%; border:none;">
+                    <div class="card_rebre" style="background: gray; margin-bottom:0px;">
+                        <h4>WINDIDO</h4>
+                    </div>
+                    </span>';
+                }
+
+                $data .= '<div class="d-flex p-1">
+                            <button class="btn btn_theme1 mx-1">
+                                <i class="fas fa-shopping-cart"></i>
+                                $' . $product->price . '</button>
+                            <button class="btn btn_theme2 mx-1" onclick="AutoShow(' . $product->id . ')"><i class="fas fa-sync-alt"></i>AUTO PUJA</button>
+                        </div>
+                    </a>
+                    <div class="bid-opction mt-1" id="bids' . $product->id . '">
+                            <a href="javascript:void(0)" onclick="AutoBid(10,' . $product->id . ')"><i class="fa fa-plus"></i>10</a>
+                             <a href="javascript:void(0)" onclick="AutoBid(20,' . $product->id . ')"><i class="fa fa-plus"></i>20</a>
+                              <a href="javascript:void(0)" onclick="AutoBid(50,' . $product->id . ')"><i class="fa fa-plus"></i>50</a>
+                               <a href="javascript:void(0)" onclick="AutoBid(100,' . $product->id . ')"><i class="fa fa-plus"></i>100</a>
+                               <p class="mt-1"><a data-toggle="modal" data-target="#AutoBidModel" class="other-amount">Other Amount</a></p>
+                        </div>
+                </div>
+            </div>
+            ';
+                // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
+            }
+            return $data;
+        }
+
+        // <h4>REABRE PRONTO</h4>
+        return view('welcome');
+    }
+    public function bidByUser(Request $request)
+    {
+        $check = BidUse::where('product_id', $request->product_id)->where('user_id', Auth()->user()->id)->orderBy('created_at', 'DESC')->first();
+        $bid = new BidUse;
+        $bid->product_id = $request->product_id;
+        $bid->user_id = Auth()->user()->id;
+        $product_bid = Product::find($request->product_id);
+        $product_bid->bid_price = $product_bid->bid_price + $product_bid->min_price;
+        $bid->bids = $product_bid->bid;
+        if (Auth()->user()->bids >= $product_bid->bid) {
+            $bid->save();
+            $product_bid->update();
+            // User Update
+            $user = User::find(Auth()->user()->id);
+            $user->bids = $user->bids - 1;
+            $user->update();
+
+            // Fetch Products
+            $products = Product::paginate(10);
+            $data = '';
+            if ($request->ajax()) {
+                foreach ($products as $key => $product) {
+                    if (Auth::user()) {
+                        $wish = Wish::where('product_id', $product->id)->where('user_id', Auth()->user()->id)->first();
+                    } else {
+                        $wish = null;
+                    }
+                    $date_from = date('Y-m-d H:i:s', strtotime($product->from));
+                    $date_to = date('Y-m-d H:i:s', strtotime($product->to));
+                    $current = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+                    $date = date('d-m-Y H:i:s', strtotime($product->from));
+                    $user_book = "";
+                    $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
+                    $user_book = $bid_user->user_name->name ?? "";
+                    $data .= '<div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
+                <div class="card">
+                    <a href="subasta/' . $product->id . '">
+                        <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
+                        <a class="title">$ ' . $product->min_price . ' Tienda <br>
+                        <span class="nickname">' . $product->name . '</span></a>
+
+                        <span class="card_prize">$' . $product->bid_price . '</span>
+                        <span class="nickname">' . $user_book . '</span></a>';
+                    if ($product->win == null) {
+                        if (($current > $date_from) && ($current < $date_to)) {
+                            if ($check != $user->id) {
+                                $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;" id="win">10</span>
+                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
+                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
+                        <div class="card_rebre" style="background: green; margin-bottom:0px;">
+                            <h4>PUJAR</h4>
+                        </div>
+                        </a>';
+                            } else {
+                                $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;" id="win">10</span>
+                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
+                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        <span style="width:100%; border:none;">
+                        <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
+                            <h4>PUJAR</h4>
+                        </div>
+                        </span>';
+                            }
+                        } else {
+                            $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                                font-size: 18px;
+                                font-weight: bold;" id="win">10</span>
+                                <h4 class="card_time">Hoy a las ' . $date . '</h4>
+                                <input type="hidden" value="' . $product->id . '" id="product_id">
+                                <span style="width:100%; border:none;">
+                                <div class="card_rebre">
+                                         <h4> REOPEN SOON</h4>
+                                </div>
+                                </span>';
+                        }
+                    } elseif ($product->win != null) {
+                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
+                    font-size: 18px;
+                    font-weight: bold;" id="win">10</span>
+                    <h4 class="card_time">Hoy a las ' . $date . '</h4>
+                    <input type="hidden" value="' . $product->id . '" id="product_id">
+                    <span style="width:100%; border:none;">
+                    <div class="card_rebre" style="background: gray; margin-bottom:0px;">
+                        <h4>WINDIDO</h4>
+                    </div>
+                    </span>';
+                    }
+
+                    $data .= '<div class="d-flex p-1">
+                            <button class="btn btn_theme1 mx-1">
+                                <i class="fas fa-shopping-cart"></i>
+                                $' . $product->price . '</button>
+                            <button class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>UNO
+                                MISMO</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            ';
+                    // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
+                }
+                return $data;
+            } else {
+                return redirect('comprar-bids');
+            }
+        }
+    }
+    public function AutoBid(Request $request)
+    {
+        if ($request->qty <= Auth()->user()->bids) {
+            $check = AutoBid::where('product_id', $request->product_id)->where('user_id', Auth()->user()->id)->first();
+            if (isset($check)) {
+                $check->bids = $check->bids + $request->qty;
+                $check->update();
+            } else {
+                $auto = new AutoBid;
+                $auto->product_id = $request->product_id;
+                $auto->user_id = Auth()->user()->id;
+                $auto->bids = $request->qty;
+                $auto->save();
+            }
+            $user = User::find(Auth()->user()->id);
+            $user->bids = $user->bids - $request->qty;
+            $user->update();
+            $msg = 'success';
+            return $msg;
+        } else {
+            $msg = 'error';
+            return $msg;
+        }
+    }
+    public function winByUser(Request $request)
+    {
+        $auto = AutoBid::where('product_id', $request->product_id)->where('bids', '!=', '0')->first();
+        if (!isset($auto)) {
+            $check = BidUse::where('product_id', $request->product_id)->orderBy('created_at', 'DESC')->first();
+            if ($check->user_id == Auth()->user()->id) {
+                $product = Product::find($request->product_id);
+                $product->win = Auth()->user()->id;
+                $product->update();
+            }
+        } else {
+            $bid = new BidUse;
+            $bid->product_id = $request->product_id;
+            $bid->user_id = $auto->user_id;
+            $product_bid = Product::find($request->product_id);
+            $product_bid->bid_price = $product_bid->bid_price + $product_bid->min_price;
+            $bid->bids = $product_bid->bid;
+            $bid->save();
+            $product_bid->update();
+        }
+        if (Auth::user()) {
+            $wish = Wish::where('product_id', $product->id)->where('user_id', Auth()->user()->id)->first();
+        } else {
+            $wish = null;
+        }
+        // Fetch Products
+        $products = Product::paginate(10);
+        $data = '';
+        if ($request->ajax()) {
+            foreach ($products as $key => $product) {
+                $date_from = date('Y-m-d H:i:s', strtotime($product->from));
+                $date_to = date('Y-m-d H:i:s', strtotime($product->to));
+                $current = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+                $date = date('d-m-Y H:i:s', strtotime($product->from));
+                $user_book = "";
+                $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
+                $user_book = $bid_user->user_name->name ?? "";
+                $user_id = $bid_user->user_id ?? "";
+                $data .= '<div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
+                <div class="card">
+                    <a href="subasta/' . $product->id . '">
                         <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
                         <a class="title">$ ' . $product->min_price . ' Tienda <br>
                         <span class="nickname">' . $product->name . '</span></a>
@@ -129,46 +406,61 @@ class HomeController extends Controller
             }
             return $data;
         }
-
-        // <h4>REABRE PRONTO</h4>
-        return view('welcome');
     }
-    public function bidByUser(Request $request)
+    public function WishByUser(Request $request)
     {
-        $check = BidUse::where('product_id', $request->product_id)->where('user_id', Auth()->user()->id)->orderBy('created_at', 'DESC')->first();
-        $bid = new BidUse;
-        $bid->product_id = $request->product_id;
-        $bid->user_id = Auth()->user()->id;
-        $product_bid = Product::find($request->product_id);
-        $product_bid->bid_price = $product_bid->bid_price + $product_bid->min_price;
-        $bid->bids = $product_bid->bid;
-        if (Auth()->user()->bids >= $product_bid->bid) {
-            $bid->save();
-            $product_bid->update();
-            // User Update
-            $user = User::find(Auth()->user()->id);
-            $user->bids = $user->bids - 1;
-            $user->update();
-            // Fetch Products
-            $products = Product::paginate(10);
-            $data = '';
-            if ($request->ajax()) {
-                foreach ($products as $key => $product) {
-                    $date = date('d-m-Y H:i:s', strtotime($product->from));
-                    $user_book = "";
-                    $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
-                    $user_book = $bid_user->user_name->name ?? "";
-                    $data .= '<div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
+        if (Auth::user()) {
+            $check = Wish::where('product_id', $request->product_id)->where('user_id', Auth()->user()->id)->first();
+            if (isset($check)) {
+                $check->delete();
+            } else {
+                $wish = new Wish;
+                $wish->product_id = $request->product_id;
+                $wish->user_id = Auth()->user()->id;
+                $wish->save();
+            }
+        } else {
+            return redirect('login');
+        }
+        $products = Product::paginate(10);
+        $data = '';
+        if ($request->ajax()) {
+            foreach ($products as $key => $product) {
+                $date_from = date('Y-m-d H:i:s', strtotime($product->from));
+                $date_to = date('Y-m-d H:i:s', strtotime($product->to));
+                $current = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+                $date = date('d-m-Y H:i:s', strtotime($product->from));
+                if (Auth::user()) {
+                    $check = Auth()->user()->id;
+                    $wish = Wish::where('product_id', $product->id)->where('user_id', Auth()->user()->id)->first();
+                } else {
+                    $check = 0;
+                    $wish = null;
+                }
+                $user_book = "";
+                $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
+                $user_book = $bid_user->user_name->name ?? "";
+                $user_id = $bid_user->user_id ?? "";
+                $data .= '<div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
                 <div class="card">
-                    <a href="subasta/' . $product->slug . '">
+                <div class="favriot-acction">';
+                if (isset($wish)) {
+                    $data .= '<a href="javascript:void(0)" onclick="Wish(' . $product->id . ')" class="active" ><i class="fa fa-star"></i></a>';
+                } else {
+                    $data .= '<a href="javascript:void(0)" onclick="Wish(' . $product->id . ')" ><i class="fa fa-star"></i></a>';
+                }
+
+                $data .= '</div>
+                    <a href="subasta/' . $product->id . '">
                         <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
                         <a class="title">$ ' . $product->min_price . ' Tienda <br>
                         <span class="nickname">' . $product->name . '</span></a>
 
                         <span class="card_prize">$' . $product->bid_price . '</span>
                         <span class="nickname">' . $user_book . '</span></a>';
-                    if ($product->win == null) {
-                        if (!isset($check)) {
+                if ($product->win == null) {
+                    if (($current > $date_from) && ($current < $date_to)) {
+                        if ($check != $user_id) {
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>
@@ -191,86 +483,17 @@ class HomeController extends Controller
                         </div>
                         </span>';
                         }
-                    } elseif ($product->win != null) {
-                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
-                    font-size: 18px;
-                    font-weight: bold;" id="win">10</span>
-                    <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                    <input type="hidden" value="' . $product->id . '" id="product_id">
-                    <span style="width:100%; border:none;">
-                    <div class="card_rebre" style="background: gray; margin-bottom:0px;">
-                        <h4>WINDIDO</h4>
-                    </div>
-                    </span>';
-                    }
-                    $data .= '<div class="d-flex p-1">
-                            <button class="btn btn_theme1 mx-1">
-                                <i class="fas fa-shopping-cart"></i>
-                                $' . $product->price . '</button>
-                            <button class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>UNO
-                                MISMO</button>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            ';
-                    // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
-                }
-                return $data;
-            } else {
-                return redirect('comprar-bids');
-            }
-        }
-    }
-    public function winByUser(Request $request)
-    {
-        $check = BidUse::where('product_id', $request->product_id)->orderBy('created_at', 'DESC')->first();
-        if ($check->user_id == Auth()->user()->id) {
-            $product = Product::find($request->product_id);
-            $product->win = Auth()->user()->id;
-            $product->update();
-        }
-        // Fetch Products
-        $products = Product::paginate(10);
-        $data = '';
-        if ($request->ajax()) {
-            foreach ($products as $key => $product) {
-                $date = date('d-m-Y H:i:s', strtotime($product->from));
-                $user_book = "";
-                $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
-                $user_book = $bid_user->user_name->name ?? "";
-                $data .= '<div class="col-lg-2 col-md-4 col-6 mt-3 p-1">
-                <div class="card">
-                    <a href="subasta/' . $product->slug . '">
-                        <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
-                        <a class="title">$ ' . $product->min_price . ' Tienda <br>
-                        <span class="nickname">' . $product->name . '</span></a>
-
-                        <span class="card_prize">$' . $product->bid_price . '</span>
-                        <span class="nickname">' . $user_book . '</span></a>';
-                if ($product->win == null) {
-                    if (!isset($check)) {
-                        $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
-                        font-size: 18px;
-                        font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                        <input type="hidden" value="' . $product->id . '" id="product_id">
-                        <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
-                        <div class="card_rebre" style="background: green; margin-bottom:0px;">
-                            <h4>PUJAR</h4>
-                        </div>
-                        </a>';
                     } else {
                         $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
-                        font-size: 18px;
-                        font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                        <input type="hidden" value="' . $product->id . '" id="product_id">
-                        <span style="width:100%; border:none;">
-                        <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
-                            <h4>PUJAR</h4>
-                        </div>
-                        </span>';
+                                font-size: 18px;
+                                font-weight: bold;" id="win">10</span>
+                                <h4 class="card_time">Hoy a las ' . $date . '</h4>
+                                <input type="hidden" value="' . $product->id . '" id="product_id">
+                                <span style="width:100%; border:none;">
+                                <div class="card_rebre">
+                                         <h4> REOPEN SOON</h4>
+                                </div>
+                                </span>';
                     }
                 } elseif ($product->win != null) {
                     $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
@@ -284,14 +507,21 @@ class HomeController extends Controller
                     </div>
                     </span>';
                 }
+
                 $data .= '<div class="d-flex p-1">
                             <button class="btn btn_theme1 mx-1">
                                 <i class="fas fa-shopping-cart"></i>
                                 $' . $product->price . '</button>
-                            <button class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>UNO
-                                MISMO</button>
+                            <button class="btn btn_theme2 mx-1" id="auto"><i class="fas fa-sync-alt"></i>AUTO PUJA</button>
                         </div>
                     </a>
+                    <div class="bid-opction mt-1" id="bids">
+                            <a href="#"><i class="fa fa-plus"></i>10</a>
+                             <a href="#"><i class="fa fa-plus"></i>20</a>
+                              <a href="#"><i class="fa fa-plus"></i>50</a>
+                               <a href="#"><i class="fa fa-plus"></i>100</a>
+                               <p class="mt-1"><a class="other-amount">Other Amount</a></p>
+                        </div>
                 </div>
             </div>
             ';
@@ -450,10 +680,26 @@ class HomeController extends Controller
         $slider = Slider::all();
         return view('welcome', compact('product', 'category', 'search', 'slider'));
     }
-    public function product_detail($slug)
+    public function product_detail($id)
     {
-        $product = Product::where('slug', $slug)->first();
-        return view('product_detail', compact('product'));
+        $product = Product::where('id', $id)->first();
+        $bid_use = BidUse::orderBy('created_at', 'DESC')->where('id', $id)->get();
+        return view('product_detail', compact('product', 'bid_use'));
+    }
+    public function product_detail_bid($id)
+    {
+        $data = '';
+        $product = Product::where('id', $id)->first();
+        $bid_use = BidUse::orderBy('created_at', 'DESC')->where('id', $id)->get();
+        foreach ($bid_use as $item) {
+            $data .= '<tr>
+            <td>' . $product->min_bid_price . '</td>
+            <td>Manual</td>
+            <td>' . $item->created_at->format('H:i:s') . '</td>
+            <td>' . $item->user_name->name . '</td>
+        </tr>';
+        }
+        return $data;
     }
     // public function Cv_Builder(){
     //     return view('cv_builder');

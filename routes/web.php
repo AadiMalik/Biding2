@@ -30,6 +30,7 @@ Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
     Route::get('win-product', 'WinProductController@index')->name('win-product');
     Route::get('buy-product/{id}', 'WinProductController@pay_product');
     Route::post('product-payment', 'WinProductController@payment');
+    Route::get('wish-list', 'WishController@index');
 
     
 });
@@ -37,10 +38,13 @@ Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
 Route::get('/', 'HomeController@home')->name('/');
 Route::post('bid-product', 'HomeController@bidByUser')->middleware('auth');
 Route::post('win-product', 'HomeController@winByUser')->middleware('auth');
+Route::post('wish-store', 'HomeController@WishByUser')->middleware('auth');
+Route::post('auto-bid', 'HomeController@AutoBid')->middleware('auth');
 Route::get('product', 'HomeController@product')->name('product.index');
-Route::get('subasta/{slug}','HomeController@product_detail');
+Route::get('subasta/{id}','HomeController@product_detail');
+Route::get('product_detail_bid/{id}','HomeController@product_detail_bid');
 Route::get('opiniones', 'HomeController@opinion');
-Route::get('comprar-bids', 'HomeController@bid_buy');
+Route::get('comprar-bids', 'HomeController@bid_buy')->name('comprar-bids');
 Route::get('como-funciona', 'HomeController@how_work');
 Route::get('faq', 'HomeController@faq');
 Route::get('opinion', 'HomeController@opinion_auto')->name('opinion.index');

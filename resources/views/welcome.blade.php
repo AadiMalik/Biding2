@@ -1,5 +1,62 @@
 <?php $segment1 = Request::segment(1); ?>
 @extends('layouts.app')
+@section('style')
+    <style>
+        .favriot-acction {
+            margin: 2px;
+            text-align: right;
+        }
+
+        .favriot-acction a {
+            font-size: 20px;
+            color: lightgray;
+        }
+
+        .favriot-acction a:hover {
+            color: #2196f3;
+        }
+
+        .favriot-acction a.active {
+            color: #2196f3;
+        }
+
+        .bid-opction {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .bid-opction a {
+            color: black;
+            font-size: 14px;
+            padding: 5px 5px;
+            background: #ffc707;
+            border-radius: 10px;
+            margin: 4px;
+        }
+        .bid-auto{
+            color: black;
+            font-size: 14px;
+            padding: 5px 5px;
+            background: #ffc707;
+            border-radius: 5px;
+            float: left;
+    margin: 4px;
+        }
+
+        .bid-opction a i {
+            margin-right: 3px;
+        }
+
+        .bid-opction .other-amount {
+            background: unset;
+            padding: 0;
+            text-decoration: underline;
+            color: dimgray;
+            margin-top: 10px;
+        }
+    </style>
+@endsection
 @section('content')
     <section class="Home_banner d-md-block d-none">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -95,6 +152,13 @@
                 @endif
 
             </div> --}}
+            <div class="modal fade" id="AutoBidModel" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                  <div class="modal-content">
+                    ...
+                  </div>
+                </div>
+              </div>
         </div>
     </section>
 @endsection
@@ -102,12 +166,21 @@
 
 @section('script')
     <script type="text/javascript">
+    // Show hide Auto bid
+    function AutoShow(id) {
+            // var x = document.getElementById("bids1'"+ id +"'");
+            if ($("bids1"+ id).css("display", "none")) {
+                $("bids1"+ id).css("display", "block");
+            } else {
+                $("bids1"+ id).css("display", "none");
+            }
+        }
         $(document).ready(function() {
-            
-            $("#results").load("{{ route('product.index') }}");
-            setInterval(function() {
-                $("#results").load("{{ route('product.index') }}");
-            }, 3000);
+
+            // $("#results").load("{{ route('product.index') }}");
+            // setInterval(function() {
+            //     $("#results").load("{{ route('product.index') }}");
+            // }, 3000);
         });
     </script>
     <script>
@@ -144,6 +217,7 @@
                     alert('No response from server');
                 });
         }
+        
         //  Bid 
 
         $.ajaxSetup({
@@ -152,7 +226,7 @@
             }
         });
 
-        function Win(id){
+        function Win(id) {
             var product_id = id;
             $.ajax({
                 type: 'POST',
@@ -203,13 +277,64 @@
                         if (timeLeft > 0) {
                             setTimeout(countdown, 1000);
                         }
-                        if(timeLeft==0){
+                        if (timeLeft == 0) {
                             Win(product_id);
                         }
                     };
 
                     setTimeout(countdown, 1000);
                 }
+            });
+        };
+
+        function Wish(id) {
+            var product_id = id;
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('wish-store') }}",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    product_id: product_id,
+                },
+
+                success: function(data) {
+                    $("#results").load("{{ route('product.index') }}");
+                    setInterval(function() {
+                        $("#results").load("{{ route('product.index') }}");
+                    }, 3000);
+                }
+            });
+        };
+        
+        function AutoBid(qty,id) {
+            var product_id = id;
+            var Qty = qty;
+            if(Qty==null){
+                Qty = $("#other").value;
+            }
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('auto-bid') }}",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    product_id: product_id,
+                    qty:Qty,
+                },
+
+                success: function(response) {
+                    if(response=='error'){
+                        window.location.href = "comprar-bids";
+                    }else{
+                        $("#results").load("{{ route('product.index') }}");
+                    setInterval(function() {
+                        $("#results").load("{{ route('product.index') }}");
+                    }, 3000);
+                    }
+                    
+                }
+                // success: function(error) {
+                //     window.location.href = "comprar-bids";
+                // }
             });
         };
     </script>

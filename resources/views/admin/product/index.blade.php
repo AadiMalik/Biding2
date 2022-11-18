@@ -61,7 +61,10 @@
                                         To
                                     </th>
                                     <th>
-                                        Limit
+                                        Minmum Price
+                                    </th>
+                                    <th>
+                                        Minmum Bid Price
                                     </th>
                                     <th>
                                         Image
@@ -103,7 +106,10 @@
                                             {{ $item->to ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $item->limit ?? '' }}
+                                            {{ $item->min_price ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $item->min_bid_price ?? '' }}
                                         </td>
                                         <td>
                                             <img src="{{ asset($item->image1 ?? '') }}" style="height: 100px;"
