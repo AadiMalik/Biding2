@@ -92,7 +92,7 @@
                         </div>
                         {{-- <h4>Ahora o nunca: <span>5:08:11:57</span></h4> --}}
                         <button class="btn">
-                            <img src="" alt="" /> CÓMPRALO YA A {{ $product->price ?? '0.00' }} $
+                            <a href="{{url('checkout/'.$product->id)}}" style="color:#fff;"><img src="" alt="" /> CÓMPRALO YA A {{ $product->price ?? '0.00' }} $</a>
                         </button>
                     </div>
                 </div>

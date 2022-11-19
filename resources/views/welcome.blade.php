@@ -34,14 +34,14 @@
             border-radius: 10px;
             margin: 4px;
         }
-        .bid-auto{
+
+        .bid-auto {
             color: black;
             font-size: 14px;
             padding: 5px 5px;
             background: #ffc707;
             border-radius: 5px;
             float: left;
-    margin: 4px;
         }
 
         .bid-opction a i {
@@ -54,6 +54,55 @@
             text-decoration: underline;
             color: dimgray;
             margin-top: 10px;
+        }
+
+        .modal {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(77, 77, 77, .7);
+            transition: all .4s;
+        }
+
+        .modal:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal__content {
+            border-radius: 4px;
+            position: relative;
+            width: 500px;
+            max-width: 90%;
+            background: #fff;
+            padding: 1em 2em;
+        }
+
+        .modal__footer {
+            text-align: right;
+
+            a {
+                color: #585858;
+            }
+
+            i {
+                color: #d02d2c;
+            }
+        }
+
+        .modal__close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #585858;
+            text-decoration: none;
         }
     </style>
 @endsection
@@ -152,27 +201,22 @@
                 @endif
 
             </div> --}}
-            <div class="modal fade" id="AutoBidModel" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm modal-dialog-centered">
-                  <div class="modal-content">
-                    ...
-                  </div>
-                </div>
-              </div>
+            
         </div>
     </section>
+    
 @endsection
 
 
 @section('script')
     <script type="text/javascript">
-    // Show hide Auto bid
-    function AutoShow(id) {
+        // Show hide Auto bid
+        function AutoShow(id) {
             // var x = document.getElementById("bids1'"+ id +"'");
-            if ($("bids1"+ id).css("display", "none")) {
-                $("bids1"+ id).css("display", "block");
+            if ($("bids1" + id).css("display", "none")) {
+                $("bids1" + id).css("display", "block");
             } else {
-                $("bids1"+ id).css("display", "none");
+                $("bids1" + id).css("display", "none");
             }
         }
         $(document).ready(function() {
@@ -217,7 +261,7 @@
                     alert('No response from server');
                 });
         }
-        
+
         //  Bid 
 
         $.ajaxSetup({
@@ -305,12 +349,12 @@
                 }
             });
         };
-        
-        function AutoBid(qty,id) {
+
+        function AutoBid(qty, id) {
             var product_id = id;
             var Qty = qty;
-            if(Qty==null){
-                Qty = $("#other").value;
+            if (Qty == 0) {
+                Qty = $("#other"+product_id).val();
             }
             $.ajax({
                 type: 'POST',
@@ -318,19 +362,21 @@
                 data: {
                     _token: $('meta[name="csrf-token"]').attr('content'),
                     product_id: product_id,
-                    qty:Qty,
+                    qty: Qty,
                 },
 
                 success: function(response) {
-                    if(response=='error'){
+                    if (response == 'error') {
                         window.location.href = "comprar-bids";
-                    }else{
+                    }else if (response == 'error-login'){
+                        window.location.href = "login";
+                    } else {
                         $("#results").load("{{ route('product.index') }}");
-                    setInterval(function() {
-                        $("#results").load("{{ route('product.index') }}");
-                    }, 3000);
+                        setInterval(function() {
+                            $("#results").load("{{ route('product.index') }}");
+                        }, 3000);
                     }
-                    
+
                 }
                 // success: function(error) {
                 //     window.location.href = "comprar-bids";
