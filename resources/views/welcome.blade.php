@@ -221,10 +221,10 @@
         }
         $(document).ready(function() {
 
-            // $("#results").load("{{ route('product.index') }}");
-            // setInterval(function() {
-            //     $("#results").load("{{ route('product.index') }}");
-            // }, 3000);
+            $("#results").load("{{ route('product.index') }}");
+            setInterval(function() {
+                $("#results").load("{{ route('product.index') }}");
+            }, 3000);
         });
     </script>
     <script>

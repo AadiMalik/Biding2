@@ -770,6 +770,11 @@ class HomeController extends Controller
         $faq = Faq::all();
         return view('faq', compact('faq'));
     }
+    public function Action_Close()
+    {
+        $use_bid = BidUse::all();
+        return view('action_close', compact('use_bid'));
+    }
     public function home(Request $request)
     {
 

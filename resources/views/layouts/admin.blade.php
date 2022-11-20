@@ -14,6 +14,7 @@
     <!--favicon-->
     <link rel="icon" href="/admin/images/favicon-32x32.png" type="image/png" />
 	<title>Bid</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!--plugins-->
     <link href="/admin/plugins/notifications/css/lobibox.min.css" rel="stylesheet" />
     <link href="/admin/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
@@ -128,6 +129,15 @@
                                 <div class="parent-icon"><i class='bx bx-cookie'></i>
                                 </div>
                                 <div class="menu-title">Package Buy</div>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('slider_access')
+                        <li>
+                            <a href="{{ url('admin/orders') }}">
+                                <div class="parent-icon"><i class='bx bx-cookie'></i>
+                                </div>
+                                <div class="menu-title">Orders</div>
                             </a>
                         </li>
                     @endcan

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::view('sobre-nosotros','about_us');
-Route::view('subasta-cerrada','action_close');
+// Route::view('subasta-cerrada','action_close');
 Route::view('se','main');
 // Route::view('como-funciona','how_work');
 // Route::view('mi-subastek','my_actions');
@@ -50,6 +50,7 @@ Route::get('opiniones', 'HomeController@opinion');
 Route::get('comprar-bids', 'HomeController@bid_buy')->name('comprar-bids');
 Route::get('como-funciona', 'HomeController@how_work');
 Route::get('faq', 'HomeController@faq');
+Route::get('subasta-cerrada', 'HomeController@Action_Close');
 Route::get('opinion', 'HomeController@opinion_auto')->name('opinion.index');
 Route::get('most-opinion', 'HomeController@most_opinion_auto')->name('most_opinion.index');
 Route::post('opinion_like', 'HomeController@likes')->name('opinion.like')->middleware('auth');
@@ -103,6 +104,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('media', 'SocialMediaController');
     // Content
     Route::resource('content', 'ContentController');
+    // Order
+    Route::resource('orders', 'OrderController');
+    Route::post('change_status', 'OrderController@Status_Change');
     
 });
 
