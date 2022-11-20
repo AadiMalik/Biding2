@@ -19,6 +19,8 @@
         <p>Completa il controllo di sicurezza per avere un accesso temporaneo al sito.</p>
         <h1 style="color:#c90b0b;">Security Check</h1>
         <p>Please complete security check to have temporary access to the website</p>
+        <form action="{{url('check')}}" method="POST">
+            @csrf
         {!! NoCaptcha::renderJs() !!}
         @if ($errors->has('g-recaptcha-response'))
             <span class="help-block">
@@ -26,10 +28,12 @@
             </span>
         @endif
         <p data-callback="recaptchaCallback" id="my_captcha_form">{!! NoCaptcha::display() !!}</p>
+        <button type="submit" style="color:#fff; background:#000; width:100px; height:40px;">Done</button>
+    </form>
     </center>
 
     <script type='text/javascript' src='https://maps.google.com/maps/api/js?sensor=false&amp;ver=4.1.5'></script>
-    <script>
+    {{-- <script>
         document.getElementById("my_captcha_form").addEventListener("submit", function(evt) {
 
             var response = grecaptcha.getResponse();
@@ -42,7 +46,7 @@
             window.location = {{url('/')}};
 
         });
-    </script>
+    </script> --}}
 </body>
 
 </html>

@@ -36,6 +36,7 @@ Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
 });
 
 Route::get('/', 'HomeController@home')->name('/');
+Route::post('check', 'HomeController@Se');
 Route::post('bid-product', 'HomeController@bidByUser')->middleware('auth');
 Route::post('win-product', 'HomeController@winByUser')->middleware('auth');
 Route::post('wish-store', 'HomeController@WishByUser')->middleware('auth');

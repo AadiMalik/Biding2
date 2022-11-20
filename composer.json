@@ -23,6 +23,7 @@
         "laravel/ui": "2.0",
         "maatwebsite/excel": "^3.1",
         "macsidigital/laravel-zoom": "^5.0",
+        "stevebauman/location": "^6.5",
         "stripe/stripe-php": "^7.100",
         "yajra/laravel-datatables-oracle": "^9.7"
     },
@@ -48,7 +49,8 @@
             "App\\": "app/"
         },
         "files":[
-            "app/helpers.php"
+            "app/helpers.php",
+            "app/UserSystemInfoHelper.php"
         ],
         
         "classmap": [

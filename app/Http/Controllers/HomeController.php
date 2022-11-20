@@ -10,6 +10,7 @@ use App\Models\Service;
 use App\News;
 use App\Brand;
 use App\Category;
+use App\LogCapita;
 use App\Opinion;
 use App\OpinionLike;
 use App\Package;
@@ -25,7 +26,10 @@ use App\WritingPoint;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use App\UserSystemInfoHelper;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -169,8 +173,6 @@ class HomeController extends Controller
             return $data;
         }
 
-        // <h4>REABRE PRONTO</h4>
-        return view('welcome');
     }
     public function bidByUser(Request $request)
     {
@@ -228,7 +230,7 @@ class HomeController extends Controller
                         <span class="nickname">' . $user_book . '</span></a>';
                     if ($product->win == null) {
                         if (($current > $date_from) && ($current < $date_to)) {
-                            if ($check != $user_id) {
+                            if ($check != $user->id) {
                                 $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>
@@ -777,7 +779,12 @@ class HomeController extends Controller
     }
     public function home(Request $request)
     {
-
+        $getip = UserSystemInfoHelper::get_ip();
+        $getbrowser = UserSystemInfoHelper::get_browsers();
+        $check_ip = LogCapita::where('ip',$getip)->where('browser',$getbrowser)->first();
+        if(!isset($check_ip)){
+            return redirect('se');
+        }
         $search = $request->search;
         $query = Product::query();
         if ($search != '') {
@@ -788,6 +795,19 @@ class HomeController extends Controller
         $category = Category::all();
         $slider = Slider::all();
         return view('welcome', compact('product', 'category', 'search', 'slider'));
+    }
+    public function Se(Request $request){
+        // $validation = $request->validate(
+        //     [
+        //     'g-recaptcha-response' => 'required|captcha'
+        // ]);
+        $getip = UserSystemInfoHelper::get_ip();
+        $getbrowser = UserSystemInfoHelper::get_browsers();
+        $check_ip = new LogCapita;
+        $check_ip->ip=$getip;
+        $check_ip->browser = $getbrowser;
+        $check_ip->save();
+        return redirect('/');
     }
     public function product_detail($id)
     {
