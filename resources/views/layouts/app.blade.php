@@ -78,7 +78,7 @@
                     <a @if (Request::is('opiniones')) class="nav-link active" @else class="nav-link" @endif
                         href="{{ url('opiniones') }}"> OPINIONES</a>
                     <a @if (Request::is('como-funciona')) class="nav-link active" @else class="nav-link" @endif
-                        href="{{ url('como-funciona') }}">CóMO FUNCIONA</a>
+                        href="{{ url('faq') }}">FAQ</a>
                     @auth
                         <a @if (Request::is('mi-subastek')) class="nav-link active" @else class="nav-link" @endif
                             href="{{ url('mi-subastek') }}">MI SUBASTEK</a>
