@@ -53,6 +53,8 @@ class HomeController extends Controller
                 $date_to = date('Y-m-d H:i:s', strtotime($product->to));
                 $current = date('Y-m-d H:i:s', strtotime(Carbon::now()));
                 $date = date('d-m-Y H:i:s', strtotime($product->from));
+                $date1 = date('d-m-Y', strtotime($product->from));
+                $current1 = date('d-m-Y', strtotime(Carbon::now()));
 
                 if (Auth::user()) {
                     $check = Auth()->user()->id;
@@ -92,9 +94,11 @@ class HomeController extends Controller
                         if ($check != $user_id) {
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
-                        font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        font-weight: bold;" id="win">10</span>';
+                            if ($date1 == $current1) {
+                                $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            }
+                            $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -103,9 +107,11 @@ class HomeController extends Controller
                         } else {
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
-                        font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        font-weight: bold;" id="win">10</span>';
+                        if($date1==$current1){
+                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            }
+                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                         <span style="width:100%; border:none;">
                         <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -115,9 +121,11 @@ class HomeController extends Controller
                     } else {
                         $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                                 font-size: 18px;
-                                font-weight: bold;" id="win">10</span>
-                                <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                                <input type="hidden" value="' . $product->id . '" id="product_id">
+                                font-weight: bold;" id="win">10</span>';
+                                if($date1==$current1){
+                                    $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                                    }
+                                $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                                 <span style="width:100%; border:none;">
                                 <div class="card_rebre">
                                          <h4> REOPEN SOON</h4>
@@ -172,7 +180,7 @@ class HomeController extends Controller
             }
             return $data;
         }
-
+        
     }
     public function bidByUser(Request $request)
     {
@@ -205,6 +213,8 @@ class HomeController extends Controller
                     $date_to = date('Y-m-d H:i:s', strtotime($product->to));
                     $current = date('Y-m-d H:i:s', strtotime(Carbon::now()));
                     $date = date('d-m-Y H:i:s', strtotime($product->from));
+                    $date1 = date('d-m-Y', strtotime($product->from));
+                    $current1 = date('d-m-Y', strtotime(Carbon::now()));
                     $user_book = "";
                     $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
                     $user_book = $bid_user->user_name->name ?? "";
@@ -233,9 +243,11 @@ class HomeController extends Controller
                             if ($check != $user->id) {
                                 $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
-                        font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        font-weight: bold;" id="win">10</span>';
+                        if($date1==$current1){
+                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            }
+                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -244,9 +256,11 @@ class HomeController extends Controller
                             } else {
                                 $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
-                        font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        font-weight: bold;" id="win">10</span>';
+                        if($date1==$current1){
+                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            }
+                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                         <span style="width:100%; border:none;">
                         <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -256,9 +270,11 @@ class HomeController extends Controller
                         } else {
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                                 font-size: 18px;
-                                font-weight: bold;" id="win">10</span>
-                                <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                                <input type="hidden" value="' . $product->id . '" id="product_id">
+                                font-weight: bold;" id="win">10</span>';
+                                if($date1==$current1){
+                                    $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                                    }
+                                $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                                 <span style="width:100%; border:none;">
                                 <div class="card_rebre">
                                          <h4> REOPEN SOON</h4>
@@ -268,9 +284,11 @@ class HomeController extends Controller
                     } elseif ($product->win != null) {
                         $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                     font-size: 18px;
-                    font-weight: bold;" id="win">10</span>
-                    <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                    <input type="hidden" value="' . $product->id . '" id="product_id">
+                    font-weight: bold;" id="win">10</span>';
+                    if($date1==$current1){
+                        $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                        }
+                    $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                     <span style="width:100%; border:none;">
                     <div class="card_rebre" style="background: gray; margin-bottom:0px;">
                         <h4>WINDIDO</h4>
@@ -380,6 +398,8 @@ class HomeController extends Controller
                 $date_to = date('Y-m-d H:i:s', strtotime($product->to));
                 $current = date('Y-m-d H:i:s', strtotime(Carbon::now()));
                 $date = date('d-m-Y H:i:s', strtotime($product->from));
+                $date1 = date('d-m-Y', strtotime($product->from));
+                $current1 = date('d-m-Y', strtotime(Carbon::now()));
                 $user_book = "";
                 $bid_user = BidUse::orderBy('created_at', 'DESC')->where('product_id', $product->id)->first();
                 $user_book = $bid_user->user_name->name ?? "";
@@ -409,9 +429,11 @@ class HomeController extends Controller
                         if ($check != $user_id) {
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
-                        font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        font-weight: bold;" id="win">10</span>';
+                        if($date1==$current1){
+                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            }
+                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -420,9 +442,11 @@ class HomeController extends Controller
                         } else {
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
-                        font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        font-weight: bold;" id="win">10</span>';
+                        if($date1==$current1){
+                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            }
+                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                         <span style="width:100%; border:none;">
                         <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -432,9 +456,11 @@ class HomeController extends Controller
                     } else {
                         $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                                 font-size: 18px;
-                                font-weight: bold;" id="win">10</span>
-                                <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                                <input type="hidden" value="' . $product->id . '" id="product_id">
+                                font-weight: bold;" id="win">10</span>';
+                                if($date1==$current1){
+                                    $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                                    }
+                                $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                                 <span style="width:100%; border:none;">
                                 <div class="card_rebre">
                                          <h4> REOPEN SOON</h4>
@@ -444,9 +470,11 @@ class HomeController extends Controller
                 } elseif ($product->win != null) {
                     $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                     font-size: 18px;
-                    font-weight: bold;" id="win">10</span>
-                    <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                    <input type="hidden" value="' . $product->id . '" id="product_id">
+                    font-weight: bold;" id="win">10</span>';
+                    if($date1==$current1){
+                        $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                        }
+                    $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                     <span style="width:100%; border:none;">
                     <div class="card_rebre" style="background: gray; margin-bottom:0px;">
                         <h4>WINDIDO</h4>
@@ -513,6 +541,8 @@ class HomeController extends Controller
                 $date_to = date('Y-m-d H:i:s', strtotime($product->to));
                 $current = date('Y-m-d H:i:s', strtotime(Carbon::now()));
                 $date = date('d-m-Y H:i:s', strtotime($product->from));
+                $date1 = date('d-m-Y', strtotime($product->from));
+                $current1 = date('d-m-Y', strtotime(Carbon::now()));
                 if (Auth::user()) {
                     $check = Auth()->user()->id;
                     $wish = Wish::where('product_id', $product->id)->where('user_id', Auth()->user()->id)->first();
@@ -549,9 +579,11 @@ class HomeController extends Controller
                         if ($check != $user_id) {
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
-                        font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        font-weight: bold;" id="win">10</span>';
+                        if($date1==$current1){
+                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            }
+                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -560,9 +592,11 @@ class HomeController extends Controller
                         } else {
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
-                        font-weight: bold;" id="win">10</span>
-                        <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                        <input type="hidden" value="' . $product->id . '" id="product_id">
+                        font-weight: bold;" id="win">10</span>';
+                        if($date1==$current1){
+                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            }
+                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                         <span style="width:100%; border:none;">
                         <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -572,9 +606,11 @@ class HomeController extends Controller
                     } else {
                         $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                                 font-size: 18px;
-                                font-weight: bold;" id="win">10</span>
-                                <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                                <input type="hidden" value="' . $product->id . '" id="product_id">
+                                font-weight: bold;" id="win">10</span>';
+                                if($date1==$current1){
+                                    $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                                    }
+                                $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                                 <span style="width:100%; border:none;">
                                 <div class="card_rebre">
                                          <h4> REOPEN SOON</h4>
@@ -584,9 +620,11 @@ class HomeController extends Controller
                 } elseif ($product->win != null) {
                     $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                     font-size: 18px;
-                    font-weight: bold;" id="win">10</span>
-                    <h4 class="card_time">Hoy a las ' . $date . '</h4>
-                    <input type="hidden" value="' . $product->id . '" id="product_id">
+                    font-weight: bold;" id="win">10</span>';
+                    if($date1==$current1){
+                        $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                        }
+                    $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
                     <span style="width:100%; border:none;">
                     <div class="card_rebre" style="background: gray; margin-bottom:0px;">
                         <h4>WINDIDO</h4>
@@ -760,7 +798,7 @@ class HomeController extends Controller
     public function checkout($id)
     {
         $product = Product::find($id);
-        $payment_method = PaymentMethod::where('user_id',Auth()->user()->id)->get();
+        $payment_method = PaymentMethod::where('user_id', Auth()->user()->id)->get();
         return view('checkout', compact('product', 'payment_method'));
     }
     public function how_work()
@@ -781,22 +819,23 @@ class HomeController extends Controller
     {
         $getip = UserSystemInfoHelper::get_ip();
         $getbrowser = UserSystemInfoHelper::get_browsers();
-        $check_ip = LogCapita::where('ip',$getip)->where('browser',$getbrowser)->first();
-        if(!isset($check_ip)){
+        $check_ip = LogCapita::where('ip', $getip)->where('browser', $getbrowser)->first();
+        if (!isset($check_ip)) {
             return redirect('se');
         }
         $search = $request->search;
-        $query = Product::query();
-        if ($search != '') {
-            $query->where('category_id', $search);
+        if (isset($search)) {
+            $product = Product::where('category_id', $search)->get();
+        } else {
+            $product = Product::get();
         }
-        $product = $query->orderBy('id', 'desc')->get();
 
         $category = Category::all();
         $slider = Slider::all();
         return view('welcome', compact('product', 'category', 'search', 'slider'));
     }
-    public function Se(Request $request){
+    public function Se(Request $request)
+    {
         // $validation = $request->validate(
         //     [
         //     'g-recaptcha-response' => 'required|captcha'
@@ -804,7 +843,7 @@ class HomeController extends Controller
         $getip = UserSystemInfoHelper::get_ip();
         $getbrowser = UserSystemInfoHelper::get_browsers();
         $check_ip = new LogCapita;
-        $check_ip->ip=$getip;
+        $check_ip->ip = $getip;
         $check_ip->browser = $getbrowser;
         $check_ip->save();
         return redirect('/');

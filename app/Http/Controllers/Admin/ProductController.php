@@ -43,7 +43,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        
         $validation = $request->validate(
             [
                 'name' => 'required|max:255',
@@ -51,9 +50,7 @@ class ProductController extends Controller
                 'from' => 'required',
                 'to' => 'required',
                 'category' => 'required',
-                'description' => 'required',
                 'image1' => 'required',
-                'image' => 'required',
                 'min_price' => 'required',
                 'min_bid_price' => 'required',
             ]
@@ -86,10 +83,8 @@ class ProductController extends Controller
                 $image->move(public_path().'/img/', $name);  
                 $data[] = $name;  
             }
+            $product->image=json_encode($data);
          }
-
-         
-        $product->image=json_encode($data);
         $product->save();
         return redirect('admin/product')->with('success','New Product has created!');
     }

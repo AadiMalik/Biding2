@@ -50,12 +50,12 @@
                                     <th>
                                         Price
                                     </th>
-                                    <th>
+                                    {{-- <th>
                                         Time
                                     </th>
                                     <th>
                                         Limit
-                                    </th>
+                                    </th> --}}
                                     <th>
                                         Feature 1
                                     </th>
@@ -91,12 +91,12 @@
                                         <td>
                                             {{ $item->price ?? '' }}
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             {{ $item->time ?? '' }}
                                         </td>
                                         <td>
                                             {{ $item->limit ?? '' }}
-                                        </td>
+                                        </td> --}}
                                         <td>
                                             {{ $item->feature1 ?? '' }}
                                         </td>

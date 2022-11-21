@@ -17,14 +17,14 @@
                 <label class="required" for="price">Price*</label>
                 <input type="number" step="any" name="price" class="form-control" id="" required>
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label class="required" for="limit">Limit*</label>
                 <input type="number" name="limit" value="0" class="form-control" id="" required>
             </div>
             <div class="form-group">
                 <label class="required" for="Time">Time*</label>
                 <input type="text" name="time" class="form-control" id="" required>
-            </div>
+            </div> --}}
             <div class="form-group">
                 <label class="required" for="feature1">Feature 1*</label>
                 <input type="text" name="feature1" class="form-control" id="" required>

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('style')
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 @endsection
 @section('content')
@@ -12,8 +12,18 @@
                 <div class="card-body p-4">
                     <h5 class="card-title">Update Product</h5>
                     <hr />
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="form-body mt-4">
-                        <form method="POST" action="{{ route("admin.product.update", $product->id) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('admin.product.update', $product->id) }}"
+                            enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
                             <div class="row">
@@ -22,19 +32,20 @@
                                         <div class="mb-3">
                                             <label for="inputProductTitle" class="form-label">Product Title</label>
                                             <input type="text" class="form-control" id="inputProductTitle" name="name"
-                                                id="name" value="{{ $product->name??'' }}"
+                                                id="name" value="{{ $product->name ?? '' }}"
                                                 placeholder="Enter product title" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputProductDescription" class="form-label">Description</label>
-                                            <textarea class="form-control" name="description" id="summernote" rows="3">{!! $product->description??'' !!}</textarea>
+                                            <textarea class="form-control" name="description" id="summernote" rows="3">{!! $product->description ?? '' !!}</textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputProductDescription" class="form-label">New Banner Image</label>
                                             <input class="form-control" type="file" name="image1" id="image1">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="inputProductDescription" class="form-label">New Product Images</label>
+                                            <label for="inputProductDescription" class="form-label">New Product
+                                                Images</label>
                                             <input id="image-uploadify" name="image[]" type="file"
                                                 accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf"
                                                 multiple>
@@ -47,40 +58,45 @@
                                             <div class="col-md-6">
                                                 <label for="inputPrice" class="form-label">Price</label>
                                                 <input type="text" class="form-control" id="inputPrice"
-                                                    placeholder="00.00" name="price" value="{{ $product->price??'' }}"
+                                                    placeholder="00.00" name="price" value="{{ $product->price ?? '' }}"
                                                     required>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="inputCompareatprice" class="form-label">Shipping Price</label>
-                                                <input type="text" class="form-control" id="inputCompareatprice"
-                                                    placeholder="00.00" name="shipping_price"
-                                                    value="{{ $product->shipping_price??'' }}" required>
+                                                <input type="number" step="any" class="form-control"
+                                                    id="inputCompareatprice" placeholder="00.00" name="shipping_price"
+                                                    value="{{ $product->shipping_price ?? '' }}" required>
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="inputCostPerPrice" class="form-label">Start Date</label>
                                                 <input type="datetime-local" class="form-control" id="inputCostPerPrice"
-                                                    name="from" value="{{ $product->from??'' }}" required>
+                                                    name="from" value="{{ $product->from ?? '' }}" required>
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="inputCostPerPrice" class="form-label">End Date</label>
                                                 <input type="datetime-local" class="form-control" id="inputCostPerPrice"
-                                                    name="to" value="{{ $product->to??'' }}" required>
+                                                    name="to" value="{{ $product->to ?? '' }}" required>
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="inputStarPoints" class="form-label">Minimum Price</label>
                                                 <input type="number" class="form-control" id="inputStarPoints"
-                                                    name="min_price" placeholder="00.00" value="{{$product->min_price??''}}" required>
+                                                    name="min_price" placeholder="00.00"
+                                                    value="{{ $product->min_price ?? '' }}" required>
                                             </div>
-											<div class="col-md-12">
+                                            <div class="col-md-12">
                                                 <label for="inputStarPoints" class="form-label">Minimum bid Price</label>
                                                 <input type="number" class="form-control" id="inputStarPoints"
-                                                    name="min_bid_price" placeholder="00.00" value="{{$product->min_bid_price??''}}" required>
+                                                    name="min_bid_price" placeholder="00.00"
+                                                    value="{{ $product->min_bid_price ?? '' }}" required>
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="inputProductType" class="form-label">Category</label>
-                                                <select name="category" class="form-select" id="inputProductType" required style="font-size: 14px;">
+                                                <select name="category" class="form-select" id="inputProductType"
+                                                    required style="font-size: 14px;">
                                                     @foreach ($category as $item)
-                                                        <option value="{{ $item->id }}" {{($product->category_id==$item->id)?'selected':''}}>{{ $item->name ?? '' }}</option>
+                                                        <option value="{{ $item->id }}"
+                                                            {{ $product->category_id == $item->id ? 'selected' : '' }}>
+                                                            {{ $item->name ?? '' }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -104,7 +120,7 @@
     </div>
 @endsection
 @section('script')
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {

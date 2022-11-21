@@ -74,10 +74,10 @@
                                             <img src="{{asset($item->image??'')}}" style="height: 100px; width:100px;" alt="">
                                             @endif
                                         </td>
-                                        <td>
+                                        <td style="min-width:400px; white-space: break-spaces;">
                                             {{ $item->video ?? '' }}
                                         </td>
-                                        <td>
+                                        <td style="min-width:400px; white-space: break-spaces;">
                                             {{ str_limit($item->description ?? '', 60, '(....)') }}
                                         </td>
                                         <td>

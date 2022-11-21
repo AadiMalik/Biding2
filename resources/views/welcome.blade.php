@@ -220,7 +220,8 @@
             }
         }
         $(document).ready(function() {
-
+            const urlParams = new URLSearchParams(window.location.search);
+            const pageSize = urlParams.get('search');
             $("#results").load("{{ route('product.index') }}");
             setInterval(function() {
                 $("#results").load("{{ route('product.index') }}");

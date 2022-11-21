@@ -74,11 +74,11 @@
                     <a @if (Request::is('/')) class="nav-link active" @else class="nav-link" @endif
                         aria-current="page" href="{{ url('/') }}">SUBASTAS EN VIVO</a>
                     <a @if (Request::is('subasta-cerrada')) class="nav-link active" @else class="nav-link" @endif
-                        href="{{ url('subasta-cerrada') }}">SUBASTA CERRADA</a>
+                        href="{{ url('subasta-cerrada') }}">SUBASTAS CERRADAS</a>
                     <a @if (Request::is('opiniones')) class="nav-link active" @else class="nav-link" @endif
                         href="{{ url('opiniones') }}"> OPINIONES</a>
                     <a @if (Request::is('como-funciona')) class="nav-link active" @else class="nav-link" @endif
-                        href="{{ url('como-funciona') }}">COMO FUNCIONA</a>
+                        href="{{ url('como-funciona') }}">CóMO FUNCIONA</a>
                     @auth
                         <a @if (Request::is('mi-subastek')) class="nav-link active" @else class="nav-link" @endif
                             href="{{ url('mi-subastek') }}">MI SUBASTEK</a>
@@ -102,10 +102,10 @@
                         border-radius: 10px;
                         padding: 2px;">PROMO</small></a>
                     @else
-                        <a href="{{ url('login') }}" class="btn login_btn">ACCESO</a>
+                        <a href="{{ url('login') }}" class="btn login_btn">ACCEDA</a>
                         <a href="{{ url('register') }}" class="btn Sign_up w-50">
                             Regístrese y
-                            recibir 10
+                            reciba 10
                             <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/ic-single-money.svg"
                                 alt="">
                         </a>
@@ -133,8 +133,8 @@
                                 <h3>EMPRESA</h3>
                                 <a href="{{ url('sobre-nosotros') }}">Sobre Nosotros</a>
                                 <a href="#">Contacto</a>
-                                <a href="{{ url('terminos-y-condiciones') }}">Términos y Condiciones</a>
-                                <a href="{{ url('política-de-privacidad') }}">Política de Privacidad</a>
+                                {{-- <a href="{{ url('terminos-y-condiciones') }}">Términos y Condiciones</a>
+                                <a href="{{ url('política-de-privacidad') }}">Política de Privacidad</a> --}}
                             </div>
                         </div>
                         <div class="col-6 col-lg-4 ">
