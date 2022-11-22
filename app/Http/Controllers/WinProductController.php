@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\BuyProduct;
+use App\Package;
 use App\PaymentMethod;
 use App\Product;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
@@ -55,6 +57,11 @@ class WinProductController extends Controller
         $buy_product->user_id = Auth()->user()->id;
         $buy_product->quatity = 1;
         $buy_product->save();
+        // Package Add
+        $package = Package::find($product->package_id);
+        $user = User::find(Auth()->user()->id);
+        $user->bids = $user->bids + $package->bids;
+        $user->update();
         return redirect('win-product');
     }
 }

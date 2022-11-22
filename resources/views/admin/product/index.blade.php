@@ -38,7 +38,7 @@
                                 <tr>
 
                                     <th>
-                                        ID
+                                        Code
                                     </th>
                                     <th>
                                         Name
@@ -51,6 +51,9 @@
                                     </th>
                                     <th>
                                         Category
+                                    </th>
+                                    <th>
+                                        Package
                                     </th>
                                     <th>
                                         From
@@ -83,7 +86,7 @@
                                     <tr data-entry-id="{{ $item->id }}">
 
                                         <td>
-                                            {{ $item->id ?? '' }}
+                                            {{ $item->code ?? '' }}
                                         </td>
                                         <td>
                                             {{ $item->name ?? '' }}
@@ -96,6 +99,9 @@
                                         </td>
                                         <td>
                                             {{ $item->category_name->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $item->package_name->bids ?? '' }} (Price:{{ $item->package_name->price ?? '' }})
                                         </td>
                                         <td>
                                             {{ $item->from ?? '' }}

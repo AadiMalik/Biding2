@@ -48,7 +48,6 @@
                             <tbody>
                                 @foreach ($order as $key => $item)
                                     <tr data-entry-id="{{ $item->id }}">
-
                                         <td>
                                             <img src="{{$item->product_name->image1??''}}" style="width:100px; height:100px;" alt=""> <br>
                                             {{$item->product_name->name??''}} <br>
@@ -69,7 +68,6 @@
                                         <td>
                                             {{ $item->status ?? '' }}
                                         </td>
-                                        
                                     </tr>
                                 @endforeach
                             </tbody>

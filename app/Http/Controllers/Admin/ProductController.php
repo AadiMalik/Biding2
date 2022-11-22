@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Package;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -32,7 +33,8 @@ class ProductController extends Controller
     {
         abort_if(Gate::denies('product_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $category = Category::orderBy('name','ASC')->get();
-        return view('admin/product.create',compact('category'));
+        $package = Package::orderBy('bids','ASC')->get();
+        return view('admin/product.create',compact('category','package'));
     }
 
     /**
@@ -45,20 +47,24 @@ class ProductController extends Controller
     {
         $validation = $request->validate(
             [
+                'code' => 'required',
                 'name' => 'required|max:255',
                 'price' => 'required',
                 'from' => 'required',
                 'to' => 'required',
                 'category' => 'required',
+                'package' => 'required',
                 'image1' => 'required',
                 'min_price' => 'required',
                 'min_bid_price' => 'required',
             ]
         );
         $product = new Product;
+        $product->code = $request->code;
         $product->name = $request->name;
         $product->slug = str_slug($request->name.rand(1,9999), '-');
         $product->category_id = $request->category;
+        $product->package_id = $request->package;
         $product->price = $request->price;
         $product->to = $request->to;
         $product->from = $request->from;
@@ -111,7 +117,8 @@ class ProductController extends Controller
         abort_if(Gate::denies('product_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $product = Product::find($id);
         $category = Category::orderBy('name','ASC')->get();
-        return view('admin/product.edit',compact('product','category'));
+        $package = Package::orderBy('bids','ASC')->get();
+        return view('admin/product.edit',compact('product','category','package'));
     }
 
     /**
@@ -125,20 +132,24 @@ class ProductController extends Controller
     {
         $validation = $request->validate(
             [
+                'code' => 'required',
                 'name' => 'required|max:255',
                 'price' => 'required',
                 'from' => 'required',
                 'to' => 'required',
                 'category' => 'required',
+                'package' => 'required',
                 'description' => 'required',
                 'min_price' => 'required',
                 'min_bid_price' => 'required',
             ]
         );
         $product = Product::find($id);
+        $product->code = $request->code;
         $product->name = $request->name;
         $product->slug = str_slug($request->name.rand(1,9999), '-');
         $product->category_id = $request->category;
+        $product->package_id = $request->package;
         $product->price = $request->price;
         $product->to = $request->to;
         $product->from = $request->from;

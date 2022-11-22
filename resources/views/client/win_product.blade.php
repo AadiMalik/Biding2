@@ -46,7 +46,7 @@
                                         <td>
                                             <img src="{{$item->image1??''}}" style="width:100px; height:100px;" alt=""> <br>
                                             {{$item->name??''}} <br>
-                                            ID:{{$item->id}}
+                                            ID:{{$item->code}}
                                         </td>
                                         <td>
                                             {{ $item->updated_at ?? '' }}
@@ -56,7 +56,7 @@
                                         </td>
                                         <td>
                                             @if(count($buy_product->where('product_id',$item->id))>0)
-                                            Paid
+                                            <a href="{{url('feedback/'.$item->id)}}" class="btn btn-info">Retroalimentación</a>
                                             @else
                                             <a href="{{url('buy-product/'.$item->id)}}" class="btn btn-primary">Paga Ahora</a>
                                             @endif

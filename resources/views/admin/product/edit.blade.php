@@ -30,6 +30,12 @@
                                 <div class="col-lg-8">
                                     <div class="border border-3 p-4 rounded">
                                         <div class="mb-3">
+                                            <label for="inputProductTitle" class="form-label">Product Code</label>
+                                            <input type="text" class="form-control" id="inputProductTitle" name="code"
+                                                id="code" value="{{ $product->code ?? '' }}"
+                                                placeholder="Enter product Code" required>
+                                        </div>
+                                        <div class="mb-3">
                                             <label for="inputProductTitle" class="form-label">Product Title</label>
                                             <input type="text" class="form-control" id="inputProductTitle" name="name"
                                                 id="name" value="{{ $product->name ?? '' }}"
@@ -97,6 +103,16 @@
                                                         <option value="{{ $item->id }}"
                                                             {{ $product->category_id == $item->id ? 'selected' : '' }}>
                                                             {{ $item->name ?? '' }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="inputProductType" class="form-label">Package</label>
+                                                <select name="package" class="form-select" id="inputProductType"
+                                                    required style="font-size: 14px;">
+                                                    @foreach ($package as $item)
+                                                        <option value="{{ $item->id }}"{{ $product->package_id == $item->id ? 'selected' : '' }}>{{ $item->bids ?? '' }} (Price:{{ $item->price ?? '' }})
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>

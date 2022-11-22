@@ -31,6 +31,8 @@ Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
     Route::get('buy-product/{id}', 'WinProductController@pay_product');
     Route::post('product-payment', 'WinProductController@payment');
     Route::get('wish-list', 'WishController@index');
+    Route::get('feedback/{id}', 'OpenionController@edit');
+    Route::post('feedback', 'OpenionController@store')->name('feedback.store');
 
     
 });
@@ -57,6 +59,8 @@ Route::get('most-opinion', 'HomeController@most_opinion_auto')->name('most_opini
 Route::post('opinion_like', 'HomeController@likes')->name('opinion.like')->middleware('auth');
 Route::post('payment_method', 'PaymentMethodController@store')->name('payment_method.store')->middleware('auth');
 Route::post('payment', 'PackageBuyController@store')->name('payment.store')->middleware('auth');
+Route::get('profile', 'ProfileController@index')->middleware('auth');
+Route::post('update-profile', 'ProfileController@update')->middleware('auth');
 
 
 Auth::routes();

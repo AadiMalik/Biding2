@@ -47,6 +47,11 @@
                 <span class="help-block">{{ trans('cruds.permission.fields.title_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="image">Feedback</label>
+                <textarea type="text" name="description" class="form-control" id="">{{$openion->description??''}}</textarea>
+                <span class="help-block">{{ trans('cruds.permission.fields.title_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="status">Status</label>
                 <select name="status" class="form-control" id="" required>
                     <option value="0" {{($opinion->status==0)?'selected':''}}>Active</option>

@@ -180,7 +180,7 @@ class HomeController extends Controller
             }
             return $data;
         }
-        
+
     }
     public function bidByUser(Request $request)
     {
@@ -240,7 +240,7 @@ class HomeController extends Controller
                         <span class="nickname">' . $user_book . '</span></a>';
                     if ($product->win == null) {
                         if (($current > $date_from) && ($current < $date_to)) {
-                            if ($check != $user->id) {
+                            if ($check != Auth()->user()->id) {
                                 $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>';
@@ -378,11 +378,15 @@ class HomeController extends Controller
             $bid = new BidUse;
             $bid->product_id = $request->product_id;
             $bid->user_id = $auto->user_id;
-            $product_bid = Product::find($request->product_id);
-            $product_bid->bid_price = $product_bid->bid_price + $product_bid->min_price;
-            $bid->bids = $product_bid->bid;
+            $bid->bids = 1;
             $bid->save();
+
+            $product_bid = Product::find($request->product_id);
+            $product_bid->bid_price = $product_bid->bid_price + $product_bid->min_bid_price;
             $product_bid->update();
+
+            $auto->bids = $auto->bids-1;
+            $auto->update();
         }
         if (Auth::user()) {
             $wish = Wish::where('product_id', $product->id)->where('user_id', Auth()->user()->id)->first();
@@ -888,6 +892,6 @@ class HomeController extends Controller
             return redirect()->route('admin.home')->with('status', session('status'));
         }
 
-        return redirect()->route('client.home')->with('status', session('status'));
+        return redirect('win-product')->with('status', session('status'));
     }
 }

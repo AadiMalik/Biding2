@@ -51,6 +51,7 @@ class OpinionController extends Controller
         $opinion->user_id = $request->user;
         $opinion->product_id = $request->product;
         $opinion->status = $request->status;
+        $opinion->description = $request->description;
         if ($request->hasfile('image')) {
             $image = $request->file('image');
             $upload = 'img/';
@@ -104,6 +105,7 @@ class OpinionController extends Controller
         $opinion->user_id = $request->user;
         $opinion->product_id = $request->product;
         $opinion->status = $request->status;
+        $opinion->description = $request->description;
         if ($request->hasfile('image')) {
             $image = $request->file('image');
             $upload = 'img/';

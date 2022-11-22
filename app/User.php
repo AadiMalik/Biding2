@@ -64,6 +64,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Country::class, 'country_id');
     }
+    public function package_name()
+    {
+        return $this->belongsTo(Package::class,'package_id');
+    }
     public function getIsAdminAttribute()
     {
         return $this->roles()->where('id', 1)->exists();

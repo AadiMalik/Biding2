@@ -14,4 +14,8 @@ class Product extends Model
     {
         return $this->belongsTo(User::class,'win');
     }
+    public function package_name()
+    {
+        return $this->belongsTo(Package::class,'package_id');
+    }
 }

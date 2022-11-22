@@ -56,6 +56,9 @@
                                             Image
                                         </th>
                                         <th>
+                                            Feedback
+                                        </th>
+                                        <th>
                                             Status
                                         </th>
                                         <th>
@@ -80,6 +83,9 @@
                                             </td>
                                             <td>
                                                 <img src="{{asset($item->image??'')}}" style="width: 100px; height:100px;" alt="">
+                                            </td>
+                                            <td>
+                                                {{$item->description??''}}
                                             </td>
                                             <td>
                                                 @if($item->status==0)
