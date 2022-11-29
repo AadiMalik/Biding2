@@ -20,6 +20,7 @@ use App\Review;
 use App\Sector;
 use App\Slider;
 use App\Support;
+use App\Term;
 use App\User;
 use App\Wish;
 use App\WritingPoint;
@@ -84,7 +85,7 @@ class HomeController extends Controller
                 $data .= '</div>
                     <a href="subasta/' . $product->id . '">
                         <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
-                        <a class="title">$ ' . $product->min_price . ' Tienda <br>
+                        <a  href="subasta/' . $product->id . '" class="title">$ ' . $product->min_price . ' Tienda <br>
                         <span class="nickname">' . $product->name . '</span></a>
 
                         <span class="card_prize">$' . $product->bid_price . '</span>
@@ -108,10 +109,10 @@ class HomeController extends Controller
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>';
-                        if($date1==$current1){
-                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            if ($date1 == $current1) {
+                                $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
                             }
-                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                            $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                         <span style="width:100%; border:none;">
                         <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -122,10 +123,10 @@ class HomeController extends Controller
                         $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                                 font-size: 18px;
                                 font-weight: bold;" id="win">10</span>';
-                                if($date1==$current1){
-                                    $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
-                                    }
-                                $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                        if ($date1 == $current1) {
+                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                        }
+                        $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                                 <span style="width:100%; border:none;">
                                 <div class="card_rebre">
                                          <h4> REOPEN SOON</h4>
@@ -145,42 +146,35 @@ class HomeController extends Controller
                     </span>';
                 }
 
-                $data .= '<div class="d-flex">
-                            <a href="subasta/' . $product->id . '" class="btn btn-primary form-control" style="border-radius: 0px;">
+                $data .= '<div class="d-flex p-1">
+                            <button onclick="AddtoCart(' . $product->id . ')" class="btn btn_theme1 mx-1" style="border-radius: 0px;">
                                 <i class="fas fa-shopping-cart"></i>
-                                $' . $product->price . '</a>
-                            
+                                $' . $product->price . '</button>
+                                <button onclick="SelfBid(' . $product->id . ')" class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>AUTO
+                                BID</button>
                         </div>
                     </a>
-                    <div class="bid-opction mt-1" id="bids' . $product->id . '">
-                            <a href="javascript:void(0)" onclick="AutoBid(10,' . $product->id . ')"><i class="fa fa-plus"></i>10</a>
-                             <a href="javascript:void(0)" onclick="AutoBid(20,' . $product->id . ')"><i class="fa fa-plus"></i>20</a>
-                              <a href="javascript:void(0)" onclick="AutoBid(50,' . $product->id . ')"><i class="fa fa-plus"></i>50</a>
-                               <a href="javascript:void(0)" onclick="AutoBid(100,' . $product->id . ')"><i class="fa fa-plus"></i>100</a>
-                               <p class="mt-1"><a  href="#demo-modal' . $product->id . '" class="other-amount">Other Amount</a></p>
+                    </div>
+                    <div class="card bid-card" id="bid-card' . $product->id . '" style="display:none;">
+                        <div class="bid-opction mt-1">
+                                <a href="javascript:void(0)" onclick="AutoBid(10,' . $product->id . ')"><i class="fa fa-plus"></i>10</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(20,' . $product->id . ')"><i class="fa fa-plus"></i>20</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(50,' . $product->id . ')"><i class="fa fa-plus"></i>50</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(100,' . $product->id . ')"><i class="fa fa-plus"></i>100</a>
+                                
+                                <p id="show" class="mt-1 mb-0"><a class="other-amount" onclick="OtherAmount(' . $product->id . ')">Other Amount</a></p>
+                                    <div id="input' . $product->id . '" class="d-none d-flex mx-3 mt-2">
+                                        <input type="number" id="other' . $product->id . '" class="form-control w-100" style="border-radius: 0;" name="">
+                                        <button class="btn btn-primary ml-3" style="border-radius: 0;"  onclick="AutoBid(0,' . $product->id . ')"><i class="fa fa-plus"></i></button>
+                                    </div>
+                            </div>
                         </div>
-                </div>
-            </div>
-            <div id="demo-modal' . $product->id . '" class="modal">
-        <div class="modal__content">
-            <h3>Other Amount</h3>
-            <div class="row">
-                <div class="col-md-12">
-                    <input type="number" id="other' . $product->id . '" class="form-control">
-                </div>
-                <div class="col-md-12" style="margin-top:10px;">
-                    <a href="javascript:void(0)" onclick="AutoBid(0,' . $product->id . ')" class="btn btn-primary">Add</a>
-                </div>
-            </div>
-            <a href="#" class="modal__close">&times;</a>
-        </div>
-    </div>
-            ';
+                        
+                    </div>';
                 // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
             }
             return $data;
         }
-
     }
     public function bidByUser(Request $request)
     {
@@ -233,7 +227,7 @@ class HomeController extends Controller
                     $data .= '</div>
                     <a href="subasta/' . $product->id . '">
                         <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
-                        <a class="title">$ ' . $product->min_price . ' Tienda <br>
+                        <a  href="subasta/' . $product->id . '" class="title">$ ' . $product->min_price . ' Tienda <br>
                         <span class="nickname">' . $product->name . '</span></a>
 
                         <span class="card_prize">$' . $product->bid_price . '</span>
@@ -244,10 +238,10 @@ class HomeController extends Controller
                                 $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>';
-                        if($date1==$current1){
-                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
-                            }
-                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                                if ($date1 == $current1) {
+                                    $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                                }
+                                $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -257,10 +251,10 @@ class HomeController extends Controller
                                 $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>';
-                        if($date1==$current1){
-                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
-                            }
-                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                                if ($date1 == $current1) {
+                                    $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                                }
+                                $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                         <span style="width:100%; border:none;">
                         <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -271,10 +265,10 @@ class HomeController extends Controller
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                                 font-size: 18px;
                                 font-weight: bold;" id="win">10</span>';
-                                if($date1==$current1){
-                                    $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
-                                    }
-                                $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                            if ($date1 == $current1) {
+                                $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            }
+                            $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                                 <span style="width:100%; border:none;">
                                 <div class="card_rebre">
                                          <h4> REOPEN SOON</h4>
@@ -285,10 +279,10 @@ class HomeController extends Controller
                         $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                     font-size: 18px;
                     font-weight: bold;" id="win">10</span>';
-                    if($date1==$current1){
-                        $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                        if ($date1 == $current1) {
+                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
                         }
-                    $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                        $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                     <span style="width:100%; border:none;">
                     <div class="card_rebre" style="background: gray; margin-bottom:0px;">
                         <h4>WINDIDO</h4>
@@ -296,37 +290,31 @@ class HomeController extends Controller
                     </span>';
                     }
 
-                    $data .= '<div class="d-flex">
-                            <a href="subasta/' . $product->id . '" class="btn btn-primary form-control" style="border-radius: 0px;">
+                    $data .= '<div class="d-flex p-1">
+                            <button onclick="AddtoCart(' . $product->id . ')" class="btn btn_theme1 mx-1" style="border-radius: 0px;">
                                 <i class="fas fa-shopping-cart"></i>
-                                $' . $product->price . '</a>
-                            
+                                $' . $product->price . '</button>
+                                <button onclick="SelfBid(' . $product->id . ')" class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>AUTO
+                                BID</button>
                         </div>
                     </a>
-                    <div class="bid-opction mt-1" id="bids' . $product->id . '">
-                            <a href="javascript:void(0)" onclick="AutoBid(10,' . $product->id . ')"><i class="fa fa-plus"></i>10</a>
-                             <a href="javascript:void(0)" onclick="AutoBid(20,' . $product->id . ')"><i class="fa fa-plus"></i>20</a>
-                              <a href="javascript:void(0)" onclick="AutoBid(50,' . $product->id . ')"><i class="fa fa-plus"></i>50</a>
-                               <a href="javascript:void(0)" onclick="AutoBid(100,' . $product->id . ')"><i class="fa fa-plus"></i>100</a>
-                               <p class="mt-1"><a  href="#demo-modal' . $product->id . '" class="other-amount">Other Amount</a></p>
+                    </div>
+                    <div class="card bid-card" id="bid-card' . $product->id . '" style="display:none;">
+                        <div class="bid-opction mt-1">
+                                <a href="javascript:void(0)" onclick="AutoBid(10,' . $product->id . ')"><i class="fa fa-plus"></i>10</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(20,' . $product->id . ')"><i class="fa fa-plus"></i>20</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(50,' . $product->id . ')"><i class="fa fa-plus"></i>50</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(100,' . $product->id . ')"><i class="fa fa-plus"></i>100</a>
+                                
+                                <p id="show" class="mt-1 mb-0"><a class="other-amount" onclick="OtherAmount(' . $product->id . ')">Other Amount</a></p>
+                                    <div id="input' . $product->id . '" class="d-none d-flex mx-3 mt-2">
+                                        <input type="number" id="other' . $product->id . '" class="form-control w-100" style="border-radius: 0;" name="">
+                                        <button class="btn btn-primary ml-3" style="border-radius: 0;"  onclick="AutoBid(0,' . $product->id . ')"><i class="fa fa-plus"></i></button>
+                                    </div>
+                            </div>
                         </div>
-                </div>
-            </div>
-            <div id="demo-modal' . $product->id . '" class="modal">
-        <div class="modal__content">
-            <h3>Other Amount</h3>
-            <div class="row">
-                <div class="col-md-12">
-                    <input type="number" id="other' . $product->id . '" class="form-control">
-                </div>
-                <div class="col-md-12" style="margin-top:10px;">
-                    <a href="javascript:void(0)" onclick="AutoBid(0,' . $product->id . ')" class="btn btn-primary">Add</a>
-                </div>
-            </div>
-            <a href="#" class="modal__close">&times;</a>
-        </div>
-    </div>
-            ';
+                        
+                    </div>';
                     // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
                 }
                 return $data;
@@ -385,7 +373,7 @@ class HomeController extends Controller
             $product_bid->bid_price = $product_bid->bid_price + $product_bid->min_bid_price;
             $product_bid->update();
 
-            $auto->bids = $auto->bids-1;
+            $auto->bids = $auto->bids - 1;
             $auto->update();
         }
         if (Auth::user()) {
@@ -423,7 +411,7 @@ class HomeController extends Controller
                 $data .= '</div>
                     <a href="subasta/' . $product->id . '">
                         <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
-                        <a class="title">$ ' . $product->min_price . ' Tienda <br>
+                        <a  href="subasta/' . $product->id . '" class="title">$ ' . $product->min_price . ' Tienda <br>
                         <span class="nickname">' . $product->name . '</span></a>
 
                         <span class="card_prize">$' . $product->bid_price . '</span>
@@ -434,10 +422,10 @@ class HomeController extends Controller
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>';
-                        if($date1==$current1){
-                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            if ($date1 == $current1) {
+                                $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
                             }
-                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                            $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -447,10 +435,10 @@ class HomeController extends Controller
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>';
-                        if($date1==$current1){
-                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            if ($date1 == $current1) {
+                                $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
                             }
-                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                            $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                         <span style="width:100%; border:none;">
                         <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -461,10 +449,10 @@ class HomeController extends Controller
                         $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                                 font-size: 18px;
                                 font-weight: bold;" id="win">10</span>';
-                                if($date1==$current1){
-                                    $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
-                                    }
-                                $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                        if ($date1 == $current1) {
+                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                        }
+                        $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                                 <span style="width:100%; border:none;">
                                 <div class="card_rebre">
                                          <h4> REOPEN SOON</h4>
@@ -475,10 +463,10 @@ class HomeController extends Controller
                     $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                     font-size: 18px;
                     font-weight: bold;" id="win">10</span>';
-                    if($date1==$current1){
+                    if ($date1 == $current1) {
                         $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
-                        }
-                    $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                    }
+                    $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                     <span style="width:100%; border:none;">
                     <div class="card_rebre" style="background: gray; margin-bottom:0px;">
                         <h4>WINDIDO</h4>
@@ -486,37 +474,31 @@ class HomeController extends Controller
                     </span>';
                 }
 
-                $data .= '<div class="d-flex">
-                            <a href="subasta/' . $product->id . '" class="btn btn-primary form-control" style="border-radius: 0px;">
+                $data .= '<div class="d-flex p-1">
+                            <button onclick="AddtoCart(' . $product->id . ')" class="btn btn_theme1 mx-1" style="border-radius: 0px;">
                                 <i class="fas fa-shopping-cart"></i>
-                                $' . $product->price . '</a>
-                            
+                                $' . $product->price . '</button>
+                                <button onclick="SelfBid(' . $product->id . ')" class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>AUTO
+                                BID</button>
                         </div>
                     </a>
-                    <div class="bid-opction mt-1" id="bids' . $product->id . '">
-                            <a href="javascript:void(0)" onclick="AutoBid(10,' . $product->id . ')"><i class="fa fa-plus"></i>10</a>
-                             <a href="javascript:void(0)" onclick="AutoBid(20,' . $product->id . ')"><i class="fa fa-plus"></i>20</a>
-                              <a href="javascript:void(0)" onclick="AutoBid(50,' . $product->id . ')"><i class="fa fa-plus"></i>50</a>
-                               <a href="javascript:void(0)" onclick="AutoBid(100,' . $product->id . ')"><i class="fa fa-plus"></i>100</a>
-                               <p class="mt-1"><a  href="#demo-modal' . $product->id . '" class="other-amount">Other Amount</a></p>
+                    </div>
+                    <div class="card bid-card" id="bid-card' . $product->id . '" style="display:none;">
+                        <div class="bid-opction mt-1">
+                                <a href="javascript:void(0)" onclick="AutoBid(10,' . $product->id . ')"><i class="fa fa-plus"></i>10</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(20,' . $product->id . ')"><i class="fa fa-plus"></i>20</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(50,' . $product->id . ')"><i class="fa fa-plus"></i>50</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(100,' . $product->id . ')"><i class="fa fa-plus"></i>100</a>
+                                
+                                <p id="show" class="mt-1 mb-0"><a class="other-amount" onclick="OtherAmount(' . $product->id . ')">Other Amount</a></p>
+                                    <div id="input' . $product->id . '" class="d-none d-flex mx-3 mt-2">
+                                        <input type="number" id="other' . $product->id . '" class="form-control w-100" style="border-radius: 0;" name="">
+                                        <button class="btn btn-primary ml-3" style="border-radius: 0;"  onclick="AutoBid(0,' . $product->id . ')"><i class="fa fa-plus"></i></button>
+                                    </div>
+                            </div>
                         </div>
-                </div>
-            </div>
-            <div id="demo-modal' . $product->id . '" class="modal">
-        <div class="modal__content">
-            <h3>Other Amount</h3>
-            <div class="row">
-                <div class="col-md-12">
-                    <input type="number" id="other' . $product->id . '" class="form-control">
-                </div>
-                <div class="col-md-12" style="margin-top:10px;">
-                    <a href="javascript:void(0)" onclick="AutoBid(0,' . $product->id . ')" class="btn btn-primary">Add</a>
-                </div>
-            </div>
-            <a href="#" class="modal__close">&times;</a>
-        </div>
-    </div>
-            ';
+                        
+                    </div>';
                 // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
             }
             return $data;
@@ -573,7 +555,7 @@ class HomeController extends Controller
                 $data .= '</div>
                     <a href="subasta/' . $product->id . '">
                         <img class="p-1 img2" src="' . asset("$product->image1") . '" alt="">
-                        <a class="title">$ ' . $product->min_price . ' Tienda <br>
+                        <a  href="subasta/' . $product->id . '" class="title">$ ' . $product->min_price . ' Tienda <br>
                         <span class="nickname">' . $product->name . '</span></a>
 
                         <span class="card_prize">$' . $product->bid_price . '</span>
@@ -584,10 +566,10 @@ class HomeController extends Controller
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>';
-                        if($date1==$current1){
-                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            if ($date1 == $current1) {
+                                $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
                             }
-                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                            $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                         <a href="javascript:void(0)" onclick="Bid(' . $product->id . ')" style="width:100%; border:none;">
                         <div class="card_rebre" style="background: green; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -597,10 +579,10 @@ class HomeController extends Controller
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>';
-                        if($date1==$current1){
-                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                            if ($date1 == $current1) {
+                                $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
                             }
-                        $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                            $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                         <span style="width:100%; border:none;">
                         <div class="card_rebre" style="background: #5ee32a; margin-bottom:0px;">
                             <h4>PUJAR</h4>
@@ -611,10 +593,10 @@ class HomeController extends Controller
                         $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                                 font-size: 18px;
                                 font-weight: bold;" id="win">10</span>';
-                                if($date1==$current1){
-                                    $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
-                                    }
-                                $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                        if ($date1 == $current1) {
+                            $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
+                        }
+                        $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                                 <span style="width:100%; border:none;">
                                 <div class="card_rebre">
                                          <h4> REOPEN SOON</h4>
@@ -625,10 +607,10 @@ class HomeController extends Controller
                     $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                     font-size: 18px;
                     font-weight: bold;" id="win">10</span>';
-                    if($date1==$current1){
+                    if ($date1 == $current1) {
                         $data .= '<h4 class="card_time">Hoy a las ' . $date . '</h4>';
-                        }
-                    $data.='<input type="hidden" value="' . $product->id . '" id="product_id">
+                    }
+                    $data .= '<input type="hidden" value="' . $product->id . '" id="product_id">
                     <span style="width:100%; border:none;">
                     <div class="card_rebre" style="background: gray; margin-bottom:0px;">
                         <h4>WINDIDO</h4>
@@ -636,37 +618,31 @@ class HomeController extends Controller
                     </span>';
                 }
 
-                $data .= '<div class="d-flex">
-                            <a href="subasta/' . $product->id . '" class="btn btn-primary form-control" style="border-radius: 0px;">
+                $data .= '<div class="d-flex p-1">
+                            <button onclick="AddtoCart(' . $product->id . ')" class="btn btn_theme1 mx-1" style="border-radius: 0px;">
                                 <i class="fas fa-shopping-cart"></i>
-                                $' . $product->price . '</a>
-                            
+                                $' . $product->price . '</button>
+                                <button onclick="SelfBid(' . $product->id . ')" class="btn btn_theme2 mx-1"><i class="fas fa-shopping-cart"></i>AUTO
+                                BID</button>
                         </div>
                     </a>
-                    <div class="bid-opction mt-1" id="bids' . $product->id . '">
-                            <a href="javascript:void(0)" onclick="AutoBid(10,' . $product->id . ')"><i class="fa fa-plus"></i>10</a>
-                             <a href="javascript:void(0)" onclick="AutoBid(20,' . $product->id . ')"><i class="fa fa-plus"></i>20</a>
-                              <a href="javascript:void(0)" onclick="AutoBid(50,' . $product->id . ')"><i class="fa fa-plus"></i>50</a>
-                               <a href="javascript:void(0)" onclick="AutoBid(100,' . $product->id . ')"><i class="fa fa-plus"></i>100</a>
-                               <p class="mt-1"><a  href="#demo-modal' . $product->id . '" class="other-amount">Other Amount</a></p>
+                    </div>
+                    <div class="card bid-card" id="bid-card' . $product->id . '" style="display:none;">
+                        <div class="bid-opction mt-1">
+                                <a href="javascript:void(0)" onclick="AutoBid(10,' . $product->id . ')"><i class="fa fa-plus"></i>10</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(20,' . $product->id . ')"><i class="fa fa-plus"></i>20</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(50,' . $product->id . ')"><i class="fa fa-plus"></i>50</a>
+                                <a href="javascript:void(0)" onclick="AutoBid(100,' . $product->id . ')"><i class="fa fa-plus"></i>100</a>
+                                
+                                <p id="show" class="mt-1 mb-0"><a class="other-amount" onclick="OtherAmount(' . $product->id . ')">Other Amount</a></p>
+                                    <div id="input' . $product->id . '" class="d-none d-flex mx-3 mt-2">
+                                        <input type="number" id="other' . $product->id . '" class="form-control w-100" style="border-radius: 0;" name="">
+                                        <button class="btn btn-primary ml-3" style="border-radius: 0;"  onclick="AutoBid(0,' . $product->id . ')"><i class="fa fa-plus"></i></button>
+                                    </div>
+                            </div>
                         </div>
-                </div>
-            </div>
-            <div id="demo-modal' . $product->id . '" class="modal">
-        <div class="modal__content">
-            <h3>Other Amount</h3>
-            <div class="row">
-                <div class="col-md-12">
-                    <input type="number" id="other' . $product->id . '" class="form-control">
-                </div>
-                <div class="col-md-12" style="margin-top:10px;">
-                    <a href="javascript:void(0)" onclick="AutoBid(0,' . $product->id . ')" class="btn btn-primary">Add</a>
-                </div>
-            </div>
-            <a href="#" class="modal__close">&times;</a>
-        </div>
-    </div>
-            ';
+                        
+                    </div>';
                 // $data .= '<li>'. ($key + 1) .' <strong>'. $product->title .'</strong> : '. $product->desc .'</li>';
             }
             return $data;
@@ -799,6 +775,12 @@ class HomeController extends Controller
         $payment_method = PaymentMethod::all();
         return view('bid_buy', compact('package', 'payment_method'));
     }
+    public function client_bid_buy()
+    {
+        $package = Package::get();
+        $payment_method = PaymentMethod::all();
+        return view('client/buy_package', compact('package', 'payment_method'));
+    }
     public function checkout($id)
     {
         $product = Product::find($id);
@@ -813,6 +795,11 @@ class HomeController extends Controller
     {
         $faq = Faq::all();
         return view('faq', compact('faq'));
+    }
+    public function term()
+    {
+        $term = Term::all();
+        return view('term_condition', compact('term'));
     }
     public function Action_Close()
     {

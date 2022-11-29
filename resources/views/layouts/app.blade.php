@@ -17,10 +17,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/tiny-slider.css')}}" />
+    {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css/tiny-slider.css')}}" /> --}}
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> --}}
     <style>
         .ajax-loading {
             text-align: center;
@@ -80,27 +80,33 @@
                     <a @if (Request::is('como-funciona')) class="nav-link active" @else class="nav-link" @endif
                         href="{{ url('faq') }}">FAQ</a>
                     @auth
-                        <a @if (Request::is('mi-subastek')) class="nav-link active" @else class="nav-link" @endif
-                            href="{{ url('mi-subastek') }}">MI SUBASTEK</a>
+                        <a @if (Request::is('dashboard')) class="nav-link active" @else class="nav-link" @endif
+                            href="{{ url('dashboard') }}">MI SUBASTEK</a>
                     @endauth
                     <a @if (Request::is('comprar-bids')) class="nav-link active" @else class="nav-link" @endif
                         href="{{ url('comprar-bids') }}">COMPRAR BIDS</a>
                 </div>
                 <div class="d-flex justify-content-end align-items-center flex-row">
                     @auth
-                        <a href="{{ url('comprar-bids') }}" class="w-50">
-                            <img src="https://1c308283f6f0dbd72b44-c007ec4697a7ceab9178ce16802c0e6b.ssl.cf2.rackcdn.com/1.0/images/ic-single-money.svg"
+                        <a href="{{ url('dashboard') }}" class="w-50">
+                            <img src="{{$data['#username_logo']['image']??''}}"
                                 alt="" style="height: 20px;">
-                            <i style="font-size: 14px; font-weight: bold;">{{Auth()->user()->bids??'0'}} Pujas</i>
+                            <i style="font-size: 14px; font-weight: bold;">{{Auth()->user()->name}}</i>
                         </a>
-                        <a href="{{ url('comprar-bids') }}" class="btn Sign_up"
+                        <a href="{{ url('comprar-bids') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn Sign_up"
                             style="width: 225px;height: 35px;
-                    line-height: 30px;">Comprar Pujas <small
+                    line-height: 30px;">Logout 
+                    {{-- <small
                                 style="background: #fff;
                         color: #000;
                         font-weight: bold;
                         border-radius: 10px;
-                        padding: 2px;">PROMO</small></a>
+                        padding: 2px;">PROMO</small> --}}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                        style="display: none;">
+                        @csrf
+                    </form>
                     @else
                         <a href="{{ url('login') }}" class="btn login_btn">ACCEDA</a>
                         <a href="{{ url('register') }}" class="btn Sign_up w-50">
@@ -190,8 +196,8 @@
     <script src="{{ asset('assets/js/jquery.js') }}"></script>
     <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
-    <script type="text/javascript" src="{{asset('assets/js/tiny-slider.js')}}"></script>
-    <script type="text/javascript">
+    {{-- <script type="text/javascript" src="{{asset('assets/js/tiny-slider.js')}}"></script> --}}
+    {{-- <script type="text/javascript">
       var slider = tns({
         arrowKeys: true,
         "items": 1,
@@ -202,8 +208,9 @@
         navContainer: ".js-imageViewerNav",
   
       });
-    </script>
+    </script> --}}
     @yield('script')
+    
 </body>
 
 </html>

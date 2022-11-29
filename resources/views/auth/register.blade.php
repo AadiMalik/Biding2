@@ -10,7 +10,7 @@
 						<img src="assets/images/Logo subastek sin fondo.png" alt="">
 					</div>
 					<h3 class="title">Crear una cuenta</h3>
-					<span class="description">o use su correo electrónico para registrarse:</span>
+					{{-- <span class="description">o use su correo electrónico para registrarse:</span> --}}
                         <form class="form-horizontal" action="{{ route('register') }}" method="POST">
                             @csrf
                             @if ($errors->any())
@@ -25,20 +25,31 @@
 						<div class="form-group">
 							<input type="text" name="name" class="form-control" placeholder="Name">
 						</div>
+                        <div class="form-group">
+							<input type="text" name="surname" class="form-control" placeholder="Surname">
+						</div>
+                        <div class="form-group">
+							<input type="text" name="username" class="form-control" placeholder="Username">
+						</div>
+                        <div class="form-group">
+							<input type="number" name="phone" class="form-control" placeholder="Phone">
+						</div>
 						<div class="form-group">
 							<input type="email" name="email" class="form-control" placeholder="Email">
+						</div>
+                        <div class="form-group">
+							<input type="text" name="address" class="form-control" placeholder="Address">
 						</div>
 						<div class="form-group">
 							<input type="password" name="password" class="form-control" placeholder="Password">
 						</div>
 						<div class="form-group">
-							<input type="checkbox" class="checkbox">
+							<input type="checkbox" class="checkbox" required>
 							<span class="check-label">
-								Estoy de acuerdo con la <a href="{{url('terminos-y-condiciones')}}">Terminos</a> and <a href="">Privacidad
-							Política.</a></span>
+								Estoy de acuerdo con los <a href="{{url('terminos-y-condiciones')}}">terminos y condiciones</a></span>
 						</div>
-						<button class="btn signup" type="submit">Inscribirse</button>
-						<a href="{{route('login')}}" class="btn signin">Iniciar sesión</a>
+						<button class="btn signup" type="submit">Registrarse</button>
+						{{-- <a href="{{route('login')}}" class="btn signin">Iniciar sesión</a> --}}
 					</form>
 					<div class="form_content">
 						<p>Al hacer clic en "Registrarse gratis", declara que ha leído y aceptado los Términos y condiciones

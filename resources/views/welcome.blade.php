@@ -27,10 +27,10 @@
         }
 
         .bid-opction a {
-            color: black;
+            color: #fff;
             font-size: 14px;
             padding: 5px 5px;
-            background: #ffc707;
+            background: #0d6efd;
             border-radius: 10px;
             margin: 4px;
         }
@@ -56,54 +56,7 @@
             margin-top: 10px;
         }
 
-        .modal {
-            visibility: hidden;
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(77, 77, 77, .7);
-            transition: all .4s;
-        }
-
-        .modal:target {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .modal__content {
-            border-radius: 4px;
-            position: relative;
-            width: 500px;
-            max-width: 90%;
-            background: #fff;
-            padding: 1em 2em;
-        }
-
-        .modal__footer {
-            text-align: right;
-
-            a {
-                color: #585858;
-            }
-
-            i {
-                color: #d02d2c;
-            }
-        }
-
-        .modal__close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: #585858;
-            text-decoration: none;
-        }
+        
     </style>
 @endsection
 @section('content')
@@ -201,32 +154,31 @@
                 @endif
 
             </div> --}}
-            
+
         </div>
     </section>
-    
 @endsection
 
 
 @section('script')
     <script type="text/javascript">
         // Show hide Auto bid
-        function AutoShow(id) {
-            // var x = document.getElementById("bids1'"+ id +"'");
-            if ($("bids1" + id).css("display", "none")) {
-                $("bids1" + id).css("display", "block");
-            } else {
-                $("bids1" + id).css("display", "none");
-            }
-        }
-        $(document).ready(function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const pageSize = urlParams.get('search');
-            $("#results").load("{{ route('product.index') }}");
-            setInterval(function() {
-                $("#results").load("{{ route('product.index') }}");
-            }, 3000);
-        });
+        // function AutoShow(id) {
+        //     // var x = document.getElementById("bids1'"+ id +"'");
+        //     if ($("bids1" + id).css("display", "none")) {
+        //         $("bids1" + id).css("display", "block");
+        //     } else {
+        //         $("bids1" + id).css("display", "none");
+        //     }
+        // }
+        // $(document).ready(function() {
+        //     const urlParams = new URLSearchParams(window.location.search);
+        //     const pageSize = urlParams.get('search');
+        //     $("#results").load("{{ route('product.index') }}");
+        //     setInterval(function() {
+        //         $("#results").load("{{ route('product.index') }}");
+        //     }, 3000);
+        // });
     </script>
     <script>
         var SITEURL = "{{ route('product.index') }}";
@@ -351,6 +303,33 @@
             });
         };
 
+        function AddtoCart(id) {
+            var product_id = id;
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('AddtoCart') }}",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    product_id: product_id,
+                },
+
+                success: function(response) {
+                    if (response == 'error') {
+                        window.location.href = "login";
+                    } else {
+                        alert('Product Add to cart!');
+                        $("#results").load("{{ route('product.index') }}");
+                        setInterval(function() {
+                            $("#results").load("{{ route('product.index') }}");
+                        }, 3000);
+                    }
+
+                }
+                // success: function(error) {
+                //     window.location.href = "comprar-bids";
+                // }
+            });
+        };
         function AutoBid(qty, id) {
             var product_id = id;
             var Qty = qty;
@@ -365,7 +344,6 @@
                     product_id: product_id,
                     qty: Qty,
                 },
-
                 success: function(response) {
                     if (response == 'error') {
                         window.location.href = "comprar-bids";
@@ -377,12 +355,36 @@
                             $("#results").load("{{ route('product.index') }}");
                         }, 3000);
                     }
-
                 }
                 // success: function(error) {
                 //     window.location.href = "comprar-bids";
                 // }
             });
         };
+        function SelfBid(id) {
+            $("#bid-card"+id).toggle();
+        };
+        function OtherAmount(id) {
+            $(this).addClass("d-none");
+                $('#input'+id).removeClass("d-none");
+        };
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#self-bid").click(function() {
+                alert('ok');
+                $(".bid-card").toggle();
+            });
+        });
+    </script>
+
+
+
+    <script>
+        $(document).ready(function() {
+            $('#show').click(function() {
+                
+            });
+        });
     </script>
 @endsection

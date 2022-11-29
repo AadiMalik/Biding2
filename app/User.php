@@ -32,16 +32,12 @@ class User extends Authenticatable
     ];
 
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'name',
+        'surname',
         'email',
         'address',
-        'city',
-        'postcode',
-        'country_id',
-        'profession',
-        'website',
-        'bio',
+        'username',
+        'phone',
         'password',
         'created_at',
         'updated_at',
@@ -49,16 +45,7 @@ class User extends Authenticatable
         'remember_token',
         'email_verified_at',
         'image',
-        'subscription',
-        'paid_amount',
-        'level',
-        'active_flag',
-        'id_ERP_customer_1',
-        'id_ERP_customer_2',
-        'id_ERP_customer_3',
-        'RFC',
-        'business_name',
-        'user_ip',
+        'subscription'
     ];
     public function country_name()
     {

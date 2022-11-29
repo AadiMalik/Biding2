@@ -1,6 +1,6 @@
 <!-- Modal -->
-<div class="modal mt-5 ms-5" id="Payment_methodModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog  modal-dialog-centered" role="document">
+<div class="modal" id="Payment_methodModal">
+    <div class="modal-dialog  modal-dialog-centered" style="width:700px;" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="paymentModalLabel">Payment Method</h5>
@@ -56,10 +56,11 @@
                     </div>
                 </div>
                 <div class="modal-footer modale_buttons">
-                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+                    {{-- <button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button> --}}
                     <button type="submit" class="btn btn-warning">Save</button>
                 </div>
             </form>
         </div>
+        <a href="#" class="modal__close">&times;</a>
     </div>
 </div>

@@ -15,18 +15,18 @@
                                             $date_from = date('Y-m-d H:i:s', strtotime($product->from));
                                             $date_to = date('Y-m-d H:i:s', strtotime($product->to));
                                         @endphp
-                                        @if(isset($images))
-                                        @foreach ($images as $item)
+                                        @if (isset($images))
+                                            @foreach ($images as $item)
+                                                <span class="o-slider-image-viewer__dot">
+                                                    <img class="o-slider-image-viewer__dot-image"
+                                                        src="{{ asset('/img/' . $item ?? '') }}">
+                                                </span>
+                                            @endforeach
+                                        @else
                                             <span class="o-slider-image-viewer__dot">
                                                 <img class="o-slider-image-viewer__dot-image"
-                                                    src="{{ asset('/img/' . $item ?? '') }}">
+                                                    src="{{ asset($product->image1 ?? '') }}">
                                             </span>
-                                        @endforeach
-                                        @else
-                                        <span class="o-slider-image-viewer__dot">
-                                            <img class="o-slider-image-viewer__dot-image"
-                                                src="{{ asset($product->image1 ?? '') }}">
-                                        </span>
                                         @endif
                                         {{-- <span class="o-slider-image-viewer__dot">
                                             <img class="o-slider-image-viewer__dot-image" src="assets/images/images1.jfif">
@@ -42,18 +42,18 @@
                                 <div class="col-md-10 col-12 mt-2 order-1 order-md-2">
                                     <div class="product_imgs">
                                         <ul class="o-slider-image-viewer__inner js-sliderImageViewer">
-                                            @if(isset($images))
-                                            @foreach ($images as $item)
+                                            @if (isset($images))
+                                                @foreach ($images as $item)
+                                                    <li class="o-slider-image-viewer__slide">
+                                                        <img class="c-product-image-viewer__image"
+                                                            src="{{ asset('img/' . $item ?? '') }}">
+                                                    </li>
+                                                @endforeach
+                                            @else
                                                 <li class="o-slider-image-viewer__slide">
                                                     <img class="c-product-image-viewer__image"
-                                                        src="{{ asset('img/' . $item ?? '') }}">
+                                                        src="{{ asset($product->image1 ?? '') }}">
                                                 </li>
-                                            @endforeach
-                                            @else
-                                            <li class="o-slider-image-viewer__slide">
-                                                <img class="c-product-image-viewer__image"
-                                                    src="{{ asset($product->image1 ?? '') }}">
-                                            </li>
                                             @endif
                                             {{-- <li class="o-slider-image-viewer__slide">
                                                 <img class="c-product-image-viewer__image" src="assets/images/images1.jfif">
@@ -88,18 +88,21 @@
                         <div class="d-flex justify-content-start align-items-baseline">
                             <h3>Te reembolsamos:</h3>
                             <img src="{{ asset('assets/images/ic-single-money.svg') }}" alt="" /><span>
-                                @auth {{$bid_use->where('user_id',Auth()->user()->id)->sum('bids')??''}} @else 0 @endauth Pujas</span>
+                                @auth {{ $bid_use->where('user_id', Auth()->user()->id)->sum('bids') ?? '' }}
+                                @else
+                                0 @endauth Pujas</span>
                         </div>
                         {{-- <h4>Ahora o nunca: <span>5:08:11:57</span></h4> --}}
                         <button class="btn">
-                            <a href="{{url('checkout/'.$product->id)}}" style="color:#fff;"><img src="" alt="" /> CÓMPRALO YA A {{ $product->price ?? '0.00' }} $</a>
+                            <a onclick="AddtoCart()" style="color:#fff;"><img src=""
+                                    alt="" /> CÓMPRALO YA A {{ $product->price ?? '0.00' }} $</a>
                         </button>
                     </div>
                 </div>
                 <div class="col-lg-5 col-md-6 col-12">
                     <div class="pro_tabel">
                         <div class="product_content1">
-                            <span class="pro_price">{{$product->min_bid_price??'0'}} $</span>
+                            <span class="pro_price">{{ $product->min_bid_price ?? '0' }} $</span>
                             <div class="pro_Sec">
                                 <span>.10s</span>
                                 <img src="{{ asset('assets/images/icon_turbo.png') }}" alt="" />
@@ -109,7 +112,7 @@
                             <img src="{{ asset('assets/images/auction_won_stars.png') }}" alt="" />
                             <p>kiobe</p>
                             <p>
-                                <span>{{$bid_use->sum('bids')??'0'}}</span>
+                                <span>{{ $bid_use->sum('bids') ?? '0' }}</span>
                                 Pujas utilizadas
                             </p>
                             <p><span>¡Has Ganado:</span><span> a las {{ $date_to ?? '' }}</span></p>
@@ -125,15 +128,15 @@
                                     </tr>
                                 </thead>
                                 <tbody id="pro_table">
-                                    @foreach($bid_use as $item)
-                                    <tr>
-                                        <td>{{$product->min_bid_price??'0'}}</td>
-                                        <td>Manual</td>
-                                        <td>{{$item->created_at->format('H:i:s')}}</td>
-                                        <td>{{$item->user_name->name??''}}</td>
-                                    </tr>
+                                    @foreach ($bid_use as $item)
+                                        <tr>
+                                            <td>{{ $product->min_bid_price ?? '0' }}</td>
+                                            <td>Manual</td>
+                                            <td>{{ $item->created_at->format('H:i:s') }}</td>
+                                            <td>{{ $item->user_name->name ?? '' }}</td>
+                                        </tr>
                                     @endforeach
-                                    
+
                                 </tbody>
                             </table>
                         </div>
@@ -155,13 +158,41 @@
     </section>
 @endsection
 @section('script')
-<script type="text/javascript">
-    $(document).ready(function() {
-        
-        $("#pro_table").load("{{ url('product_detail_bid/'.$product->id) }}");
-        setInterval(function() {
-            $("#pro_table").load("{{ url('product_detail_bid/'.$product->id) }}");
-        }, 3000);
-    });
-</script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("#pro_table").load("{{ url('product_detail_bid/' . $product->id) }}");
+            setInterval(function() {
+                $("#pro_table").load("{{ url('product_detail_bid/' . $product->id) }}");
+            }, 3000);
+        });
+
+        function AddtoCart() {
+            var product_id = {{$product->id}};
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('AddtoCart') }}",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    product_id: product_id,
+                },
+
+                success: function(response) {
+                    if (response == 'error') {
+                        window.location.href = "login";
+                    } else {
+                        alert('Product Add to cart!');
+                        $("#pro_table").load("{{ url('product_detail_bid/' . $product->id) }}");
+                        setInterval(function() {
+                            $("#pro_table").load("{{ url('product_detail_bid/' . $product->id) }}");
+                        }, 3000);
+                    }
+
+                }
+                // success: function(error) {
+                //     window.location.href = "comprar-bids";
+                // }
+            });
+        };
+    </script>
 @endsection

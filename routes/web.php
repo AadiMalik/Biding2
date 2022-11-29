@@ -12,7 +12,7 @@ Route::view('se','main');
 // Route::view('mi-subastek','my_actions');
 // Route::view('opiniones','opinions');
 Route::view('política-de-privacidad','privacy');
-Route::view('terminos-y-condiciones','term_condition');
+// Route::view('terminos-y-condiciones','term_condition');
 
 
 // profile
@@ -39,6 +39,13 @@ Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
 
 Route::get('/', 'HomeController@home')->name('/');
 Route::post('check', 'HomeController@Se');
+Route::get('cart', 'CartController@index')->middleware('auth');
+Route::get('checkout', 'CartController@checkout')->middleware('auth');
+Route::post('promo-code', 'CartController@PromoCode')->middleware('auth');
+Route::post('order-submit', 'CartController@order_submit')->middleware('auth');
+Route::post('add-to-cart', 'CartController@store')->name('AddtoCart');
+Route::post('update-cart/{id}', 'CartController@update')->name('UpdateCart');
+Route::get('cart-delete/{id}', 'CartController@destroy');
 Route::post('bid-product', 'HomeController@bidByUser')->middleware('auth');
 Route::post('win-product', 'HomeController@winByUser')->middleware('auth');
 Route::post('wish-store', 'HomeController@WishByUser')->middleware('auth');
@@ -53,6 +60,7 @@ Route::get('opiniones', 'HomeController@opinion');
 Route::get('comprar-bids', 'HomeController@bid_buy')->name('comprar-bids');
 Route::get('como-funciona', 'HomeController@how_work');
 Route::get('faq', 'HomeController@faq');
+Route::get('terminos-y-condiciones', 'HomeController@term');
 Route::get('subasta-cerrada', 'HomeController@Action_Close');
 Route::get('opinion', 'HomeController@opinion_auto')->name('opinion.index');
 Route::get('most-opinion', 'HomeController@most_opinion_auto')->name('most_opinion.index');
@@ -112,6 +120,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Order
     Route::resource('orders', 'OrderController');
     Route::post('change_status', 'OrderController@Status_Change');
+    // Promo code
+    Route::resource('promo', 'PromoCodeController');
+    // Term and condition
+    Route::resource('term', 'TermController');
     
 });
 

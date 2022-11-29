@@ -27,10 +27,7 @@
                         <div class="form-group">
                             <input type="password" name="password" class="form-control" placeholder="Password">
                         </div>
-                        <div class="form-group">
-                            <input type="checkbox" class="checkbox">
-                            <span class="check-label">Acepto los Términos  <a href="">Términos</a> y la  <a href="">Política de privacidad</a></span>
-                        </div>
+                        
                         <button class="btn signup" type="submit">Acceso</button>
                     </form>
                     <div class="form_content mt-4 d-flex justify-content-between align-items-center">

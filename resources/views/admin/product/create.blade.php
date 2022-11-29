@@ -86,7 +86,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="inputStarPoints" class="form-label">Minimum bid Price</label>
-                                                <input type="number" class="form-control" id="inputStarPoints"
+                                                <input type="number" step="any" class="form-control" id="inputStarPoints"
                                                     name="min_bid_price" placeholder="00.00" required>
                                             </div>
                                             <div class="col-md-12">
@@ -101,8 +101,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="inputProductType" class="form-label">Package</label>
-                                                <select name="package" class="form-select" id="inputProductType"
-                                                    required style="font-size: 14px;">
+                                                <select name="package" class="form-select" id="inputProductType" style="font-size: 14px;">
                                                     @foreach ($package as $item)
                                                         <option value="{{ $item->id }}">{{ $item->bids ?? '' }} (Price:{{ $item->price ?? '' }})
                                                         </option>

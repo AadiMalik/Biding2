@@ -4,26 +4,26 @@
         <div class="page-content">
             <!--breadcrumb-->
             <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-                <div class="breadcrumb-title pe-3">Slider</div>
+                <div class="breadcrumb-title pe-3">Terminos y Condiciones</div>
                 <div class="ps-3">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
                             <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">All Slider Images</li>
+                            <li class="breadcrumb-item active" aria-current="page">All Terminos y Condiciones</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="ms-auto">
                     <div class="btn-group">
-                        @can('slider_create')
-                            <a class="btn btn-primary" href="{{ route('admin.slider.create') }}">Create</a>
+                        @can('term_create')
+                            <a class="btn btn-primary" href="{{ route('admin.term.create') }}">Create</a>
                         @endcan
                     </div>
                 </div>
             </div>
 
-            <h6 class="mb-0 text-uppercase">All Slider Images</h6>
+            <h6 class="mb-0 text-uppercase">All Terminos y Condiciones</h6>
             <hr />
             <div class="card">
                 <div class="card-body">
@@ -31,12 +31,14 @@
                         <table id="example2" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
+                                    <th width="10">
 
-                                    <th>
-                                        Sr.
                                     </th>
                                     <th>
-                                        Image
+                                        ID
+                                    </th>
+                                    <th>
+                                        Description
                                     </th>
                                     <th>
                                         Actions
@@ -44,27 +46,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($slider as $index => $item)
+                                @foreach ($term as $key => $item)
                                     <tr data-entry-id="{{ $item->id }}">
+                                        <td>
 
-                                        <td>
-                                            {{ $index+1 ?? '' }}
                                         </td>
                                         <td>
-                                            <img src="{{ asset($item->image ?? '') }}" style="height: 100px; width:400px;"
-                                                alt="">
+                                            {{ $key+1 ?? '' }}
+                                        </td>
+                                        <td style="min-width:400px; white-space: break-spaces;">
+                                            {!! $item->description ?? '' !!}
                                         </td>
                                         <td>
-                                            @can('slider_edit')
+
+                                            @can('term_edit')
                                                 <a class="btn btn-xs btn-info"
-                                                    href="{{ route('admin.slider.edit', $item->id) }}">
+                                                    href="{{ route('admin.term.edit', $item->id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
+
                                         </td>
+
                                     </tr>
                                 @endforeach
                             </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

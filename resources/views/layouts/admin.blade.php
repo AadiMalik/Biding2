@@ -177,15 +177,35 @@
                             </a>
                         </li>
                     @endcan
+                    @can('promo_access')
+                        <li>
+                            <a href="{{ url('admin/promo') }}">
+                                <div class="parent-icon"><i class='bx bx-cookie'></i>
+                                </div>
+                                <div class="menu-title">Promo Code</div>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('term_access')
+                        <li>
+                            <a href="{{ url('admin/term') }}">
+                                <div class="parent-icon"><i class='bx bx-cookie'></i>
+                                </div>
+                                <div class="menu-title">Terminos y Condiciones</div>
+                            </a>
+                        </li>
+                    @endcan
                 @endcan
 
 
                 @can('user_dashbaord_access')
+                <li> <a href="{{ url('/') }}"><i class="bx bx-right-arrow-alt"></i>De vuelta a casa</a>
                     <li> <a href="{{ url('comprar-bids') }}"><i class="bx bx-right-arrow-alt"></i>Comprar Bids</a></li>
                     <li> <a href="{{ url('bid-use') }}"><i class="bx bx-right-arrow-alt"></i>Mis Subastas</a>
 						<li> <a href="{{ url('win-product') }}"><i class="bx bx-right-arrow-alt"></i>Subastas Ganadas</a>
                             <li> <a href="{{ url('wish-list') }}"><i class="bx bx-right-arrow-alt"></i>Mi Lista De Deseos</a>
                                 <li> <a href="{{ url('orders') }}"><i class="bx bx-right-arrow-alt"></i>Mis Pedidos</a>
+                                    <li> <a href="{{ url('cart') }}"><i class="bx bx-right-arrow-alt"></i>Carrito de compras</a>
                     </li>
                 @endcan
                 <!--end navigation-->

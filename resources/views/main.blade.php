@@ -13,10 +13,10 @@
 <body
     style="font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;">
     <center>
-        <img src="{{ asset('assets/images/Logo subastek sin fondo.png') }}" style="height: 100px;" alt=""> <br>
+        <img src="{{ asset('assets/images/Logo-bidoo.png') }}" style="height: 100px;" alt=""> <br>
         <img src="{{ asset('assets/images/download.png') }}" alt=""><br>
-        <h1 style="color:#c90b0b;">Controllo di Sicurezza</h1>
-        <p>Completa il controllo di sicurezza per avere un accesso temporaneo al sito.</p>
+        <h1 style="color:#c90b0b;">Control de seguridad</h1>
+        <p>Complete el control de seguridad para obtener acceso temporal al sitio.</p>
         <h1 style="color:#c90b0b;">Security Check</h1>
         <p>Please complete security check to have temporary access to the website</p>
         <form action="{{url('check')}}" method="POST">
@@ -28,7 +28,7 @@
             </span>
         @endif
         <p data-callback="recaptchaCallback" id="my_captcha_form">{!! NoCaptcha::display() !!}</p>
-        <button type="submit" style="color:#fff; background:#000; width:100px; height:40px;">Done</button>
+        <button type="submit" style="color:#fff; background:#000; width:100px; height:40px;">Continar</button>
     </form>
     </center>
 
