@@ -47,6 +47,16 @@
                 <span class="help-block">{{ trans('cruds.permission.fields.title_helper') }}</span>
             </div>
             <div class="form-group">
+                <video style="height: 100px; width:100px;" controls>
+                    <source src="{{asset($opinion->video??'')}}" type="video/mp4">
+                  </video>
+            </div>
+            <div class="form-group">
+                <label class="required" for="image">Video</label>
+                <input type="file" name="video" class="form-control" id="">
+                <span class="help-block">{{ trans('cruds.permission.fields.title_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="image">Feedback</label>
                 <textarea type="text" name="description" class="form-control" id="">{{$openion->description??''}}</textarea>
                 <span class="help-block">{{ trans('cruds.permission.fields.title_helper') }}</span>

@@ -40,7 +40,11 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputProductDescription" class="form-label">Image</label>
-                                            <input class="form-control" type="file" name="image" id="image">
+                                            <input class="form-control" type="file" name="image" id="image" accept="image/*">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="inputProductDescription" class="form-label">Video</label>
+                                            <input class="form-control" type="file" name="video" accept="video/*">
                                         </div>
                                     </div>
                                 </div>

@@ -56,6 +56,9 @@
                                             Image
                                         </th>
                                         <th>
+                                            Video
+                                        </th>
+                                        <th>
                                             Feedback
                                         </th>
                                         <th>
@@ -83,6 +86,15 @@
                                             </td>
                                             <td>
                                                 <img src="{{asset($item->image??'')}}" style="width: 100px; height:100px;" alt="">
+                                            </td>
+                                            <td>
+                                                @if(isset($item->video))
+                                                <video width="400" controls>
+                                                    <source src="{{asset($item->video??'')}}" style="width: 100px; height:100px;"  type="video/mp4">
+                                                  </video>
+                                                @else
+                                                N/A
+                                                @endif
                                             </td>
                                             <td>
                                                 {{$item->description??''}}

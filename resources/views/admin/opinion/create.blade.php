@@ -43,6 +43,11 @@
                 <span class="help-block">{{ trans('cruds.permission.fields.title_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="image">Video</label>
+                <input type="file" name="video" class="form-control" id="">
+                <span class="help-block">{{ trans('cruds.permission.fields.title_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="image">Feedback</label>
                 <textarea type="text" name="description" class="form-control" id=""></textarea>
                 <span class="help-block">{{ trans('cruds.permission.fields.title_helper') }}</span>

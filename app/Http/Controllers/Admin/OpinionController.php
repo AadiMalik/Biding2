@@ -59,6 +59,13 @@ class OpinionController extends Controller
             $path    = move_uploaded_file($image->getPathName(), $upload . $filename);
             $opinion->image = $upload . $filename;
         }
+        if ($request->hasfile('video')) {
+            $image = $request->file('video');
+            $upload = 'img/';
+            $filename = time() . $image->getClientOriginalName();
+            $path    = move_uploaded_file($image->getPathName(), $upload . $filename);
+            $opinion->video = $upload . $filename;
+        }
         $opinion->save();
         return redirect('admin/opinion')->with('success','Opinion has created!');
     }
@@ -112,6 +119,25 @@ class OpinionController extends Controller
             $filename = time() . $image->getClientOriginalName();
             $path    = move_uploaded_file($image->getPathName(), $upload . $filename);
             $opinion->image = $upload . $filename;
+        }
+        if ($request->hasfile('video')) {
+            $image = $request->file('video');
+            $upload = 'img/';
+            $filename = time() . $image->getClientOriginalName();
+            $path    = move_uploaded_file($image->getPathName(), $upload . $filename);
+            $opinion->video = $upload . $filename;
+        }
+        if($request->status==0){
+            $bids =0;
+            if(isset($opinion->image)){
+                $bids += 20;
+            }
+            if(isset($opinion->video)){
+                $bids += 30;
+            }
+            $user = User::find($opinion->user_id);
+            $user->bids = $user->bids + $bids;
+            $user->update();
         }
         $opinion->update();
         return redirect('admin/opinion')->with('success','Opinion has updated!');

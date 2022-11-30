@@ -204,8 +204,8 @@
                     <li> <a href="{{ url('bid-use') }}"><i class="bx bx-right-arrow-alt"></i>Mis Subastas</a>
 						<li> <a href="{{ url('win-product') }}"><i class="bx bx-right-arrow-alt"></i>Subastas Ganadas</a>
                             <li> <a href="{{ url('wish-list') }}"><i class="bx bx-right-arrow-alt"></i>Mi Lista De Deseos</a>
-                                <li> <a href="{{ url('orders') }}"><i class="bx bx-right-arrow-alt"></i>Mis Pedidos</a>
-                                    <li> <a href="{{ url('cart') }}"><i class="bx bx-right-arrow-alt"></i>Carrito de compras</a>
+                                {{-- <li> <a href="{{ url('orders') }}"><i class="bx bx-right-arrow-alt"></i>Mis Pedidos</a> --}}
+                                    {{-- <li> <a href="{{ url('cart') }}"><i class="bx bx-right-arrow-alt"></i>Carrito de compras</a> --}}
                     </li>
                 @endcan
                 <!--end navigation-->

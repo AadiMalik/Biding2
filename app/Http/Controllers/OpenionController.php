@@ -25,6 +25,13 @@ class OpenionController extends Controller
             $path    = move_uploaded_file($image->getPathName(), $upload . $filename);
             $feedback->image = $upload . $filename;
         }
+        if ($request->hasfile('video')) {
+            $image = $request->file('video');
+            $upload = 'img/';
+            $filename = time() . $image->getClientOriginalName();
+            $path    = move_uploaded_file($image->getPathName(), $upload . $filename);
+            $feedback->video = $upload . $filename;
+        }
         $feedback->save();
         return redirect('win-product')->with('success','Thank you for your feedback');
     }

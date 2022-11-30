@@ -43,6 +43,9 @@
                                     <th>
                                         Estado
                                     </th>
+                                    {{-- <th>
+                                        Opinión
+                                    </th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,6 +71,13 @@
                                         <td>
                                             {{ $item->status ?? '' }}
                                         </td>
+                                        {{-- <td>
+                                            @if(isset($item->status))
+                                            <a href="{{url('feedback/'.$item->id)}}" class="btn btn-info">Retroalimentación</a>
+                                            @else
+                                            N/A
+                                            @endif
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -667,7 +667,7 @@ class HomeController extends Controller
                 }
                 $data .= '<div class="auction_box">
                 <div class="row py-3" id="results">
-                <div class="col-md-9 col-12 mt-2">
+                <div class="col-md-6 col-12 mt-2">
                 <a href="#">
                     <div class="Daanniele">
                     <h2>' . $item->user_name->name . ' <span>ha compartido su logro</span></h2>
@@ -684,10 +684,15 @@ class HomeController extends Controller
                     </div>
                 </a>
             </div>
-            <div class="col-md-3 col-12 mt-2">
-                                <img src="' . asset("$item->image") . '"
-                                alt="">
-                            </div>
+            <div class="col-md-6 col-12 mt-2" style="display: inline-flex;">';
+            if(isset($item->image)){
+                                $data.='<img style="height:130px;" src="' . asset("$item->image") . '"
+                                alt="">';
+            }
+            if(isset($item->video)){
+                $data.='<video style="height:130px;" controls><source src="' . asset("$item->video") . '" type="video/mp4">';
+            }
+            $data.='</div>
                             </div>
                             <div class="gusta_btn">
                             <button class="btn"' . ((int)$active > 0 ? ' style="background: #0080FF; color: #fff;" ' : '') . ' onclick="Like(' . $item->id . ')">Me Gusta</button>
@@ -723,7 +728,7 @@ class HomeController extends Controller
 
                 $data .= '<div class="auction_box">
                 <div class="row py-3" id="results">
-                <div class="col-md-9 col-12 mt-2">
+                <div class="col-md-6 col-12 mt-2">
                 <a href="#">
                     <div class="Daanniele">
                     <h2>' . $item->user_name->name . ' <span>ha compartido su logro</span></h2>
@@ -740,10 +745,15 @@ class HomeController extends Controller
                     </div>
                 </a>
             </div>
-            <div class="col-md-3 col-12 mt-2">
-                                <img src="' . asset("$item->image") . '"
-                                alt="">
-                            </div>
+            <div class="col-md-6 col-12 mt-2" style="display: inline-flex;">';
+            if(isset($item->image)){
+                                $data.='<img style="height:130px;" src="' . asset("$item->image") . '"
+                                alt="">';
+            }
+            if(isset($item->video)){
+                $data.='<video style="height:130px;" controls><source src="' . asset("$item->video") . '" type="video/mp4">';
+            }
+            $data.='</div>
                             </div>
                             <div class="gusta_btn">
                             <button class="btn"' . ((int)$active > 0 ? ' style="background: #0080FF; color: #fff;" ' : '') . ' onclick="Like(' . $item->id . ')">Me Gusta</button>
