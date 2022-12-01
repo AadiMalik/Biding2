@@ -15,6 +15,7 @@ use App\Opinion;
 use App\OpinionLike;
 use App\Package;
 use App\PaymentMethod;
+use App\Privacy;
 use App\Product;
 use App\Review;
 use App\Sector;
@@ -810,6 +811,11 @@ class HomeController extends Controller
     {
         $term = Term::all();
         return view('term_condition', compact('term'));
+    }
+    public function privacy()
+    {
+        $privacy = Privacy::all();
+        return view('privacy', compact('privacy'));
     }
     public function Action_Close()
     {

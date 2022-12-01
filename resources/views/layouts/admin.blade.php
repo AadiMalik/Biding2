@@ -195,6 +195,15 @@
                             </a>
                         </li>
                     @endcan
+                    @can('term_access')
+                        <li>
+                            <a href="{{ url('admin/privacy') }}">
+                                <div class="parent-icon"><i class='bx bx-cookie'></i>
+                                </div>
+                                <div class="menu-title">Privacy</div>
+                            </a>
+                        </li>
+                    @endcan
                 @endcan
 
 
@@ -204,8 +213,8 @@
                     <li> <a href="{{ url('bid-use') }}"><i class="bx bx-right-arrow-alt"></i>Mis Subastas</a>
 						<li> <a href="{{ url('win-product') }}"><i class="bx bx-right-arrow-alt"></i>Subastas Ganadas</a>
                             <li> <a href="{{ url('wish-list') }}"><i class="bx bx-right-arrow-alt"></i>Mi Lista De Deseos</a>
-                                {{-- <li> <a href="{{ url('orders') }}"><i class="bx bx-right-arrow-alt"></i>Mis Pedidos</a> --}}
-                                    {{-- <li> <a href="{{ url('cart') }}"><i class="bx bx-right-arrow-alt"></i>Carrito de compras</a> --}}
+                                <li> <a href="{{ url('orders') }}"><i class="bx bx-right-arrow-alt"></i>Mis Pedidos</a>
+                                    <li> <a href="{{ url('cart') }}"><i class="bx bx-right-arrow-alt"></i>Carrito de compras</a>
                     </li>
                 @endcan
                 <!--end navigation-->

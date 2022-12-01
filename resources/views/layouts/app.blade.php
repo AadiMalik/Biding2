@@ -139,8 +139,8 @@
                                 <h3>EMPRESA</h3>
                                 <a href="{{ url('sobre-nosotros') }}">Sobre Nosotros</a>
                                 <a href="#">Contacto</a>
-                                {{-- <a href="{{ url('terminos-y-condiciones') }}">Términos y Condiciones</a>
-                                <a href="{{ url('política-de-privacidad') }}">Política de Privacidad</a> --}}
+                                {{-- <a href="{{ url('terminos-y-condiciones') }}">Términos y Condiciones</a> --}}
+                                <a href="{{ url('política-de-privacidad') }}">Política de Privacidad</a>
                             </div>
                         </div>
                         <div class="col-6 col-lg-4 ">

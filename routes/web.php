@@ -6,13 +6,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::view('sobre-nosotros','about_us');
-// Route::view('subasta-cerrada','action_close');
 Route::view('se','main');
-// Route::view('como-funciona','how_work');
-// Route::view('mi-subastek','my_actions');
-// Route::view('opiniones','opinions');
-Route::view('política-de-privacidad','privacy');
-// Route::view('terminos-y-condiciones','term_condition');
 
 
 // profile
@@ -61,6 +55,7 @@ Route::get('comprar-bids', 'HomeController@bid_buy')->name('comprar-bids');
 Route::get('como-funciona', 'HomeController@how_work');
 Route::get('faq', 'HomeController@faq');
 Route::get('terminos-y-condiciones', 'HomeController@term');
+Route::get('política-de-privacidad', 'HomeController@privacy');
 Route::get('subasta-cerrada', 'HomeController@Action_Close');
 Route::get('opinion', 'HomeController@opinion_auto')->name('opinion.index');
 Route::get('most-opinion', 'HomeController@most_opinion_auto')->name('most_opinion.index');
@@ -124,6 +119,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('promo', 'PromoCodeController');
     // Term and condition
     Route::resource('term', 'TermController');
+    // Privacy
+    Route::resource('privacy', 'PrivacyController');
     
 });
 
