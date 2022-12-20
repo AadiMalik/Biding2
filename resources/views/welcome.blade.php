@@ -171,14 +171,14 @@
         //         $("bids1" + id).css("display", "none");
         //     }
         // }
-        // $(document).ready(function() {
-        //     const urlParams = new URLSearchParams(window.location.search);
-        //     const pageSize = urlParams.get('search');
-        //     $("#results").load("{{ route('product.index') }}");
-        //     setInterval(function() {
-        //         $("#results").load("{{ route('product.index') }}");
-        //     }, 3000);
-        // });
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pageSize = urlParams.get('search');
+            $("#results").load("{{ route('product.index') }}");
+            setInterval(function() {
+                $("#results").load("{{ route('product.index') }}");
+            }, 3000);
+        });
     </script>
     <script>
         var SITEURL = "{{ route('product.index') }}";
@@ -235,7 +235,7 @@
 
                 success: function(data) {
                     var element = document.getElementById("win");
-                    element.classList.add("count_green");
+                    // element.classList.add("count_green");
                     timeLeft = 10;
 
                     function countdown() {

@@ -46,7 +46,8 @@ class HomeController extends Controller
     }
     public function product(Request $request)
     {
-        $products = Product::paginate(10);
+        
+        $products = Product::orderBy('created_at','desc')->paginate(10);
         $data = '';
 
         if ($request->ajax()) {
@@ -179,7 +180,7 @@ class HomeController extends Controller
     }
     public function bidByUser(Request $request)
     {
-        $check = BidUse::where('product_id', $request->product_id)->where('user_id', Auth()->user()->id)->orderBy('created_at', 'DESC')->first();
+        $check = BidUse::where('product_id', $request->product_id)->orderBy('created_at', 'DESC')->first();
         $bid = new BidUse;
         $bid->product_id = $request->product_id;
         $bid->user_id = Auth()->user()->id;
@@ -235,7 +236,7 @@ class HomeController extends Controller
                         <span class="nickname">' . $user_book . '</span></a>';
                     if ($product->win == null) {
                         if (($current > $date_from) && ($current < $date_to)) {
-                            if ($check != Auth()->user()->id) {
+                            if ($check->user_id != Auth()->user()->id) {
                                 $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>';
@@ -355,9 +356,9 @@ class HomeController extends Controller
     }
     public function winByUser(Request $request)
     {
-        $auto = AutoBid::where('product_id', $request->product_id)->where('bids', '!=', '0')->first();
+        $auto = AutoBid::where('product_id', $request->product_id)->where('bids', '>', '0')->first();
+        $check = BidUse::where('product_id', $request->product_id)->orderBy('created_at', 'DESC')->first();
         if (!isset($auto)) {
-            $check = BidUse::where('product_id', $request->product_id)->orderBy('created_at', 'DESC')->first();
             if ($check->user_id == Auth()->user()->id) {
                 $product = Product::find($request->product_id);
                 $product->win = Auth()->user()->id;
@@ -378,7 +379,7 @@ class HomeController extends Controller
             $auto->update();
         }
         if (Auth::user()) {
-            $wish = Wish::where('product_id', $product->id)->where('user_id', Auth()->user()->id)->first();
+            $wish = Wish::where('product_id', $request->product_id)->where('user_id', Auth()->user()->id)->first();
         } else {
             $wish = null;
         }
@@ -419,7 +420,7 @@ class HomeController extends Controller
                         <span class="nickname">' . $user_book . '</span></a>';
                 if ($product->win == null) {
                     if (($current > $date_from) && ($current < $date_to)) {
-                        if ($check != $user_id) {
+                        if ($check->user_id != $user_id) {
                             $data .= '<span id="seconds' . $product->id . '" style="color:red;text-align: center;
                         font-size: 18px;
                         font-weight: bold;" id="win">10</span>';
